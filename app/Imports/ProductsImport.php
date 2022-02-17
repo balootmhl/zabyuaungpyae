@@ -19,15 +19,25 @@ class ProductsImport implements OnEachRow
     {
         $rowIndex = $row->getIndex();
         $row = $row->toArray();
-        $category = Category::firstOrCreate(['code' => $row[2], 'name' => $row[3]]);
-        $group = Group::firstOrCreate(['name' => $row[7]]);
         $product = new Product();
         $product->code = $row[0];
         $product->name = $row[1];
+        $category = Category::firstOrCreate(['name' => $row[2]]);
         $product->category_id = $category->id;
-        $product->buy_price = $row[4];
-        $product->sale_price = $row[5];
-        $product->quantity = $row[6];
+        $product->buy_price = $row[3];
+        $product->sale_price = $row[4];
+        if($row[5]=="" || $row[5]==null) {
+            $product->quantity = 0;
+        } else {
+            $product->quantity = $row[5];
+        }
+
+        if($row[5]=="" || $row[5]==null) {
+            $group = Group::firstOrCreate(['name' => 'ZZ']);
+        } else {
+            $group = Group::firstOrCreate(['name' => $row[6]]);
+        }
+        
         $product->group_id = $group->id;
         $product->save();
     }
