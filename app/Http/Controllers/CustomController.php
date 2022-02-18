@@ -9,7 +9,8 @@ use App\Models\Sale;
 use App\Models\Saleitem;
 use Barryvdh\DomPDF\PDF;
 use Orchid\Support\Facades\Alert;
-use PDF;
+// use PDF;
+use Illuminate\Http\Response;
 
 class CustomController extends Controller
 {
@@ -30,8 +31,14 @@ class CustomController extends Controller
         $sale = Sale::findOrFail($id);
         $pdf = PDF::loadView('export.salepdf', compact('sale'))->setPaper('a4');
 
-        // return $pdf->download('invoice_' . $sale->invoice_no . '.pdf');
-        return $pdf->download('invoice.pdf');
+        return $pdf->download('invoice_' . $sale->invoice_no . '.pdf');
+        // return $pdf->download('invoice.pdf');
+        // $output = $pdf->output();
+
+        // return new Response($output, 200, [
+        //     'Content-Type' => 'application/pdf',
+        //     'Content-Decomposition' => 'inline;filename="leepl.pdf"',
+        // ]);
     }
 
     // For Purchase

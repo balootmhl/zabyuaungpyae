@@ -1,7 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+
+<html>
   <head>
-    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
     <title>Invoice {{ $sale->invoice_no }}</title>
     <link rel="stylesheet" href="{{ asset('custom/font/sale-invoice.css') }}" media="all" />
     <link rel="stylesheet" href="{{ asset('custom/font/dejavu-sans.css') }}" media="all" />
