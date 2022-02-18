@@ -102,12 +102,13 @@ class PurchaseEditScreen extends Screen
                         ->title('Add Invoice Items')
                         ->required()
                         ->columns([
-                            'Product Name' => 'product_id', 'Quantity' => 'qty',
+                            'Product Code' => 'product_id', 'Quantity' => 'qty',
                         ])
                         ->fields([
                             'product_id' => Select::make('product_id')
-                                ->fromModel(Product::class, 'name')
+                                ->fromModel(Product::class, 'code')
                                 ->required()
+                                ->empty('No select')
                                 ->placeholder('Choose Product'),
                             'qty' => Input::make('quantity')
                                 ->type('number')
