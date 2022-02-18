@@ -32,7 +32,7 @@
           <div class="to">INVOICE TO:</div>
           <h2 class="name">{{ $sale->customer->name }}</h2>
           <div class="address">{{ $sale->customer->address }}</div>
-          <div class="email">baloot.mhl@gmail.com</div>
+          {{-- <div class="email">baloot.mhl@gmail.com</div> --}}
         </div>
         <div id="invoice">
           <h1>Invoice No. : {{ $sale->invoice_no }}</h1>
