@@ -3,6 +3,7 @@
 namespace App\Orchid\Screens;
 
 use App\Models\Sale;
+use App\Models\Product;
 use App\Orchid\Layouts\SaleListLayout;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\Link;
