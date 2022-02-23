@@ -1,4 +1,4 @@
-    /*@import url('https://mmwebfonts.comquas.com/fonts/?font=pyidaungsu');*/
+    @import url('https://mmwebfonts.comquas.com/fonts/?font=pyidaungsu');
 /*@font-face {
       font-family: 'Pyidaungsu';
       font-style: normal;
@@ -21,7 +21,7 @@ body {
   color: #555555;
   background: #FFFFFF;
   font-size: 14px;
-  font-family: inherit;
+  font-family: 'Pyidaungsu', 'Arial', sans-serif;
 }
 
 header {

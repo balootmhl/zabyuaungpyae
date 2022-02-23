@@ -1,10 +1,11 @@
 
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
     <title>Invoice {{ $sale->invoice_no }}</title>
     <link rel="stylesheet" href="{{ asset('custom/font/sale-invoice.css') }}" media="all" />
     <link rel="stylesheet" href="{{ asset('custom/font/dejavu-sans.css') }}" media="all" />
+
+    <meta http-equiv="Content-Type" content="text/html" charset="utf-8" >
     <style>
       body {
         /*font-family: 'dejavu_sansbook' !important;*/
@@ -18,7 +19,7 @@
         <img src="{{ asset('custom/img/logo.png') }}" style="height: 150px;width:auto;">
       </div>
       <div id="company">
-        <h2 class="name"><strong>Maharshin</strong></h2>
+        <h2 class="name"><strong>Maharshin</strong>{{-- <strong>မဟာရှင်</strong> --}}</h2>
         <div>Agricultural Equipment Sales</div>
         <div><x-orchid-icon path="pointer"/>Yangon, Myanmar.</div>
         <div><x-orchid-icon path="phone"/> 09 428 936 585</div>

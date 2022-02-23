@@ -225,7 +225,7 @@ Route::screen('sales', SaleListScreen::class)
         ->push('Sale Invoices List');
 });
 Route::get('sales/saleitems/delete/{id}', 'App\Http\Controllers\CustomController@deleteSaleItems');
-Route::get('sales/invoice/download/{id}', 'App\Http\Controllers\CustomController@downloadInvoice');
+Route::get('sales/invoice/print/{id}', 'App\Http\Controllers\CustomController@downloadInvoice');
 // Find Sale Invoices
 Route::screen('sales/search', FindInvoiceScreen::class)
     ->name('platform.sale.search')->breadcrumbs(function (Trail $trail) {
