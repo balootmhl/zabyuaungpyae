@@ -55,7 +55,7 @@
         	@foreach($sale->saleitems as $saleitem)
         		<tr>
         			<td class="no">{{ $loop->iteration }}</td>
-        			<td class="desc"><h3>{{ $saleitem->product->name }}</h3></td>
+        			<td class="desc"><h3>{{ $saleitem->product->code }} {{ $saleitem->product->name }}</h3></td>
         			<td class="unit">{{ $saleitem->product->sale_price }} MMK</td>
         			<td class="qty">{{ $saleitem->quantity }}</td>
         			<td class="total">{{ $saleitem->product->sale_price * $saleitem->quantity }} MMK</td>
