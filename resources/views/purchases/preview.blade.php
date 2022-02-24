@@ -205,7 +205,7 @@
     <div class="bg-white rounded shadow-sm p-4 py-4 d-flex flex-column">
         <div class="invoice-body">
         	<div class="form-group mb-0">
-        		<a href="{{ url('/admin/purchases/invoice/download/'. $purchase->id) }}" class="btn btn-link" style="text-decoration: none;"><strong><x-orchid-icon path="cloud-download"/> Download Invoice</strong></a>
+        		<a href="{{ url('/admin/purchases/invoice/print/'. $purchase->id) }}" class="btn btn-link" style="text-decoration: none;" target="_blank" ><strong><x-orchid-icon path="printer"/> Print / Download</strong></a>
         	</div>
 
         	<header class="clearfix">

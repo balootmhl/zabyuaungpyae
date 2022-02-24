@@ -269,7 +269,7 @@ Route::screen('purchases', PurchaseListScreen::class)
         ->push('Purchase Invoices List');
 });
 Route::get('purchases/purchaseitems/delete/{id}', 'App\Http\Controllers\CustomController@deletePurchaseItems');
-Route::get('purchases/invoice/download/{id}', 'App\Http\Controllers\CustomController@downloadPInvoice');
+Route::get('purchases/invoice/print/{id}', 'App\Http\Controllers\CustomController@downloadPInvoice');
 
 // Total Income & Discount Calculator
 Route::screen('incomes', IncomeCalculatorScreen::class)
