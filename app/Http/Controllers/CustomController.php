@@ -63,5 +63,6 @@ class CustomController extends Controller
         $pdf = PDF::loadView('export.purchasepdf', compact('purchase'))->setPaper('a4');
 
         return $pdf->stream('invoice_' . $purchase->invoice_no . '.pdf');
+        // return $pdf->download('invoice_' . $purchase->invoice_no . '.pdf');
     }
 }

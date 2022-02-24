@@ -29,9 +29,9 @@
     <main>
       <div id="details" class="clearfix">
         <div id="client">
-          <div class="to">INVOICE TO:</div>
-          <h2 class="name">{{ $purchase->customer->name }}</h2>
-          <div class="address">{{ $purchase->customer->address }}</div>
+          <div class="to">SUPPLIER INFO:</div>
+          <h2 class="name">{{ $purchase->supplier->name }}</h2>
+          <div class="address">{{ $purchase->supplier->address }}</div>
           {{-- <div class="email">baloot.mhl@gmail.com</div> --}}
         </div>
         <div id="invoice">
