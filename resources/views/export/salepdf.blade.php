@@ -7,9 +7,9 @@
 
     <meta http-equiv="Content-Type" content="text/html" charset="utf-8" >
     <style>
-      body {
-        /*font-family: 'dejavu_sansbook' !important;*/
-      }
+    .page-break {
+        page-break-after: always;
+    }
     </style>
   </head>
 
@@ -53,6 +53,9 @@
         </thead>
         <tbody>
         	@foreach($sale->saleitems as $saleitem)
+            @if($loop->index == 15)
+              <div class="page-break"></div>
+            @endif
         		<tr>
         			<td class="no">{{ $loop->iteration }}</td>
         			<td class="desc"><h3>{{ $saleitem->product->code }} {{ $saleitem->product->name }}</h3></td>
