@@ -62,7 +62,6 @@ class CustomController extends Controller
         $purchase = Purchase::findOrFail($id);
         $pdf = PDF::loadView('export.purchasepdf', compact('purchase'))->setPaper('a4');
 
-        // return $pdf->download('invoice_' . $sale->invoice_no . '.pdf');
-        return $pdf->download('invoice.pdf');
+        return $pdf->stream('invoice_' . $purchase->invoice_no . '.pdf');
     }
 }
