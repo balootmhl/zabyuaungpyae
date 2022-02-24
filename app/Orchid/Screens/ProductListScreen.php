@@ -53,6 +53,11 @@ class ProductListScreen extends Screen
     public function commandBar(): array
     {
         return [
+            ModalToggle::make('Reset Stock')
+                ->modal('resetModal')
+                ->method('resetQuantity')
+                ->icon('refresh'),
+
             ModalToggle::make('Import')
                 ->modal('importModal')
                 ->method('import')
@@ -90,6 +95,14 @@ class ProductListScreen extends Screen
                     ->required(),
 
             ]))->title('Import products from excel file'),
+            Layout::modal('resetModal', Layout::rows([
+                Input::make('qty')
+                    ->type('number')
+                    ->title('Enter amount to reset all product quantity.')
+                    ->help('The amount submitted will be saved as the quantity of all products.')
+                    ->required(),
+
+            ]))->title('Reset the quantity of all products.'),
         ];
     }
 
@@ -129,6 +142,17 @@ class ProductListScreen extends Screen
             Alert::error('Excel file import failed.');
         }
 
+        return redirect()->route('platform.product.list');
+    }
+
+    public function resetQuantity(Request $request)
+    {
+        $products = Product::all();
+        foreach($products as $product){
+            $product->quantity = $request->get('qty');
+            $product->update();
+        }
+        Alert::info('All products are reset to quantity '.$request->get('qty').'.');
         return redirect()->route('platform.product.list');
     }
 
