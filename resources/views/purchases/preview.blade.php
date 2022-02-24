@@ -2,14 +2,14 @@
 	<style>
 		.invoice-body {
 		  position: relative;
-		  width: 21cm;
-		  height: 29.7cm;
+		  width: 80%;
+		  /*height: 29.7cm;*/
+		  padding-bottom: 30px;
 		  margin: 0 auto;
 		  color: #555555;
 		  background: #FFFFFF;
 		  font-family: Arial, sans-serif;
-		  font-size: 14px;
-		  font-family: inherit;
+		  font-size: 12px !important;
 		}
 
 		.invoice-body header {
@@ -45,13 +45,22 @@
 		}
 
 		.invoice-body #client .to {
+		  font-size: 0.8em;
 		  color: #777777;
 		}
 
 		.invoice-body h2.name {
-		  font-size: 1.4em;
+		  font-size: 0.8em;
 		  font-weight: normal;
 		  margin: 0;
+		}
+
+		.invoice-body #company h2.name {
+			font-size: 2em;
+		}
+
+		.invoice-body div.address {
+			font-size: 0.8em;
 		}
 
 		.invoice-body #invoice {
@@ -61,14 +70,14 @@
 
 		.invoice-body #invoice h1 {
 		  color: #143862;
-		  font-size: 1.2em;
+		  font-size: 0.8em;
 		  line-height: 1em;
 		  font-weight: bold;
 		  margin: 0  0 10px 0;
 		}
 
 		.invoice-body #invoice .date {
-		  font-size: 1.1em;
+		  font-size: 0.8em;
 		  color: #777777;
 		}
 
@@ -98,35 +107,35 @@
 
 		.invoice-body table td h3{
 		  	color: #143862;
-		  	font-size: 1.2em;
+		  	font-size: 1em;
 		  	font-weight: normal;
 		  	margin: 0 0 0.2em 0;
 		}
 
 		.invoice-body table .no {
 		  	color: #FFFFFF;
-		  	font-size: 1em;
+		  	font-size: 0.7em;
 		  	background: #F58020;
 		  	text-align: center;
 		}
 
 		.invoice-body table .desc {
-			font-size: 0.9em;
+			font-size: 0.7em;
 		  	text-align: left;
 		}
 
 		.invoice-body table .unit {
-		  	font-size: 0.9em;
+		  	font-size: 0.7em;
 		  	background: #DDDDDD;
 		}
 
 		.invoice-body table .qty {
-		  	font-size: 0.9em;
+		  	font-size: 0.7em;
 		  	text-align: center;
 		}
 
 		.invoice-body table .total {
-			font-size: 0.9em;
+			font-size: 0.7em;
 		  	background: #F58020;
 		  	color: #FFFFFF;
 		}
@@ -134,7 +143,7 @@
 		.invoice-body table td.unit,
 		.invoice-body table td.qty,
 		.invoice-body table td.total {
-		  font-size: 0.95em;
+		  font-size: 0.7em;
 		}
 
 		.invoice-body table tbody tr:last-child td {
@@ -145,7 +154,7 @@
 		  padding: 10px 20px;
 		  background: #FFFFFF;
 		  border-bottom: none;
-		  font-size: 1.2em;
+		  font-size: 0.8em;
 		  white-space: nowrap;
 		  border-top: 1px solid #AAAAAA;
 		}
@@ -156,7 +165,7 @@
 
 		.invoice-body table tfoot tr:last-child td {
 		  color: #F58020;
-		  font-size: 1.4em;
+		  font-size: 1em;
 		  border-top: 1px solid #F58020;
 
 		}
@@ -166,7 +175,7 @@
 		}
 
 		.invoice-body #thanks{
-		  font-size: 2em;
+		  font-size: 1.6em;
 		  margin-bottom: 50px;
 		}
 
@@ -176,7 +185,7 @@
 		}
 
 		.invoice-body #notices .notice {
-		  font-size: 1.2em;
+		  font-size: 0.8em;
 		}
 
 		/*footer {
