@@ -5,6 +5,7 @@ namespace App\Orchid\Screens;
 use App\Exports\ProductsExport;
 use App\Imports\ProductsImport;
 use App\Models\Product;
+use App\Models\Purchaseitem;
 use App\Orchid\Layouts\ProductListLayout;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -14,6 +15,7 @@ use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Screen;
+use Orchid\Screen\Actions\DropDown;
 use Orchid\Support\Facades\Alert;
 use Orchid\Support\Facades\Layout;
 
@@ -53,21 +55,49 @@ class ProductListScreen extends Screen
     public function commandBar(): array
     {
         return [
-            ModalToggle::make('Reset Stock')
-                ->modal('resetModal')
-                ->method('resetQuantity')
-                ->icon('refresh'),
+            DropDown::make('Manage Stock')
+                ->icon('loading')
+                ->list([
+                    ModalToggle::make('Reset Stock')
+                        ->modal('resetModal')
+                        ->method('resetQuantity')
+                        ->icon('reload'),
+                    ModalToggle::make('One Click Fix')
+                        ->modal('fixModal')
+                        ->method('fixQuantity')
+                        ->icon('refresh'),
+                ]),
+            // ModalToggle::make('Reset Stock')
+            //     ->modal('resetModal')
+            //     ->method('resetQuantity')
+            //     ->icon('refresh'),
 
-            ModalToggle::make('Import')
-                ->modal('importModal')
-                ->method('import')
-                ->icon('cloud-upload'),
+            DropDown::make('Import/Export')
+                ->icon('wrench')
+                ->list([
 
-            Button::make('Export')
-                ->method('export')
-                ->icon('cloud-download')
-                ->rawClick()
-                ->novalidate(),
+                    ModalToggle::make('Import')
+                        ->modal('importModal')
+                        ->method('import')
+                        ->icon('cloud-upload'),
+
+                    Button::make('Export')
+                        ->method('export')
+                        ->icon('cloud-download')
+                        ->rawClick()
+                        ->novalidate(),
+                ]),
+
+            // ModalToggle::make('Import')
+            //     ->modal('importModal')
+            //     ->method('import')
+            //     ->icon('cloud-upload'),
+
+            // Button::make('Export')
+            //     ->method('export')
+            //     ->icon('cloud-download')
+            //     ->rawClick()
+            //     ->novalidate(),
 
             Link::make('Create new')
                 ->icon('plus')
@@ -103,6 +133,13 @@ class ProductListScreen extends Screen
                     ->required(),
 
             ]))->title('Reset the quantity of all products.'),
+            Layout::modal('fixModal', Layout::rows([
+                Input::make('qty')
+                    ->type('hidden')
+                    ->title('Running One Click Fix will change product quantities.'),
+                    // ->help('Running One Click Fix will change product quantities.'),
+
+            ]))->title('Are you sure ?'),
         ];
     }
 
@@ -153,6 +190,18 @@ class ProductListScreen extends Screen
             $product->update();
         }
         Alert::info('All products are reset to quantity '.$request->get('qty').'.');
+        return redirect()->route('platform.product.list');
+    }
+
+    public function fixQuantity()
+    {
+        $items = Purchaseitem::all();
+        foreach($items as $item) {
+            $product = Product::findOrFail($item->product_id);
+            $product->quantity = $product->quantity + $item->quantity;
+            $product->update();
+        }
+        Alert::info('Product quantities are changed according to purchase invoices.');
         return redirect()->route('platform.product.list');
     }
 
