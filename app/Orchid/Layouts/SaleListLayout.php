@@ -3,6 +3,7 @@
 namespace App\Orchid\Layouts;
 
 use App\Models\Sale;
+use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\Link;
