@@ -33,7 +33,7 @@ class PurchaseListScreen extends Screen
     public function query(): array
     {
         return [
-            'purchases' => Purchase::filters()->defaultSort('id')->paginate(),
+            'purchases' => Purchase::filters()->orderby('created_at', 'desc')->paginate(20),
         ];
     }
 

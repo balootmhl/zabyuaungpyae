@@ -29,26 +29,26 @@ class SaleListLayout extends Table
     protected function columns(): array
     {
         return [
-            TD::make('invoice_no', 'Invoice No.')->sort()
+            TD::make('invoice_no', 'Invoice No.')->sort()->filter(Input::make())
                 ->render(function (Sale $sale) {
                     return Link::make($sale->invoice_no)
                         ->route('platform.sale.view', $sale->id);
                 }),
 
-            TD::make('customer_name', 'Customer Name')
+            TD::make('customer_name', 'Customer Name')->sort()->filter(Input::make())
                 ->render(function (Sale $sale) {
                     return $sale->customer->name;
                 }),
-            TD::make('user_id', 'Invoice By')
+            TD::make('user_id', 'Invoice By')->sort()->filter(Input::make())
                 ->render(function (Sale $sale) {
                     return $sale->user->name;
                 }),
-            TD::make('date', 'Issue Date')->sort()
+            TD::make('date', 'Issue Date')->sort()->filter(Input::make())
                 ->render(function (Sale $sale) {
                     return $sale->date;
                 }),
 
-            TD::make('grand_total', 'Grand Total')
+            TD::make('grand_total', 'Grand Total')->filter(Input::make())
                 ->render(function (Sale $sale) {
                     return $sale->grand_total . ' MMK';
                 })->sort(),

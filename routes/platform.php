@@ -225,7 +225,7 @@ Route::screen('sales', SaleListScreen::class)
         ->push('Sale Invoices List');
 });
 Route::get('sales/saleitems/delete/{id}', 'App\Http\Controllers\CustomController@deleteSaleItems');
-Route::get('sales/invoice/print/{id}', 'App\Http\Controllers\CustomController@downloadInvoice');
+Route::get('sales/invoice/print/{id}', 'App\Http\Controllers\CustomController@downloadInvoice')->name('platform.sale.print');
 // Find Sale Invoices
 Route::screen('sales/search', FindInvoiceScreen::class)
     ->name('platform.sale.search')->breadcrumbs(function (Trail $trail) {
@@ -269,7 +269,7 @@ Route::screen('purchases', PurchaseListScreen::class)
         ->push('Purchase Invoices List');
 });
 Route::get('purchases/purchaseitems/delete/{id}', 'App\Http\Controllers\CustomController@deletePurchaseItems');
-Route::get('purchases/invoice/print/{id}', 'App\Http\Controllers\CustomController@downloadPInvoice');
+Route::get('purchases/invoice/print/{id}', 'App\Http\Controllers\CustomController@downloadPInvoice')->name('platform.purchase.print');
 
 // Total Income & Discount Calculator
 Route::screen('incomes', IncomeCalculatorScreen::class)

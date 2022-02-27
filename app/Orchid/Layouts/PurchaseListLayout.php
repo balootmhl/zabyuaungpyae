@@ -29,26 +29,26 @@ class PurchaseListLayout extends Table
     protected function columns(): array
     {
         return [
-            TD::make('invoice_no', 'Invoice No.')->sort()
+            TD::make('invoice_no', 'Invoice No.')->sort()->filter(Input::make())
                 ->render(function (Purchase $purchase) {
                     return Link::make($purchase->invoice_no)
                         ->route('platform.purchase.view', $purchase->id);
                 }),
 
-            TD::make('customer_name', 'Supplier Name')
+            TD::make('customer_name', 'Supplier Name')->sort()->filter(Input::make())
                 ->render(function (Purchase $purchase) {
                     return $purchase->supplier->name;
                 }),
-            TD::make('user_id', 'Invoice By')
+            TD::make('user_id', 'Invoice By')->sort()->filter(Input::make())
                 ->render(function (Purchase $purchase) {
                     return $purchase->user->name;
                 }),
-            TD::make('date', 'Issue Date')->sort()
+            TD::make('date', 'Issue Date')->sort()->filter(Input::make())
                 ->render(function (Purchase $purchase) {
                     return $purchase->date;
                 }),
 
-            TD::make('grand_total', 'Grand Total')
+            TD::make('grand_total', 'Grand Total')->filter(Input::make())
                 ->render(function (Purchase $purchase) {
                     return $purchase->grand_total . ' MMK';
                 })->sort(),

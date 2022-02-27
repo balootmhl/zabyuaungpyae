@@ -5,6 +5,7 @@ namespace App\Orchid\Screens;
 use App\Models\Sale;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Screen;
+use Orchid\Screen\Actions\Link;
 use Orchid\Support\Facades\Layout;
 use PDF;
 use Rawilk\Printing\Facades\Printing;
@@ -38,14 +39,18 @@ class SaleViewScreen extends Screen
      */
     public function commandBar(): array
     {
+        
         return [
             // Button::make('Download')
             //     ->icon('cloud-download')
             //     ->method('download'),
 
-            Button::make('Print')
-                ->icon('printer')
-                ->method('print'),
+            
+
+            // Link::make(__('Print/Download'))
+            //     ->icon('printer')
+            //     ->route('platform.sale.print')
+            //     ->target('_blank'),
 
             Button::make('Edit')
                 ->icon('pencil')
@@ -70,28 +75,13 @@ class SaleViewScreen extends Screen
         return redirect()->route('platform.sale.edit', $sale->id);
     }
 
-    public function download(Sale $sale)
-    {
+    
 
-        $pdf = PDF::loadView('export.salepdf', compact('sale'));
+    // function printDownload(Sale $sale) {
 
-        // return $pdf->download('invoice_' . $sale->invoice_no . '.pdf');
-        return $pdf->download('invoice.pdf');
-    }
+    //     $pdf = PDF::loadView(utf8_decode('export.salepdf'), compact('sale'));
 
-    function print(Sale $sale) {
+    //     return $pdf->stream('invoice_' . $sale->invoice_no . '.pdf', array('Attachment' => 0, 'compress' => 1));
 
-        $pdf = PDF::loadView('export.salepdf', compact('sale'));
-        $pdf->save(storage_path('app/public/invoices/Sales' . $sale->invoice_no . '.pdf'));
-
-        $printerId = Printing::defaultPrinterId();
-        $printJob = Printing::newPrintTask()
-            ->printer(71018000)
-        // ->printer($printerId)
-            ->file(storage_path('app/public/invoices/Sales' . $sale->invoice_no . '.pdf'))
-            ->send();
-
-        // $printJob->id(); // the id number returned from the print server
-
-    }
+    // }
 }

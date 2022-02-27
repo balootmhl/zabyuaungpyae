@@ -10,6 +10,10 @@
     .page-break {
         page-break-after: always;
     }
+
+    body {
+      font-family: 'Pyidaungsu' !important;
+    }
     </style>
   </head>
 
@@ -19,7 +23,7 @@
         <img src="{{ asset('custom/img/logo.png') }}" style="height: 150px;width:auto;">
       </div>
       <div id="company">
-        <h2 class="name"><strong>Maharshin</strong>{{-- <strong>မဟာရှင်</strong> --}}</h2>
+        <h2 class="name"><strong>Maharshin</strong><strong>မဟာရှင်</strong></h2>
         <div>Agricultural Equipment Sales</div>
         <div><x-orchid-icon path="pointer"/>Yangon, Myanmar.</div>
         <div><x-orchid-icon path="phone"/> 09 428 936 585</div>

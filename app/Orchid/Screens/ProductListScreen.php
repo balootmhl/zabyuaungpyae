@@ -62,10 +62,10 @@ class ProductListScreen extends Screen
                         ->modal('resetModal')
                         ->method('resetQuantity')
                         ->icon('reload'),
-                    ModalToggle::make('One Click Fix')
-                        ->modal('fixModal')
-                        ->method('fixQuantity')
-                        ->icon('refresh'),
+                    // ModalToggle::make('One Click Fix')
+                    //     ->modal('fixModal')
+                    //     ->method('fixQuantity')
+                    //     ->icon('refresh'),
                 ]),
             // ModalToggle::make('Reset Stock')
             //     ->modal('resetModal')
