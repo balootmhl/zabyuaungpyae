@@ -21,6 +21,7 @@ use App\Orchid\Screens\IncomeCalculatorScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\ProductEditScreen;
 use App\Orchid\Screens\ProductImportScreen;
+use App\Orchid\Screens\StockControlScreen;
 use App\Orchid\Screens\ProductListScreen;
 use App\Orchid\Screens\PurchaseEditScreen;
 use App\Orchid\Screens\PurchaseListScreen;
@@ -154,6 +155,13 @@ Route::screen('products', ProductListScreen::class)
 
 Route::screen('products/import-products', ProductImportScreen::class)
     ->name('platform.product.import-products')->breadcrumbs(function (Trail $trail) {
+    return $trail
+        ->parent('platform.product.list')
+        ->push('Import Products');
+});
+
+Route::screen('products/stock-control', StockControlScreen::class)
+    ->name('platform.product.stock-control')->breadcrumbs(function (Trail $trail) {
     return $trail
         ->parent('platform.product.list')
         ->push('Import Products');

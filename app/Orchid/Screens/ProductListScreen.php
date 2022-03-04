@@ -62,6 +62,9 @@ class ProductListScreen extends Screen
                         ->modal('resetModal')
                         ->method('resetQuantity')
                         ->icon('reload'),
+                    Link::make('Batch Edit')
+                        ->icon('wrench')
+                        ->route('platform.product.stock-control'),
                     // ModalToggle::make('One Click Fix')
                     //     ->modal('fixModal')
                     //     ->method('fixQuantity')
