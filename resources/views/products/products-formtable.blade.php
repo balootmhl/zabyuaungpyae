@@ -4,6 +4,7 @@
 		<table class="table table-bordered">
 			<thead>
 				<tr>
+					<th style="color: #667780 !important;">No.</th>
 					<th style="color: #667780 !important;">Code</th>
 					<th style="color: #667780 !important;">Name</th>
 					<th style="color: #667780 !important;">Buy Price</th>
@@ -13,6 +14,7 @@
 			<tbody>
 				@foreach($products as $product)
 				    <tr>
+				    	<td>{{ $loop->iteration }}</td>
 				    	<td>{{ $product->code }}<input type="hidden" name="products[{{ $loop->index }}][id]" value="{{ $product->id }}"></td>
 				    	<td>{{ $product->name }}</td>
 				    	<td><input type="number" name="products[{{ $loop->index }}][buy_price]" value="{{ $product->buy_price }}"></td>
