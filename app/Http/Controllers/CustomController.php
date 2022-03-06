@@ -69,12 +69,16 @@ class CustomController extends Controller
 
     public function saveStock(Request $request)
     {
-        $product = Product::findOrFail($request->get('product_id'));
-        $product->buy_price = $request->get('buy_price');
-        $product->sale_price = $request->get('sale_price');
-        $product->save();
+        dd($request->all());
+        foreach ($request->get('products') as $product_id) {
+            $product = Product::findOrFail($product_id);
+            $product->buy_price = $request->get('buy_price');
+            $product->sale_price = $request->get('sale_price');
+            $product->save();
+        }
+            
         // Alert::info('Product Saved!');
-        // Toast::success($request->get('toast', 'Product Saved!'));
-        return back()->withInput();
+        Toast::success($request->get('toast', 'Prices Saved!'));
+        return redirect()->route('platform.product.stock-control');
     }
 }
