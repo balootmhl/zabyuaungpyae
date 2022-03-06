@@ -74,7 +74,7 @@ class CustomController extends Controller
         $product->sale_price = $request->get('sale_price');
         $product->save();
         // Alert::info('Product Saved!');
-        Toast::success($request->get('toast', 'Product Saved!'));
+        // Toast::success($request->get('toast', 'Product Saved!'));
         return back()->withInput();
     }
 }
