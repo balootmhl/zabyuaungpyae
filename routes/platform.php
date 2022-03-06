@@ -160,12 +160,15 @@ Route::screen('products/import-products', ProductImportScreen::class)
         ->push('Import Products');
 });
 
-Route::screen('products/stock-control', StockControlScreen::class)
-    ->name('platform.product.stock-control')->breadcrumbs(function (Trail $trail) {
-    return $trail
-        ->parent('platform.product.list')
-        ->push('Import Products');
-});
+// Route::screen('products/stock-control', StockControlScreen::class)
+//     ->name('platform.product.stock-control')->breadcrumbs(function (Trail $trail) {
+//     return $trail
+//         ->parent('platform.product.list')
+//         ->push('Import Products');
+// });
+
+Route::get('products/stock-control', 'App\Http\Controllers\CustomController@stockControl')->name('platform.product.stock-control');
+Route::post('products/stock-control/save', 'App\Http\Controllers\CustomController@saveStock')->name('platform.product.stock.save');
 
 // Category Routes
 Route::screen('category/{category?}', CategoryEditScreen::class)

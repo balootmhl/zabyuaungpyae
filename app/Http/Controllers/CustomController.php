@@ -11,6 +11,8 @@ use App\Models\Saleitem;
 use Orchid\Support\Facades\Alert;
 use PDF;
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
+
 
 class CustomController extends Controller
 {
@@ -55,5 +57,23 @@ class CustomController extends Controller
         $pdf = PDF::loadView('export.purchasepdf', compact('purchase'))->setPaper('a4');
 
         return $pdf->stream('invoice_' . $purchase->invoice_no . '.pdf');
+    }
+
+    public function stockControl()
+    {
+        $products = Product::all();
+
+        return view('products.stock-control', compact('products'));
+    }
+
+    public function saveStock(Request $request)
+    {
+        $product = Product::findOrFail($request->get('product_id'));
+        $product->buy_price = $request->get('buy_price');
+        $product->sale_price = $request->get('sale_price');
+        $product->save();
+        Alert::info('Product Saved!');
+
+        return back()->withInput();
     }
 }
