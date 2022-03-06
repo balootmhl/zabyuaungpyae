@@ -73,11 +73,19 @@ class StockControlScreen extends Screen
         $items = $request->get('products');
         foreach ($items as $item) {
             $product = Product::findOrFail($item['id']);
-            $product->buy_price = $item['buy_price'];
-            $product->sale_price = $item['sale_price'];
-            $product->update();
+            if($product->buy_price != $item['buy_price']){
+                $product->buy_price = $item['buy_price'];
+                $product->update();
+                Alert::info('Batch Operation Success.');
+            }
+            if($product->sale_price != $item['sale_price']){
+                $product->sale_price = $item['sale_price'];
+                $product->update();
+                Alert::info('Batch Operation Success.');
+            }
+            // $product->update();
         }
-        Alert::info('Batch Operation Success.');
+        // Alert::info('Batch Operation Success.');
 
         return redirect()->route('platform.product.stock-control');
     }
