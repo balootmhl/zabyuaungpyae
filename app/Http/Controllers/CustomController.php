@@ -69,7 +69,7 @@ class CustomController extends Controller
 
     public function saveStock(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         foreach ($request->get('products') as $product_id) {
             $product = Product::findOrFail($product_id);
             $product->buy_price = $request->get('buy_price');
