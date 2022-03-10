@@ -1,206 +1,6 @@
 @push('head')
 	{{-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> --}}
-	<style>
-		#invoice{
-		    /*padding: 30px;*/
-		}
-
-		.invoice {
-		    position: relative;
-		    background-color: #FFF;
-		    min-height: 680px;
-		    padding: 15px
-		}
-
-		.invoice header {
-		    padding: 10px 0;
-		    margin-bottom: 20px;
-		    border-bottom: 1px solid #143862;
-		}
-
-		.invoice .company-details {
-		    text-align: right
-		}
-
-		.invoice .company-details .name {
-		    margin-top: 0;
-		    line-height: 2;
-		    margin-bottom: 0
-		}
-
-		.invoice .contacts {
-		    margin-bottom: 20px
-		}
-
-		.invoice .invoice-to {
-		    text-align: left
-		}
-
-		.invoice .invoice-to .to {
-		    margin-top: 0;
-		    margin-bottom: 0
-		}
-
-		.invoice .invoice-details {
-		    text-align: right
-		}
-
-		.invoice .invoice-details .invoice-id {
-		    margin-top: 0;
-		    color: #143862;
-		}
-
-		.invoice main {
-		    padding-bottom: 50px
-		}
-
-		.invoice main .thanks {
-		    margin-top: -100px;
-		    font-size: 2em;
-		    margin-bottom: 50px
-		}
-
-		.invoice main .notices {
-		    padding-left: 6px;
-		    border-left: 6px solid #143862;
-		}
-
-		.invoice main .notices .notice {
-		    font-size: 1.2em
-		}
-
-		.invoice table {
-		    width: 100%;
-		    border-collapse: collapse;
-		    border-spacing: 0;
-		    margin-bottom: 20px
-		}
-
-		.invoice table td,.invoice table th {
-		    padding: 15px;
-		    /*background: #eee;*/
-		    border-bottom: 1px solid #fff
-		}
-
-		.invoice table th {
-		    white-space: nowrap;
-		    font-weight: 400;
-		    font-size: 16px
-		}
-
-		.invoice table td h3 {
-		    margin: 0;
-		    font-weight: 400;
-		    color: #3989c6;
-		    font-size: 1.2em
-		}
-
-		.invoice table .qty,.invoice table .total,.invoice table .unit {
-		    text-align: right;
-		    /*font-size: 1.2em*/
-		}
-
-		.invoice table .no {
-		    /*color: #fff;*/
-		    /*font-size: 1.1em;*/
-		    /*background: #3989c6*/
-		}
-
-		.invoice table .unit {
-		    /*background: #ddd*/
-		}
-
-		.invoice table .total {
-		    /*background: #3989c6;*/
-		    /*color: #fff*/
-		}
-
-		.invoice table tbody tr:last-child td {
-		    border: none
-		}
-
-		.invoice table tfoot td {
-		    background: 0 0;
-		    border-bottom: none;
-		    white-space: nowrap;
-		    text-align: right;
-		    padding: 10px 20px;
-		    font-size: 1.2em;
-		    border-top: 1px solid #aaa
-		}
-
-		.invoice table tfoot tr:first-child td {
-		    border-top: none
-		}
-
-		.invoice table tfoot tr:last-child td {
-		    color: #143862;
-		    font-size: 1.4em;
-		    border-top: 1px solid #143862;
-		}
-
-		.invoice table tfoot tr td:first-child {
-		    border: none
-		}
-
-		.invoice footer {
-		    width: 100%;
-		    text-align: center;
-		    color: #777;
-		    border-top: 1px solid #aaa;
-		    padding: 8px 0
-		}
-
-		.table thead tr th:first-child {
-			padding-left: 1rem !important;
-		}
-
-		.table tbody tr td:first-child {
-			padding-left: 1rem !important;
-		}
-
-		.table thead tr th:last-child {
-			padding-right: 1rem !important;
-		}
-
-		.table tbody tr td:last-child {
-			padding-right: 1rem !important;
-		}
-
-		.table tbody tr td, .table thead tr th {
-			padding: 10px 1rem !important;
-		}
-
-		@media print {
-		    
-		    .invoice {
-		        font-size: 11px!important;
-		    }
-
-		    /*.invoice footer {
-		        position: absolute;
-		        bottom: 10px;
-		        page-break-after: always
-		    }*/
-
-		    /*.invoice>div:last-child {
-		        page-break-before: always
-		    }*/
-
-		    #printInvoice, .layout, .aside, nav, .alert, .alert-info {
-		    	display: none !important;
-		    }
-
-		    .min-vh-100 {
-		    	background-color: #fff !important;
-		    }
-
-		    .page-break {
-		        page-break-after: always;
-		    }
-		}
-
-	</style>
+	<link rel="stylesheet" href="{{ asset('custom/css/invoice.css') }}" media="all" />
 @endpush
 
 
@@ -262,11 +62,12 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th class="text-right" width="5%">#</th>
-                            <th class="text-left" width="auto">Description</th>
-                            <th style="text-align: right !important;" width="18%">Unit Price</th>
-                            <th style="text-align: right !important;" width="5%">Quantity</th>
-                            <th style="text-align: right !important;" width="18%">Unit Total</th>
+                            <th class="text-right" style="width: 5% !important;" width="5%">#</th>
+                            <th class="text-left" style="width: auto !important;">Description</th>
+                            <th class="text-center" style="width: 5% !important;">Check</th>
+                            <th style="text-align: right !important;width: 16% !important;">Unit Price</th>
+                            <th style="text-align: right !important;width: 5% !important;">Qty</th>
+                            <th style="text-align: right !important;width: 16% !important;">Unit Total</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -276,6 +77,7 @@
 	                            <td class="text-left">
 	                               {{ $purchaseitem->product->code }} [{{ $purchaseitem->product->name }}]
 	                            </td>
+	                            <td class="text-center"><input type="checkbox" unchecked></td>
 	                            <td class="unit">{{ $purchaseitem->product->buy_price }} MMK</td>
 	                            <td class="qty">{{ $purchaseitem->quantity }}</td>
 	                            <td class="total">{{ $purchaseitem->product->buy_price * $purchaseitem->quantity }} MMK</td>
@@ -285,28 +87,28 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="2"></td>
+                            <td colspan="3"></td>
                             <td colspan="2">SUBTOTAL</td>
                             <td>{{ $purchase->sub_total }} MMK</td>
                         </tr>
                         <tr>
-                            <td colspan="2"></td>
+                            <td colspan="3"></td>
                             <td colspan="2">DISCOUNT</td>
                             <td>{{ $purchase->discount }} MMK</td>
                         </tr>
                         <tr>
-                            <td colspan="2"></td>
+                            <td colspan="3"></td>
                             <td colspan="2">GRAND TOTAL</td>
                             <td>{{ $purchase->grand_total }} MMK</td>
                         </tr>
                         @if($purchase->received != 0)
 			          	  <tr>
-				            <td colspan="2"></td>
+				            <td colspan="3"></td>
 				            <td colspan="2">RECEIPT</td>
 				            <td>{{ $purchase->received }} MMK</td>
 				          </tr>
 				          <tr>
-				            <td colspan="2"></td>
+				            <td colspan="3"></td>
 				            <td colspan="2">REMAINING <br>AMOUNT</td>
 				            <td>{{ $purchase->remained }} MMK</td>
 				          </tr>
