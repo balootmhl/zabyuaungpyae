@@ -18,7 +18,7 @@ class SaleViewScreen extends Screen
      *
      * @var string
      */
-    public $name = 'Sale Invoice Preview';
+    public $name = '';
 
     /**
      * Query data.
@@ -27,6 +27,8 @@ class SaleViewScreen extends Screen
      */
     public function query(Sale $sale): array
     {
+        $this->name = 'Sales_'.$sale->invoice_no;
+
         return [
             'sale' => $sale,
         ];

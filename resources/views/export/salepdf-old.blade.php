@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+
+<html>
   <head>
     <title>Invoice {{ $sale->invoice_no }}</title>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="{{ asset('custom/font/invoice.css') }}" media="all" />
+    <link rel="stylesheet" href="{{ asset('custom/font/sale-invoice.css') }}" media="all" />
+    <link rel="stylesheet" href="{{ asset('custom/font/dejavu-sans.css') }}" media="all" />
+
     <meta http-equiv="Content-Type" content="text/html" charset="utf-8" >
     <style>
     .page-break {

@@ -1,19 +1,14 @@
 <!DOCTYPE html>
+<html lang="en">
   <head>
-    <title>Invoice {{ $sale->invoice_no }}</title>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="{{ asset('custom/font/invoice.css') }}" media="all" />
-    <meta http-equiv="Content-Type" content="text/html" charset="utf-8" >
+    <meta charset="utf-8">
+    <title>Invoice {{ $purchase->invoice_no }}</title>
+    <link rel="stylesheet" href="{{ asset('custom/font/sale-invoice.css') }}" media="all" />
+    <link rel="stylesheet" href="{{ asset('custom/font/dejavu-sans.css') }}" media="all" />
     <style>
-    .page-break {
-        page-break-after: always;
-    }
-
-    body {
-      font-family: 'Pyidaungsu' !important;
-    }
+      body {
+        /*font-family: 'dejavu_sansbook' !important;*/
+      }
     </style>
   </head>
 
@@ -23,8 +18,8 @@
         <img src="{{ asset('custom/img/logo.png') }}" style="height: 150px;width:auto;">
       </div>
       <div id="company">
-        <h2 class="name"><strong>Maharshin</strong><strong>မဟာရှင်</strong></h2>
-        <div>Agricultural Equipment Sales</div>
+        <h2 class="name"><strong>Maharshin</strong></h2>
+        <div>Agricultural Equipment Sales </div>
         <div><x-orchid-icon path="pointer"/>Yangon, Myanmar.</div>
         <div><x-orchid-icon path="phone"/> 09 428 936 585</div>
         <div><x-orchid-icon path="phone"/>09 428 936 585</div>
@@ -34,15 +29,15 @@
     <main>
       <div id="details" class="clearfix">
         <div id="client">
-          <div class="to">INVOICE TO:</div>
-          <h2 class="name">{{ $sale->customer->name }}</h2>
-          <div class="address">{{ $sale->customer->address }}</div>
+          <div class="to">SUPPLIER INFO:</div>
+          <h2 class="name">{{ $purchase->supplier->name }}</h2>
+          <div class="address">{{ $purchase->supplier->address }}</div>
           {{-- <div class="email">baloot.mhl@gmail.com</div> --}}
         </div>
         <div id="invoice">
-          <h1>Invoice No. : {{ $sale->invoice_no }}</h1>
-          <div class="date">Date: {{ $sale->date }}</div>
-          <div class="date">Invoice By: {{ $sale->user->name }}</div>
+          <h1>Invoice No. : {{ $purchase->invoice_no }}</h1>
+          <div class="date">Date: {{ $purchase->date }}</div>
+          <div class="date">Invoice By: {{ $purchase->user->name }}</div>
         </div>
       </div>
       <table border="0" cellspacing="0" cellpadding="0">
@@ -56,16 +51,13 @@
           </tr>
         </thead>
         <tbody>
-        	@foreach($sale->saleitems as $saleitem)
-            @if($loop->index == 15)
-              <div class="page-break"></div>
-            @endif
+        	@foreach($purchase->purchaseitems as $purchaseitem)
         		<tr>
         			<td class="no">{{ $loop->iteration }}</td>
-        			<td class="desc"><h3>{{ $saleitem->product->code }} {{ $saleitem->product->name }}</h3></td>
-        			<td class="unit">{{ $saleitem->product->sale_price }} MMK</td>
-        			<td class="qty">{{ $saleitem->quantity }}</td>
-        			<td class="total">{{ $saleitem->product->sale_price * $saleitem->quantity }} MMK</td>
+        			<td class="desc"><h3>{{ $purchaseitem->product->code }} {{ $purchaseitem->product->name }}</h3></td>
+        			<td class="unit">{{ $purchaseitem->product->sale_price }} MMK</td>
+        			<td class="qty">{{ $purchaseitem->quantity }}</td>
+        			<td class="total">{{ $purchaseitem->product->sale_price * $purchaseitem->quantity }} MMK</td>
         		</tr>
         	@endforeach
         </tbody>
@@ -73,29 +65,29 @@
           <tr>
             <td colspan="2"></td>
             <td colspan="2">SUBTOTAL</td>
-            <td>{{ $sale->sub_total }} MMK</td>
+            <td>{{ $purchase->sub_total }} MMK</td>
           </tr>
           <tr>
             <td colspan="2"></td>
             <td colspan="2">DISCOUNT</td>
-            <td>{{ $sale->discount }} MMK</td>
+            <td>{{ $purchase->discount }} MMK</td>
           </tr>
-          @if($sale->received != 0)
+          @if($purchase->received != 0)
           	  <tr>
 	            <td colspan="2"></td>
 	            <td colspan="2">RECEIPT</td>
-	            <td>{{ $sale->received }} MMK</td>
+	            <td>{{ $purchase->received }} MMK</td>
 	          </tr>
 	          <tr>
 	            <td colspan="2"></td>
 	            <td colspan="2">REMAINING <br>AMOUNT</td>
-	            <td>{{ $sale->remained }} MMK</td>
+	            <td>{{ $purchase->remained }} MMK</td>
 	          </tr>
           @endif
           <tr>
             <td colspan="2"></td>
             <td colspan="2">GRAND TOTAL</td>
-            <td>{{ $sale->grand_total }} MMK</td>
+            <td>{{ $purchase->grand_total }} MMK</td>
           </tr>
         </tfoot>
       </table>

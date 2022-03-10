@@ -224,7 +224,8 @@ Route::screen('sale/{sale?}', SaleEditScreen::class)
         ->push('Manage Sale Invoice');
 });
 Route::screen('sale/view/{sale?}', SaleViewScreen::class)
-    ->name('platform.sale.view')->breadcrumbs(function (Trail $trail) {
+    ->name('platform.sale.view')
+    ->breadcrumbs(function (Trail $trail) {
     return $trail
         ->parent('platform.sale.list')
         ->push('View Invoice');
