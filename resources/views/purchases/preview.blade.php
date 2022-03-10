@@ -40,7 +40,7 @@
 
 		.invoice-body #client {
 		  padding-left: 6px;
-		  border-left: 6px solid #F58020;
+		  border-left: 6px solid rgba(0,0,0,0.5);
 		  float: left;
 		}
 
@@ -96,20 +96,24 @@
 		  border-bottom: 1px solid #FFFFFF;
 		}
 
+		.invoice-body .table tbody tr td {
+			font-size: 10px !important;
+		}
+
 		.invoice-body table th {
 		  white-space: nowrap;
 		  font-weight: normal;
 		}
 
 		.invoice-body table td {
-		  	text-align: right;
+		  	/*text-align: right;*/
 		}
 
 		.invoice-body table td h3{
 		  	color: #143862;
 		  	font-size: 1em;
 		  	font-weight: normal;
-		  	margin: 0 0 0.2em 0;
+		  	margin: 0;
 		}
 
 		.invoice-body table .no {
@@ -164,9 +168,10 @@
 		}
 
 		.invoice-body table tfoot tr:last-child td {
-		  color: #F58020;
-		  font-size: 1em;
-		  border-top: 1px solid #F58020;
+		  color: rgba(0,0,0,0.5);
+		  font-size: 1.1em;
+		  font-weight: bold;
+		  border-top: 1px solid rgba(0,0,0,0.8);
 
 		}
 
@@ -181,7 +186,7 @@
 
 		.invoice-body #notices{
 		  padding-left: 6px;
-		  border-left: 6px solid #F58020;
+		  border-left: 6px solid rgba(0,0,0,0.5);
 		}
 
 		.invoice-body #notices .notice {
@@ -198,6 +203,34 @@
 		  padding: 8px 0;
 		  text-align: center;
 		}*/
+
+		.invoice-body th, .invoice-body td {
+			padding: 5px 1em !important; 
+		}
+
+		.table thead tr th:first-child {
+			padding-left: 1em !important;
+		}
+
+		.table tbody tr td:first-child {
+			padding-left: 1em !important;
+		}
+
+		.table thead tr th:last-child {
+			padding-right: 1em !important;
+		}
+
+		.table tbody tr td:last-child {
+			padding-right: 1em !important;
+		}
+
+		.desc-col {
+			text-align: left !important;
+		}
+
+		.invoice-body thead th {
+			color: rgba(0,0,0, 0.5) !important;
+		}
 
 	</style>
 @endpush
@@ -233,10 +266,61 @@
 		        <div id="invoice">
 		          <h1>Invoice No. : {{ $purchase->invoice_no }}</h1>
 		          <div class="date">Date: {{ $purchase->date }}</div>
-		          <div class="date">Bought Admin: {{ $purchase->user->name }}</div>
+		          <div class="date">Purchased By: {{ $purchase->user->name }}</div>
 		        </div>
 		      </div>
-		      <table border="0" cellspacing="0" cellpadding="0">
+		      <table class="table table-stripe">
+		      	<thead>
+		      		<tr>
+		      			<th width="5%">Sr</th>
+		      			<th class="desc-col" width="auto">Description</th>
+		      			<th width="15%">Unit Price</th>
+		      			<th width="5%">Quantity</th>
+		      			<th width="10%">Total</th>
+		      		</tr>
+		      	</thead>
+		      	<tbody>
+		      		@foreach($purchase->purchaseitems as $purchaseitem)
+		      			<tr>
+		        			<td>{{ $loop->iteration }}</td>
+		        			<td class="desc-col"><h3>{{ $purchaseitem->product->code }} [{{ $purchaseitem->product->name }}]</h3></td>
+		        			<td>{{ $purchaseitem->product->buy_price }} MMK</td>
+		        			<td>{{ $purchaseitem->quantity }}</td>
+		        			<td>{{ $purchaseitem->product->sale_price * $purchaseitem->quantity }} MMK</td>
+		        		</tr>
+		      		@endforeach
+		      	</tbody>
+		      	<tfoot>
+		          <tr>
+		            <td colspan="2"></td>
+		            <td colspan="2">SUBTOTAL</td>
+		            <td>{{ $purchase->sub_total }} MMK</td>
+		          </tr>
+		          <tr>
+		            <td colspan="2"></td>
+		            <td colspan="2">DISCOUNT</td>
+		            <td>{{ $purchase->discount }} MMK</td>
+		          </tr>
+		          @if($purchase->received != 0)
+		          	  <tr>
+			            <td colspan="2"></td>
+			            <td colspan="2">RECEIPT</td>
+			            <td>{{ $purchase->received }} MMK</td>
+			          </tr>
+			          <tr>
+			            <td colspan="2"></td>
+			            <td colspan="2">REMAINING <br>AMOUNT</td>
+			            <td>{{ $purchase->remained }} MMK</td>
+			          </tr>
+		          @endif
+		          <tr>
+		            <td colspan="2"></td>
+		            <td colspan="2">GRAND TOTAL</td>
+		            <td>{{ $purchase->grand_total }} MMK</td>
+		          </tr>
+		        </tfoot>
+		      </table>
+		      {{-- <table border="0" cellspacing="0" cellpadding="0">
 		        <thead>
 		          <tr>
 		            <th class="no" width="5%">#</th>
@@ -250,7 +334,7 @@
 		        	@foreach($purchase->purchaseitems as $purchaseitem)
 		        		<tr>
 		        			<td class="no">{{ $loop->iteration }}</td>
-		        			<td class="desc"><h3>{{ $purchaseitem->product->name }}</h3></td>
+		        			<td class="desc"><h3>{{ $purchaseitem->product->code }} [{{ $purchaseitem->product->name }}]</h3></td>
 		        			<td class="unit">{{ $purchaseitem->product->sale_price }} MMK</td>
 		        			<td class="qty">{{ $purchaseitem->quantity }}</td>
 		        			<td class="total">{{ $purchaseitem->product->sale_price * $purchaseitem->quantity }} MMK</td>
@@ -286,7 +370,7 @@
 		            <td>{{ $purchase->grand_total }} MMK</td>
 		          </tr>
 		        </tfoot>
-		      </table>
+		      </table> --}}
 		      <div id="thanks">Thank you!</div>
 		      <div id="notices">
 		        <div>NOTICE:</div>
