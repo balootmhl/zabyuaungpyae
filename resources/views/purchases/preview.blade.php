@@ -221,7 +221,7 @@
                     <div class="col-6">
                     	<div class="row">
                     		<div class="col-6">
-                    			<a target="_blank" href="https://lobianijs.com">
+                    			<a target="_blank" href="http://zabyuaungpyae.com">
 	                            {{-- <img src="http://lobianijs.com/lobiadmin/version/1.0/ajax/img/logo/lobiadmin-logo-text-64.png" data-holder-rendered="true" /> --}}
 	                            <img src="{{ asset('custom/img/logo.png') }}" style="height: 120px;width:auto;">
 	                            </a>
@@ -234,7 +234,7 @@
                     </div>
                     <div class="col-6 company-details">
                         <h2 class="name">
-                            <a target="_blank" href="https://lobianijs.com">
+                            <a target="_blank" href="http://zabyuaungpyae.com">
                             Zabyu Aung Pyae
                             </a>
                         </h2>
