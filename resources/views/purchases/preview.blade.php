@@ -63,6 +63,7 @@
                     <thead>
                         <tr>
                             <th class="text-right" style="width: 5% !important;" width="5%">#</th>
+                            <th class="text-left" style="width: auto !important;">Code</th>
                             <th class="text-left" style="width: auto !important;">Description</th>
                             <th class="text-center" style="width: 5% !important;">Check</th>
                             <th style="text-align: right !important;width: 16% !important;">Unit Price</th>
@@ -75,8 +76,11 @@
                     		<tr>
 	                            <td class="no">{{ $loop->iteration }}</td>
 	                            <td class="text-left">
-	                               {{ $purchaseitem->product->code }} [{{ $purchaseitem->product->name }}]
+	                               {{ $purchaseitem->product->code }}
 	                            </td>
+                                <td class="text-left">
+                                   {{ $purchaseitem->product->name }}
+                                </td>
 	                            <td class="text-center"><input type="checkbox" unchecked></td>
 	                            <td class="unit">{{ $purchaseitem->product->buy_price }} MMK</td>
 	                            <td class="qty">{{ $purchaseitem->quantity }}</td>
