@@ -89,28 +89,28 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="3"></td>
+                            <td colspan="4"></td>
                             <td colspan="2">SUBTOTAL</td>
                             <td>{{ $sale->sub_total }} MMK</td>
                         </tr>
                         <tr>
-                            <td colspan="3"></td>
+                            <td colspan="4"></td>
                             <td colspan="2">DISCOUNT</td>
                             <td>{{ $sale->discount }} MMK</td>
                         </tr>
                         <tr>
-                            <td colspan="3"></td>
+                            <td colspan="4"></td>
                             <td colspan="2">GRAND TOTAL</td>
                             <td>{{ $sale->grand_total }} MMK</td>
                         </tr>
                         @if($sale->received != 0)
 			          	  <tr>
-				            <td colspan="3"></td>
+				            <td colspan="4"></td>
 				            <td colspan="2">RECEIPT</td>
 				            <td>{{ $sale->received }} MMK</td>
 				          </tr>
 				          <tr>
-				            <td colspan="3"></td>
+				            <td colspan="4"></td>
 				            <td colspan="2">REMAINING <br>AMOUNT</td>
 				            <td>{{ $sale->remained }} MMK</td>
 				          </tr>
