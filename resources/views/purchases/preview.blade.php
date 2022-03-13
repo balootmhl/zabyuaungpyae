@@ -21,24 +21,28 @@
                     <div class="col-6">
                     	<div class="row">
                     		<div class="col-6">
-                    			<a target="_blank" href="http://zabyuaungpyae.com">
-	                            {{-- <img src="http://lobianijs.com/lobiadmin/version/1.0/ajax/img/logo/lobiadmin-logo-text-64.png" data-holder-rendered="true" /> --}}
-	                            <img src="{{ asset('custom/img/logo.png') }}" style="height: 120px;width:auto;">
-	                            </a>
-                    		</div>
-                    		<div class="col-6">
-                    			<img src="{{ asset('custom/img/kubota-logo.png') }}" style="width: 100%;height: auto;text-align: right;padding-top: 20px;">
-                    		</div>
+                                <a target="_blank" href="http://zabyuaungpyae.com">
+                                {{-- <img src="http://lobianijs.com/lobiadmin/version/1.0/ajax/img/logo/lobiadmin-logo-text-64.png" data-holder-rendered="true" /> --}}
+                                <img src="{{ asset('custom/img/logo.png') }}" style="height: 160px;width:auto;">
+                                </a>
+                            </div>
+                            <div class="col-6">
+                                <div style="margin-left: -80px !important;">
+                                    <img src="{{ asset('custom/img/kubota-logo.png') }}" style="width: 50%;height: auto;text-align: right;padding-top: 80px;"> <br>
+                                    <h6 style="padding-left: 5px;font-weight: bold;">လယ်ယာသုံး စက်ပစ္စည်းအရောင်းဆိုင်</h6>
+                                </div>
+                                    
+                            </div>
                     	</div>
                         
                     </div>
                     <div class="col-6 company-details">
-                        <h2 class="name">
+                        {{-- <h2 class="name">
                             <a target="_blank" href="http://zabyuaungpyae.com">
                             Zabyu Aung Pyae
                             </a>
                         </h2>
-                        <div>လယ်ယာသုံး စက်ပစ္စည်းအရောင်းဆိုင်</div>
+                        <div>လယ်ယာသုံး စက်ပစ္စည်းအရောင်းဆိုင်</div> --}}
                         <div><x-orchid-icon path="pointer"/>Yangon, Myanmar.</div>
 				        <div><x-orchid-icon path="phone"/> 09 428 936 585</div>
 				        <div><x-orchid-icon path="phone"/>09 428 936 585</div>
@@ -62,7 +66,7 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th class="text-right" style="width: 5% !important;" width="5%">#</th>
+                            <th class="text-right">#</th>
                             <th class="text-left" style="width: auto !important;">Code</th>
                             <th class="text-left" style="width: auto !important;">Description</th>
                             <th class="text-center" style="width: 5% !important;">Check</th>
