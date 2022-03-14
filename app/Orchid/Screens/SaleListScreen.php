@@ -51,6 +51,11 @@ class SaleListScreen extends Screen
             //     ->method('import')
             //     ->icon('cloud-upload'),
 
+            Button::make('Fix Prices')
+                ->method('fixPrice')
+                ->icon('wrench')
+                ->novalidate(),
+
             Button::make('Export')
                 ->method('export')
                 ->icon('cloud-download')
@@ -118,5 +123,33 @@ class SaleListScreen extends Screen
     public function export()
     {
         // return Excel::download(new ProductsExport, 'products_' . now() . '.xlsx');
+    }
+
+    /**
+     * @return Fix prices of each sale invoices
+     */
+    public function fixPrice()
+    {
+        $sales = Sale::all();
+        foreach ($sales as $sale) {
+            $subtotal = 0;
+            foreach ($sale->saleitems as $sitem) {
+                $item_total = $sitem->product->buy_price * $sitem->quantity;
+                $subtotal = $subtotal + $item_total;
+            }
+
+            $sale->sub_total = $subtotal;
+            $sale->grand_total = $subtotal - $sale->discount;
+            // if ($sale->invoice_no == null) {
+            //     $sale->invoice_no = '#01' . str_replace("-", "", $sale->date) . $sale->id;
+            // }
+            $sale->update();
+
+        
+        }
+
+        Alert::info('You have updated prices of sale invoices.');
+
+        return redirect()->route('platform.sale.list');
     }
 }

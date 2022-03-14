@@ -223,7 +223,7 @@ class SaleEditScreen extends Screen
         $subtotal = 0;
 
         foreach ($sale->saleitems as $sitem) {
-            $item_total = $sitem->product->sale_price * $sitem->quantity;
+            $item_total = $sitem->product->buy_price * $sitem->quantity;
             $subtotal = $subtotal + $item_total;
         }
 

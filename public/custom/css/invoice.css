@@ -17,13 +17,15 @@
 
     .invoice .company-details {
         text-align: right;
-        margin-top: 80px;
+        /*margin-top: 80px;*/
     }
 
     .invoice .company-details .name {
+        /*margin-top: 20px;*/
+        padding-top: 20px !important;
+        line-height: 1.2;
         margin-top: 0;
-        line-height: 1.7;
-        margin-bottom: 0
+        margin-bottom: 0;
     }
 
     .invoice .contacts {
@@ -177,6 +179,7 @@
         
         .invoice {
             font-size: 11px!important;
+            overflow: hidden!important;
         }
 
         .invoice footer {
@@ -185,9 +188,9 @@
             page-break-after: always;
         }
 
-        /*.invoice>div:last-child {
+        .invoice>div:last-child {
             page-break-before: always
-        }*/
+        }
 
         #printInvoice, .layout, .aside, nav, .alert, .alert-info {
           display: none !important;

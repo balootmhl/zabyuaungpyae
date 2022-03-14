@@ -15,35 +15,28 @@
     <div class="invoice overflow-auto">
         <div style="min-width: 600px">
             <header>
-                <div class="row">
-                    <div class="col-7">
-                    	<div class="row" >
-                    		<div class="col-6">
-                    			<a target="_blank" href="http://zabyuaungpyae.com">
-	                            {{-- <img src="http://lobianijs.com/lobiadmin/version/1.0/ajax/img/logo/lobiadmin-logo-text-64.png" data-holder-rendered="true" /> --}}
-	                            <img src="{{ asset('custom/img/logo.png') }}" style="height: 160px;width:auto;">
-	                            </a>
-                    		</div>
-                    		<div class="col-6">
-                    			<div style="margin-left: -80px !important;">
-                    				<img src="{{ asset('custom/img/kubota-logo.png') }}" style="width: 50%;height: auto;text-align: right;padding-top: 80px;"> <br>
-	                    			<h6 style="padding-left: 5px;font-weight: bold;">လယ်ယာသုံး စက်ပစ္စည်းအရောင်းဆိုင်</h6>
-                    			</div>
-	                    			
-                    		</div>
-                    	</div>
-                        
+                <div class="row" style="background: url(asset('custom/img/kubota-logo.png'));">
+                    <div class="col-5">
+            			<a target="_blank" href="http://zabyuaungpyae.com">
+                        {{-- <img src="http://lobianijs.com/lobiadmin/version/1.0/ajax/img/logo/lobiadmin-logo-text-64.png" data-holder-rendered="true" /> --}}
+	                        <img src="{{ asset('custom/img/logo.png') }}" style="width: auto;height: 150px;">
+                        </a>
+
+            			{{-- <div> --}}
+            				<img src="{{ asset('custom/img/kubota-logo.png') }}" style="position:absolute;width: 30%;height: auto;;padding-top: 70px;right: 21em;opacity: 0.4;"> <br>
+                			{{-- <h6 style="padding-left: 5px;font-weight: bold;">လယ်ယာသုံး စက်ပစ္စည်းအရောင်းဆိုင်</h6> --}}
+            			{{-- </div> --}}
                     </div>
-                    <div class="col-5 company-details">
-                        {{-- <h2 class="name">
+                    <div class="col-7 company-details">
+                        <h5 class="name">
                             <a target="_blank" href="https://lobianijs.com">
-                            Zabyu Aung Pyae
+                            <strong>MAHARSHIN Co., Ltd. (Head Office)</strong>
                             </a>
-                        </h2> --}}
-                        {{-- <div>လယ်ယာသုံး စက်ပစ္စည်းအရောင်းဆိုင်</div> --}}
+                        </h5>
+                        <div><strong><font style="font-size: 1.2rem;">Kubota</font> လယ်ယာသုံး စက်ပစ္စည်းအရောင်းဆိုင်</strong></div>
                         <div><x-orchid-icon path="pointer"/>Yangon, Myanmar.</div>
-				        <div><x-orchid-icon path="phone"/> 09 428 936 585</div>
-				        <div><x-orchid-icon path="phone"/>09 428 936 585</div>
+				        <div><x-orchid-icon path="phone"/>09 428 936 585, 09 428 936 585</div>
+				        <div><x-orchid-icon path="globe"/>http://zabyuaungpyae.com</div>
                     </div>
                 </div>
             </header>
@@ -84,9 +77,9 @@
 	                               {{ $saleitem->product->name }}
 	                            </td>
 	                            <td class="text-center"><input type="checkbox" unchecked></td>
-	                            <td class="unit">{{ $saleitem->product->sale_price }} MMK</td>
+	                            <td class="unit">{{ $saleitem->product->buy_price }} MMK</td>
 	                            <td class="qty">{{ $saleitem->quantity }}</td>
-	                            <td class="total">{{ $saleitem->product->sale_price * $saleitem->quantity }} MMK</td>
+	                            <td class="total">{{ $saleitem->product->buy_price * $saleitem->quantity }} MMK</td>
 	                        </tr>
                     	@endforeach
 	                        

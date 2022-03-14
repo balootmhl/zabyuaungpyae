@@ -26,9 +26,9 @@
                                 <img src="{{ asset('custom/img/logo.png') }}" style="height: 160px;width:auto;">
                                 </a>
                             </div>
-                            <div class="col-6">
+                            <div class="col-6 company-details">
                                 <div style="margin-left: -80px !important;">
-                                    <img src="{{ asset('custom/img/kubota-logo.png') }}" style="width: 50%;height: auto;text-align: right;padding-top: 80px;"> <br>
+                                    <img src="{{ asset('custom/img/kubota-logo.png') }}" style="width: 100%;height: auto;text-align: right;padding-top: 80px;"> <br>
                                     <h6 style="padding-left: 5px;font-weight: bold;">လယ်ယာသုံး စက်ပစ္စည်းအရောင်းဆိုင်</h6>
                                 </div>
                                     
