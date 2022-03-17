@@ -215,7 +215,7 @@ class PurchaseEditScreen extends Screen
         $subtotal = 0;
 
         foreach ($purchase->purchaseitems as $pitem) {
-            $item_total = $pitem->product->sale_price * $pitem->quantity;
+            $item_total = $pitem->product->buy_price * $pitem->quantity;
             $subtotal = $subtotal + $item_total;
         }
 
