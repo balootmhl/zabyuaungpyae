@@ -17,35 +17,40 @@
     <div class="invoice overflow-auto">
         <div style="min-width: 600px">
             <header>
-                <div class="row">
-                    <div class="col-6">
-                    	<div class="row">
-                    		<div class="col-6">
-                                <a target="_blank" href="http://zabyuaungpyae.com">
-                                {{-- <img src="http://lobianijs.com/lobiadmin/version/1.0/ajax/img/logo/lobiadmin-logo-text-64.png" data-holder-rendered="true" /> --}}
-                                <img src="{{ asset('custom/img/logo.png') }}" style="height: 160px;width:auto;">
-                                </a>
-                            </div>
-                            <div class="col-6 company-details">
-                                <div style="margin-left: -80px !important;">
-                                    <img src="{{ asset('custom/img/kubota-logo.png') }}" style="width: 100%;height: auto;text-align: right;padding-top: 80px;"> <br>
-                                    <h6 style="padding-left: 5px;font-weight: bold;">လယ်ယာသုံး စက်ပစ္စည်းအရောင်းဆိုင်</h6>
-                                </div>
-                                    
-                            </div>
-                    	</div>
-                        
+                <div class="row" style="background: url(asset('custom/img/kubota-logo.png'));">
+                    <div class="col-2">
+
+                        <a target="_blank" href="http://zabyuaungpyae.com">
+                            <img src="{{ asset('custom/img/logo.png') }}" class="img-fluid">
+                        </a>
                     </div>
-                    <div class="col-6 company-details">
-                        {{-- <h2 class="name">
-                            <a target="_blank" href="http://zabyuaungpyae.com">
-                            Zabyu Aung Pyae
+                    <div class="col-7">
+
+                        <h5 class="name" style="padding-top: 10px;">
+                            <a target="_blank" href="https://lobianijs.com">
+                            <strong>MAHARSHIN Co., Ltd. (Head Office)</strong>
                             </a>
-                        </h2>
-                        <div>လယ်ယာသုံး စက်ပစ္စည်းအရောင်းဆိုင်</div> --}}
+                        </h5>
+                        {{-- <div><strong><font style="font-size: 1.2rem;">Kubota</font> လယ်ယာသုံး စက်ပစ္စည်းအရောင်းဆိုင်</strong></div> --}}
                         <div><x-orchid-icon path="pointer"/>Yangon, Myanmar.</div>
-				        <div><x-orchid-icon path="phone"/> 09 428 936 585</div>
-				        <div><x-orchid-icon path="phone"/>09 428 936 585</div>
+                        <div><x-orchid-icon path="phone"/>09 428 936 585, 09 428 936 585</div>
+                        <div><x-orchid-icon path="globe"/>http://zabyuaungpyae.com</div>
+                    </div>
+                    <div class="col-3">
+                            <img src="{{ asset('custom/img/kubota-logo.png') }}" class="img-fluid" style="padding-top: 10px;"> <br>
+                            <h6 style="padding-left: 5px;font-weight: bold;">လယ်ယာသုံး စက်ပစ္စည်းအရောင်းဆိုင်</h6>
+                        {{-- </div> --}}
+                    </div>
+                    <div class="col-7 company-details">
+                        {{-- <h5 class="name">
+                            <a target="_blank" href="https://lobianijs.com">
+                            <strong>MAHARSHIN Co., Ltd. (Head Office)</strong>
+                            </a>
+                        </h5>
+                        <div><strong><font style="font-size: 1.2rem;">Kubota</font> လယ်ယာသုံး စက်ပစ္စည်းအရောင်းဆိုင်</strong></div>
+                        <div><x-orchid-icon path="pointer"/>Yangon, Myanmar.</div>
+                        <div><x-orchid-icon path="phone"/>09 428 936 585, 09 428 936 585</div>
+                        <div><x-orchid-icon path="globe"/>http://zabyuaungpyae.com</div> --}}
                     </div>
                 </div>
             </header>
@@ -91,7 +96,7 @@
 	                            <td class="total">{{ $purchaseitem->product->buy_price * $purchaseitem->quantity }} MMK</td>
 	                        </tr>
                     	@endforeach
-	                        
+
                     </tbody>
                     <tfoot>
                         <tr>
@@ -144,7 +149,7 @@
 	<script>
 		$('#printInvoice').click(function(){
             Popup($('.invoice')[0].outerHTML);
-            function Popup(data) 
+            function Popup(data)
             {
                 window.print();
                 return true;
