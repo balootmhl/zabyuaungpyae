@@ -71,7 +71,7 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th class="text-right">#</th>
+                            <th class="text-right" style="padding:0 !important;width: auto !important;">#</th>
                             <th class="text-left" style="width: auto !important;">Code</th>
                             <th class="text-left" style="width: auto !important;">Description</th>
                             <th class="text-center" style="width: 5% !important;">Check</th>
@@ -83,7 +83,7 @@
                     <tbody>
                     	@foreach($purchase->purchaseitems as $purchaseitem)
                     		<tr>
-	                            <td class="no">{{ $loop->iteration }}</td>
+	                            <td class="no" style="padding:0 !important;width: auto !important;">{{ $loop->iteration }}</td>
 	                            <td class="text-left">
 	                               {{ $purchaseitem->product->code }}
 	                            </td>

@@ -6,12 +6,12 @@
         position: relative;
         background-color: #FFF;
         min-height: 680px;
-        padding: 15px
+        padding: 0 10px;
     }
 
     .invoice header {
-        padding: 10px 0;
-        margin-bottom: 20px;
+        padding: 0;
+        margin-bottom: 10px;
         border-bottom: 1px solid #143862;
     }
 
@@ -29,7 +29,7 @@
     }
 
     .invoice .contacts {
-        margin-bottom: 20px
+        margin-bottom: 10px;
     }
 
     .invoice .invoice-to {
@@ -168,7 +168,7 @@
     }
 
     .table tbody tr td, .table thead tr th {
-      padding: 10px 1rem !important;
+      padding: 5px 1rem !important;
     }
 
     th {
