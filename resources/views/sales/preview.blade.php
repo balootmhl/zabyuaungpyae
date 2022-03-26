@@ -15,7 +15,7 @@
     <div class="invoice overflow-auto">
         <div style="min-width: 600px">
             <header>
-                <div class="row" style="background: url(asset('custom/img/kubota-logo.png'));">
+                <div class="row">
                     <div class="col-2">
 
                         <a target="_blank" href="http://zabyuaungpyae.com">
@@ -25,7 +25,7 @@
                     <div class="col-7">
 
                         <h5 class="name" style="padding-top: 10px;">
-                            <a target="_blank" href="https://lobianijs.com">
+                            <a target="_blank" href="http://zabyuaungpyae.com">
                             <strong>MAHARSHIN Co., Ltd. (Head Office)</strong>
                             </a>
                         </h5>
