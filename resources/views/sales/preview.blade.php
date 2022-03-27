@@ -69,13 +69,13 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th class="text-right" style="padding:0 !important;width: auto !important;">#</th>
-                            <th class="text-left" width="auto">Code</th>
-                            <th class="text-left" width="auto">Description</th>
-                            <th class="text-center" style="width: 5% !important;">Check</th>
-                            <th style="text-align: right !important;" width="16%">Unit Price</th>
-                            <th style="text-align: right !important;" width="5%">Quantity</th>
-                            <th style="text-align: right !important;" width="16%">Unit Total</th>
+                            <th class="text-right" style="padding:0 !important;">#</th>
+                            <th class="text-left">Code</th>
+                            <th class="text-left">Description</th>
+                            <th class="text-center">Check</th>
+                            <th style="text-align: right !important;" >Unit Price</th>
+                            <th style="text-align: right !important;" >Quantity</th>
+                            <th style="text-align: right !important;" >Unit Total</th>
                         </tr>
                     </thead>
                     <tbody>
