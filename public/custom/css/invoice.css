@@ -168,8 +168,9 @@
       padding-right: 1rem !important;
     }
 
-    .table tbody tr td, .table thead tr th {
+    .invoice .table tbody tr td, .invoice .table thead tr th {
       padding: 5px 1rem !important;
+      font-size: .7rem !important;
     }
 
     th {
