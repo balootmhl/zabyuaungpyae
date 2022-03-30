@@ -80,12 +80,9 @@
                     </thead>
                     <tbody>
                     	@foreach($sale->saleitems as $saleitem)
-                            @if($loop->index == 15)
-                              <div class="page-break"></div>
-                            @endif
-                    		<tr>
+                            <tr>
 	                            <td class="no" style="padding:0 !important;width: auto !important;">{{ $loop->iteration }}</td>
-	                            <td class="text-left">
+	                            <td class="text-left code">
 	                               {{ $saleitem->product->code }}
 	                            </td>
 	                            <td class="text-left">
