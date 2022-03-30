@@ -76,7 +76,7 @@
                             <th class="text-left">Description</th>
                             <th class="text-center">Check</th>
                             <th style="text-align: right !important;" >Unit Price</th>
-                            <th style="text-align: right !important;" >Quantity</th>
+                            <th style="text-align: right !important;" >Qty</th>
                             <th style="text-align: right !important;" >Unit Total</th>
                         </tr>
                     </thead>
@@ -94,9 +94,9 @@
                                    {{ $purchaseitem->product->name }}
                                 </td>
 	                            <td class="text-center"><input type="checkbox" unchecked></td>
-	                            <td class="unit">{{ $purchaseitem->product->buy_price }} MMK</td>
+	                            <td class="unit">{{ $purchaseitem->product->buy_price }} Ks</td>
 	                            <td class="qty">{{ $purchaseitem->quantity }}</td>
-	                            <td class="total">{{ $purchaseitem->product->buy_price * $purchaseitem->quantity }} MMK</td>
+	                            <td class="total">{{ $purchaseitem->product->buy_price * $purchaseitem->quantity }} Ks</td>
 	                        </tr>
                     	@endforeach
 
@@ -105,28 +105,28 @@
                         <tr>
                             <td colspan="4"></td>
                             <td colspan="2">SUBTOTAL</td>
-                            <td>{{ $purchase->sub_total }} MMK</td>
+                            <td>{{ $purchase->sub_total }} Ks</td>
                         </tr>
                         <tr>
                             <td colspan="4"></td>
                             <td colspan="2">DISCOUNT</td>
-                            <td>{{ $purchase->discount }} MMK</td>
+                            <td>{{ $purchase->discount }} Ks</td>
                         </tr>
                         <tr>
                             <td colspan="4"></td>
                             <td colspan="2">GRAND TOTAL</td>
-                            <td>{{ $purchase->grand_total }} MMK</td>
+                            <td>{{ $purchase->grand_total }} Ks</td>
                         </tr>
                         @if($purchase->received != 0)
 			          	  <tr>
 				            <td colspan="4"></td>
 				            <td colspan="2">RECEIPT</td>
-				            <td>{{ $purchase->received }} MMK</td>
+				            <td>{{ $purchase->received }} Ks</td>
 				          </tr>
 				          <tr>
 				            <td colspan="4"></td>
 				            <td colspan="2">REMAINING <br>AMOUNT</td>
-				            <td>{{ $purchase->remained }} MMK</td>
+				            <td>{{ $purchase->remained }} Ks</td>
 				          </tr>
 			          @endif
                     </tfoot>
@@ -137,9 +137,9 @@
                     <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
                 </div>
             </main>
-            <footer>
+            {{-- <footer>
                 Invoice was created on a computer and is valid without the signature and seal.
-            </footer>
+            </footer> --}}
         </div>
         <!--DO NOT DELETE THIS div. IT is responsible for showing footer always at the bottom-->
         <div></div>
