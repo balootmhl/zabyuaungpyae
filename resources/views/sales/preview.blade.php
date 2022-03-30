@@ -81,7 +81,7 @@
                     <tbody>
                     	@foreach($sale->saleitems as $saleitem)
                             <tr>
-	                            <td class="no" style="padding:0 !important;width: auto !important;">{{ $loop->iteration }}</td>
+	                            <td class="no" style="padding:0 !important;width: 7% !important;">{{ $loop->iteration }}</td>
 	                            <td class="text-left code">
 	                               {{ $saleitem->product->code }}
 	                            </td>
