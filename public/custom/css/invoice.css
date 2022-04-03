@@ -11,7 +11,7 @@
 
     .invoice header {
         padding: 10px 0;
-        margin-bottom: 20px;
+        /*margin-bottom: 20px;*/
         border-bottom: 1px solid #143862;
     }
 
@@ -29,7 +29,7 @@
     }
 
     .invoice .contacts {
-        margin-bottom: 30px;
+        margin-bottom: 10px;
     }
 
     .invoice .invoice-to {
@@ -170,7 +170,7 @@
     }
 
     .invoice .table tbody tr td, .invoice .table thead tr th {
-      padding: 12px 5px !important;
+      padding: 0px 5px !important;
       /*line-height: 1.5;*/
       font-size: 1.3rem !important;
     }
