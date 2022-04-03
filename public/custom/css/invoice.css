@@ -172,7 +172,7 @@
     .invoice .table tbody tr td, .invoice .table thead tr th {
       padding: 12px 5px !important;
       /*line-height: 1.5;*/
-      font-size: 1.1rem !important;
+      font-size: 1.3rem !important;
     }
 
     .invoice .table tbody tr td.code {
