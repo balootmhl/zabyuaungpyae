@@ -89,9 +89,23 @@
 	                               {{ $saleitem->product->name }}
 	                            </td>
 	                            <td class="text-center"><input type="checkbox" unchecked></td>
-	                            <td class="unit">{{ $saleitem->product->buy_price }} Ks</td>
+	                            <td class="unit">
+                                    @if($sale->is_saleprice == 1)
+                                        {{ $saleitem->product->sale_price }} Ks
+                                    @else
+                                        {{ $saleitem->product->buy_price }}
+                                    @endif
+
+                                </td>
 	                            <td class="qty">{{ $saleitem->quantity }}</td>
-	                            <td class="total">{{ $saleitem->product->buy_price * $saleitem->quantity }} Ks</td>
+	                            <td class="total">
+                                    @if($sale->is_saleprice == 1)
+                                        {{ $saleitem->product->sale_price * $saleitem->quantity }} Ks
+                                    @else
+                                        {{ $saleitem->product->buy_price * $saleitem->quantity }} Ks
+                                    @endif
+
+                                </td>
 	                        </tr>
                     	@endforeach
 

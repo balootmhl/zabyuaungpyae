@@ -21,7 +21,6 @@ use App\Orchid\Screens\IncomeCalculatorScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\ProductEditScreen;
 use App\Orchid\Screens\ProductImportScreen;
-use App\Orchid\Screens\StockControlScreen;
 use App\Orchid\Screens\ProductListScreen;
 use App\Orchid\Screens\PurchaseEditScreen;
 use App\Orchid\Screens\PurchaseListScreen;
@@ -217,6 +216,9 @@ Route::screen('customers', CustomerListScreen::class)
 });
 
 // Sale Record Routes
+Route::get('sale/create-custom', 'App\Http\Controllers\SaleController@create')->name('platform.sale.create-custom');
+Route::post('sale/custom/store', 'App\Http\Controllers\SaleController@store')->name('platform.sale.store-custom');
+Route::get('sale/getPrice/{id}', 'App\Http\Controllers\RecipeController@getPrice');
 Route::screen('sale/{sale?}', SaleEditScreen::class)
     ->name('platform.sale.edit')->breadcrumbs(function (Trail $trail) {
     return $trail
@@ -226,10 +228,10 @@ Route::screen('sale/{sale?}', SaleEditScreen::class)
 Route::screen('sale/view/{sale?}', SaleViewScreen::class)
     ->name('platform.sale.view')
     ->breadcrumbs(function (Trail $trail) {
-    return $trail
-        ->parent('platform.sale.list')
-        ->push('View Invoice');
-});
+        return $trail
+            ->parent('platform.sale.list')
+            ->push('View Invoice');
+    });
 Route::screen('sales', SaleListScreen::class)
     ->name('platform.sale.list')->breadcrumbs(function (Trail $trail) {
     return $trail

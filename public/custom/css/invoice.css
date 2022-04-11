@@ -30,6 +30,7 @@
 
     .invoice .contacts {
         margin-bottom: 10px;
+        margin-top: 5px;
     }
 
     .invoice .invoice-to {
@@ -172,7 +173,7 @@
     .invoice .table tbody tr td, .invoice .table thead tr th {
       padding: 0px 5px !important;
       /*line-height: 1.5;*/
-      font-size: 1.3rem !important;
+      font-size: 1.2rem !important;
     }
 
     .invoice .table tbody tr td.code {

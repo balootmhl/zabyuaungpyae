@@ -2,8 +2,8 @@
 
 namespace App\Orchid\Screens;
 
-use App\Models\Sale;
 use App\Models\Product;
+use App\Models\Sale;
 use App\Orchid\Layouts\SaleListLayout;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\Link;
@@ -51,10 +51,10 @@ class SaleListScreen extends Screen
             //     ->method('import')
             //     ->icon('cloud-upload'),
 
-            Button::make('Fix Prices')
-                ->method('fixPrice')
-                ->icon('wrench')
-                ->novalidate(),
+            // Button::make('Fix Prices')
+            //     ->method('fixPrice')
+            //     ->icon('wrench')
+            //     ->novalidate(),
 
             Button::make('Export')
                 ->method('export')
@@ -65,6 +65,10 @@ class SaleListScreen extends Screen
             Link::make('Find Invoices')
                 ->icon('magnifier')
                 ->route('platform.sale.search'),
+
+            Link::make('Create beta')
+                ->icon('plus')
+                ->route('platform.sale.create-custom'),
 
             Link::make('Create new')
                 ->icon('plus')
@@ -145,7 +149,6 @@ class SaleListScreen extends Screen
             // }
             $sale->update();
 
-        
         }
 
         Alert::info('You have updated prices of sale invoices.');

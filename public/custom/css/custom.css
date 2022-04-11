@@ -2,3 +2,16 @@
 span.text-ellipsis {
 	font-size: 1.1em !important;
 }
+
+.table thead tr th {
+	color: #3f6079;
+	font-weight: bold;
+}
+
+.invoice-form .col-sm-2,
+.invoice-form .col-sm-3,
+.invoice-form .col-sm-4,
+.invoice-form .col-sm-6,
+.invoice-form .col-sm-12 {
+	margin-bottom: 20px;
+}
