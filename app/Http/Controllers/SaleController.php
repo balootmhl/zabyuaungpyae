@@ -62,10 +62,11 @@ class SaleController extends Controller
     public function edit($id)
     {
         $sale = Sale::findOrFail($id);
+        $items_count = count($sale->saleitems);
         $products = Product::all();
         $customers = Customer::all();
         $users = User::all();
 
-        return view('sales.edit', compact('products', 'customers', 'users', 'sale'));
+        return view('sales.edit', compact('products', 'customers', 'users', 'sale', 'items_count'));
     }
 }

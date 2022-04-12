@@ -184,6 +184,10 @@
       color: rgba(0,0,0,0.5) !important;
     }
 
+    .toolbar .btn {
+        display: inline-block !important;
+    }
+
     @media print {
         
         .invoice {
@@ -201,7 +205,7 @@
             page-break-before: always
         }
 
-        #printInvoice, .layout, .aside, nav, .alert, .alert-info {
+        #printInvoice, .layout, .aside, nav, .alert, .alert-info, .hidden-print {
           display: none !important;
         }
 

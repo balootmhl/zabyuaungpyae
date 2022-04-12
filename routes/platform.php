@@ -218,7 +218,8 @@ Route::screen('customers', CustomerListScreen::class)
 // Sale Record Routes
 Route::get('sale/create-custom', 'App\Http\Controllers\SaleController@create')->name('platform.sale.create-custom');
 Route::post('sale/custom/store', 'App\Http\Controllers\SaleController@store')->name('platform.sale.store-custom');
-Route::get('sale/getPrice/{id}', 'App\Http\Controllers\RecipeController@getPrice');
+Route::get('sale/edit-custom/{id}', 'App\Http\Controllers\SaleController@edit')->name('platform.sale.edit-custom');
+Route::get('getPrice/{id}', 'App\Http\Controllers\RecipeController@getPrice');
 Route::screen('sale/{sale?}', SaleEditScreen::class)
     ->name('platform.sale.edit')->breadcrumbs(function (Trail $trail) {
     return $trail

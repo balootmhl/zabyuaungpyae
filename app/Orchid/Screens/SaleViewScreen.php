@@ -5,10 +5,7 @@ namespace App\Orchid\Screens;
 use App\Models\Sale;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Screen;
-use Orchid\Screen\Actions\Link;
 use Orchid\Support\Facades\Layout;
-use PDF;
-use Rawilk\Printing\Facades\Printing;
 
 class SaleViewScreen extends Screen
 {
@@ -41,18 +38,11 @@ class SaleViewScreen extends Screen
      */
     public function commandBar(): array
     {
-        
+
         return [
             // Button::make('Download')
             //     ->icon('cloud-download')
             //     ->method('download'),
-
-            
-
-            // Link::make(__('Print/Download'))
-            //     ->icon('printer')
-            //     ->route('platform.sale.print')
-            //     ->target('_blank'),
 
             Button::make('Edit')
                 ->icon('pencil')
@@ -76,8 +66,6 @@ class SaleViewScreen extends Screen
     {
         return redirect()->route('platform.sale.edit', $sale->id);
     }
-
-    
 
     // function printDownload(Sale $sale) {
 

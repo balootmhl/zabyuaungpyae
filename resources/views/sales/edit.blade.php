@@ -1,6 +1,6 @@
 @extends('platform::dashboard')
 
-@section('title','Create Sale Invoice')
+@section('title','Edit Sale Invoice')
 @section('description', '')
 
 @section('navbar')
@@ -24,19 +24,22 @@
 	<form action="{{ route('platform.sale.store-custom') }}" method="POST">
 	{{-- <form action="" method="POST"> --}}
 		<input type="hidden" name="_token" value="{{ csrf_token() }}">
+		<input type="hidden" id="app_url" value="{{ config('app.url') }}">
+		<input type="hidden" name="items_count" id="items_count" value="{{ $items_count }}">
 		<div class="row justify-content-center invoice-form">
 			<div class="col-sm-2">
 				<div class="form-group">
 					<label for="sale[code]">Invoice Code</label>
-					<input type="text" name="invoice_code" class="form-control" required>
+					<input type="text" name="invoice_code" class="form-control" value="{{ $sale->invoice_code }}" disabled required>
 				</div>
 			</div>
 			<div class="col-sm-5">
 				<div class="form-group">
+
 					<label for="sale[user_id]">Admin or Branch</label>
 					<select class="form-control user-select2" name="user_id" multiple required>
 						@foreach ($users as $user)
-							<option value="{{ $user->id }}">{{ $user->name }}</option>
+							<option value="{{ $user->id }}" @if($user->id == $sale->user_id) selected="true" @endif>{{ $user->name }}</option>
 						@endforeach
 					</select>
 				</div>
@@ -46,7 +49,7 @@
 					<label for="sale[customer_id]">Customer</label>
 					<select class="form-control customer-select2" name="customer_id" multiple required>
 						@foreach ($customers as $customer)
-							<option value="{{ $customer->id }}">{{ $customer->name }}</option>
+							<option value="{{ $customer->id }}" @if($customer->id == $sale->customer_id) selected="true" @endif>{{ $customer->name }}</option>
 						@endforeach
 					</select>
 				</div>
@@ -54,40 +57,40 @@
 			<div class="col-sm-3">
 				<div class="form-group">
 					<label for="sale[date]">Date</label>
-					<input type="date" name="date" class="form-control" required>
+					<input type="date" name="date" class="form-control" value="{{ $sale->date }}" required>
 				</div>
 			</div>
 			<div class="col-sm-3">
 				<div class="form-group">
 					<label for="sale[customer_name]">Customer Name</label>
-					<input type="text" name="customer_name" class="form-control">
+					<input type="text" name="customer_name" class="form-control" value="{{ $sale->custom_name }}">
 				</div>
 			</div>
 			<div class="col-sm-6">
 				<div class="form-group">
 					<label for="address">Address</label>
-					<input type="text" name="address" class="form-control">
+					<input type="text" name="address" class="form-control" value="{{ $sale->custom_address }}">
 				</div>
 			</div>
 			<div class="col-sm-3">
 				<div class="form-group">
 					<label for="is_saleprice">Select Price</label>
 					<select class="form-control" name="is_saleprice" id="is_sale" required>
-						<option value="1">Sale Price</option>
-						<option value="0">Buy Price</option>
+						<option value="1" @if($sale->is_saleprice == 1) selected @endif>Sale Price</option>
+						<option value="0" @if($sale->is_saleprice == 0) selected @endif>Buy Price</option>
 					</select>
 				</div>
 			</div>
 			<div class="col-sm-3">
 				<div class="form-group">
 					<label for="discount">Discount</label>
-					<input type="text" id="discount" name="discount" class="form-control" value="0">
+					<input type="text" id="discount" name="discount" class="form-control" value="{{ $sale->discount }}">
 				</div>
 			</div>
 			<div class="col-sm-6">
 				<div class="form-group">
 					<label for="remark">Remark</label>
-					<input type="text" name="remarks" class="form-control">
+					<input type="text" name="remarks" class="form-control" value="{{ $sale->remarks }}">
 				</div>
 			</div>
 		</div>
@@ -152,7 +155,25 @@
 						</tr>
 					</thead>
 					<tbody id="new">
-
+						@foreach($sale->saleitems as $item)
+							<tr>
+								<td>{{ $loop->iteration }}</td>
+								<td>
+									{{ $item->product->code }} [{{ $item->product->name }}]
+								</td>
+								<td class="text-center">{{ $item->quantity }}</td>
+								@if($sale->is_saleprice == 1)
+                           <td class="text-center">{{ $item->product->sale_price }}</td>
+                        @else
+                           <td class="text-center">{{ $item->product->buy_price }}</td>
+                        @endif
+								@if($sale->is_saleprice == 1)
+                           <td class="text-center"><strong><input type="hidden" id="total" value="{{ $item->product->sale_price * $item->quantity }}">{{ $item->product->sale_price * $item->quantity }}</strong></td>
+                        @else
+                           <td class="text-center"><strong><input type="hidden" id="total" value="{{ $item->product->buy_price * $item->quantity }}">{{ $item->product->buy_price * $item->quantity }}</strong></td>
+                        @endif
+							</tr>
+						@endforeach
 					</tbody>
 					<tfoot>
 						<tr>
@@ -218,9 +239,10 @@
 	      $('#product').change(function() {
 	       var ids =   $(this).find(':selected')[0].id;
 	       var is_sale = $('#is_sale').val();
+	       var url = $('#app_url').val();
 	        $.ajax({
 	           type:'GET',
-	           url:'getPrice/{id}',
+	           url:url+'/admin/getPrice/{id}',
 	           data:{id:ids},
 	           dataType:'json',
 	           success:function(data)
@@ -240,7 +262,7 @@
 	      });
 
 	      //add to cart
-	      var count = 0;
+	      var count = $('#items_count').val();
 
 	      $('#add').on('click',function(){
 

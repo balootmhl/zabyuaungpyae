@@ -24,6 +24,7 @@
 	<form action="{{ route('platform.sale.store-custom') }}" method="POST">
 	{{-- <form action="" method="POST"> --}}
 		<input type="hidden" name="_token" value="{{ csrf_token() }}">
+		<input type="hidden" id="app_url" value="{{ config('app.url') }}">
 		<div class="row justify-content-center invoice-form">
 			<div class="col-sm-2">
 				<div class="form-group">
@@ -218,9 +219,10 @@
 	      $('#product').change(function() {
 	       var ids =   $(this).find(':selected')[0].id;
 	       var is_sale = $('#is_sale').val();
+	       var url = $('#app_url').val();
 	        $.ajax({
 	           type:'GET',
-	           url:'getPrice/{id}',
+	           url:url+'/admin/getPrice/{id}',
 	           data:{id:ids},
 	           dataType:'json',
 	           success:function(data)

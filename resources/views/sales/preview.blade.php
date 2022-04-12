@@ -8,6 +8,7 @@
     <div class="toolbar hidden-print">
         <div class="text-right">
             <button id="printInvoice" class="btn btn-info">{{-- <i class="fa fa-print"></i> --}}<x-orchid-icon path="printer"/>&nbsp; Print</button>
+            <a href="{{ route('platform.sale.edit-custom', $sale->id) }}" class="btn btn-info">{{-- <i class="fa fa-print"></i> --}}<x-orchid-icon path="pencil"/>&nbsp; Edit</a>
             {{-- <button class="btn btn-info"><i class="fa fa-file-pdf-o"></i> Export as PDF</button> --}}
         </div>
         <hr>
