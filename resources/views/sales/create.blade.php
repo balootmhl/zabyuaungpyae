@@ -129,7 +129,7 @@
 							<td>
 								<div class="form-group">
 									{{-- <label for="" style="visibility: hidden;">Select Product</label> --}}
-									<button type="button" id="add" class="btn btn-primary" onclick="clear()">Add</button>
+									<button type="button" id="add" class="btn btn-primary">Add</button>
 								</div>
 							</td>
 						</tr>

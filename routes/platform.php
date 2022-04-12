@@ -219,6 +219,7 @@ Route::screen('customers', CustomerListScreen::class)
 Route::get('sale/create-custom', 'App\Http\Controllers\SaleController@create')->name('platform.sale.create-custom');
 Route::post('sale/custom/store', 'App\Http\Controllers\SaleController@store')->name('platform.sale.store-custom');
 Route::get('sale/edit-custom/{id}', 'App\Http\Controllers\SaleController@edit')->name('platform.sale.edit-custom');
+Route::post('sale/custom/update', 'App\Http\Controllers\SaleController@update')->name('platform.sale.update-custom');
 Route::get('getPrice/{id}', 'App\Http\Controllers\RecipeController@getPrice');
 Route::screen('sale/{sale?}', SaleEditScreen::class)
     ->name('platform.sale.edit')->breadcrumbs(function (Trail $trail) {

@@ -21,10 +21,11 @@
 @section('content')
 
 <div class="bg-white rounded shadow-sm p-4 py-4 d-flex flex-column">
-	<form action="{{ route('platform.sale.store-custom') }}" method="POST">
+	<form action="{{ route('platform.sale.update-custom') }}" method="POST">
 	{{-- <form action="" method="POST"> --}}
 		<input type="hidden" name="_token" value="{{ csrf_token() }}">
 		<input type="hidden" id="app_url" value="{{ config('app.url') }}">
+		<input type="hidden" id="sale_id" name="sale_id" value="{{ $sale->id }}">
 		<input type="hidden" name="items_count" id="items_count" value="{{ $items_count }}">
 		<div class="row justify-content-center invoice-form">
 			<div class="col-sm-2">
@@ -185,9 +186,9 @@
 								<p><strong>Discount : MMK </strong></p>
 							</td>
 							<td class="text-center text-dark" >
-                              <h5> <strong><span id="subTotal"></strong></h5>
-                              <input type="hidden" id="sub_total" name="sub_total" value="">
-                              <h5> <strong><span id="taxAmount"></strong></h5>
+                              <h5> <strong><span id="subTotal">{{ $sale->sub_total }}</span></strong></h5>
+                              <input type="hidden" id="sub_total" name="sub_total" value="{{ $sale->sub_total }}">
+                              <h5> <strong><span id="taxAmount">{{ $sale->discount }}</strong></h5>
                            </td>
 						</tr>
 						<tr>
@@ -198,8 +199,8 @@
                               <h5><strong>Gross Total: MMK </strong></h5>
                            </td>
                            <td class="text-center text-danger">
-                              <h5 id="totalPayment"><strong> </strong></h5>
-                              <input type="hidden" id="grand_total" name="grand_total" value="">
+                              <h5 id="totalPayment"><strong>{{ $sale->grand_total }}</strong></h5>
+                              <input type="hidden" id="grand_total" name="grand_total" value="{{ $sale->grand_total }}">
                            </td>
                         </tr>
 					</tfoot>
@@ -285,7 +286,7 @@
 	         function billFunction()
 	           {
 	           var total = 0;
-	           var iteration = count+1;
+	           var iteration = parseInt(count)+1;
 	           $("#receipt_bill").each(function () {
 	           var total =  price*qty;
 	           var subTotal = 0;
