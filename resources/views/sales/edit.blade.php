@@ -29,16 +29,16 @@
 		<input type="hidden" id="sale_id" name="sale_id" value="{{ $sale->id }}">
 		<input type="hidden" name="items_count" id="items_count" value="{{ $items_count }}">
 		<div class="row justify-content-center invoice-form">
-			<div class="col-sm-2">
+			<div class="col-sm-3">
 				<div class="form-group">
-					<label for="sale[code]">Invoice Code</label>
+					<label for="code">Invoice Code</label>
 					<input type="text" name="invoice_code" class="form-control" value="{{ $sale->invoice_code }}" required>
 				</div>
 			</div>
 			<div class="col-sm-5">
 				<div class="form-group">
 
-					<label for="sale[user_id]">Admin or Branch</label>
+					<label for="user_id">Admin or Branch</label>
 					<select class="form-control user-select2" name="user_id" multiple required>
 						@foreach ($users as $user)
 							<option value="{{ $user->id }}" @if($user->id == $sale->user_id) selected="true" @endif>{{ $user->name }}</option>
@@ -54,7 +54,7 @@
 			</div>
 			<div class="col-sm-5">
 				<div class="form-group">
-					<label for="sale[customer_id]">Customer</label>
+					<label for="customer_id">Customer</label>
 					<select class="form-control customer-select2" name="customer_id" multiple="multiple" >
 						@foreach ($customers as $customer)
 							<option value="{{ $customer->name }}" @if($customer->id == $sale->customer_id) selected="true" @endif>{{ $customer->name }}</option>
@@ -85,7 +85,7 @@
 			</div>
 			<div class="col-sm-6">
 				<div class="form-group">
-					<label for="remark">Remark</label>
+					<label for="remarks">Remark</label>
 					<input type="text" name="remarks" class="form-control" value="{{ $sale->remarks }}">
 				</div>
 			</div>
