@@ -36,7 +36,7 @@ class SaleListLayout extends Table
                         ->route('platform.sale.view', $sale->id);
                 }),
 
-            TD::make('customer_name', 'Customer Name')->sort()->filter(Input::make())
+            TD::make('custom_name', 'Customer Name')->sort()->filter(Input::make())
                 ->render(function (Sale $sale) {
                     return $sale->custom_name;
 
@@ -55,6 +55,11 @@ class SaleListLayout extends Table
                     return $sale->grand_total . ' MMK';
                 })->sort(),
 
+            TD::make('items', 'Items')
+                ->render(function (Sale $sale) {
+                    return count($sale->saleitems);
+                }),
+
             TD::make(__('Actions'))
                 ->align(TD::ALIGN_CENTER)
                 ->width('100px')
@@ -65,6 +70,10 @@ class SaleListLayout extends Table
 
                             Link::make(__('Edit'))
                                 ->route('platform.sale.edit', $sale->id)
+                                ->icon('pencil'),
+
+                            Link::make(__('Edit beta'))
+                                ->route('platform.sale.edit-custom', $sale->id)
                                 ->icon('pencil'),
 
                             Button::make(__('Delete'))

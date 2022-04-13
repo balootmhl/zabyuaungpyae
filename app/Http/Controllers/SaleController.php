@@ -104,4 +104,5 @@ class SaleController extends Controller
 
         return redirect()->route('platform.sale.view', $sale->id);
     }
+
 }

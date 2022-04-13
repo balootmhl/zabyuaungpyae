@@ -2,6 +2,7 @@
 
 namespace App\Orchid\Screens;
 
+use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Sale;
 use App\Orchid\Layouts\SaleListLayout;
@@ -55,6 +56,11 @@ class SaleListScreen extends Screen
             //     ->method('fixPrice')
             //     ->icon('wrench')
             //     ->novalidate(),
+
+            Button::make('Fix Names')
+                ->method('customName')
+                ->icon('wrench')
+                ->novalidate(),
 
             Button::make('Export')
                 ->method('export')
@@ -153,6 +159,20 @@ class SaleListScreen extends Screen
 
         Alert::info('You have updated prices of sale invoices.');
 
+        return redirect()->route('platform.sale.list');
+    }
+
+    public function customName($value = '')
+    {
+        $sales = Sale::all();
+        foreach ($sales as $sale) {
+            if ($sale->custom_name == null || $sale->custom_name == '') {
+                $customer = Customer::findOrFail($sale->customer->id);
+                $sale->custom_name = $customer->name;
+                $sale->save();
+            }
+        }
+        Alert::success('The names are fixed.');
         return redirect()->route('platform.sale.list');
     }
 }
