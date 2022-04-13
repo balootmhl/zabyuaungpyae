@@ -53,7 +53,7 @@
 					<label for="customer_id">Customer</label>
 					<select class="form-control customer-select2" name="customer_id" required multiple >
 						@foreach ($customers as $customer)
-							<option value="{{ $customer->id }}">{{ $customer->name }}</option>
+							<option value="{{ $customer->name }}">{{ $customer->name }}</option>
 						@endforeach
 					</select>
 				</div>

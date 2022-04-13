@@ -32,7 +32,7 @@
 			<div class="col-sm-2">
 				<div class="form-group">
 					<label for="sale[code]">Invoice Code</label>
-					<input type="text" name="invoice_code" class="form-control" value="{{ $sale->invoice_code }}" disabled required>
+					<input type="text" name="invoice_code" class="form-control" value="{{ $sale->invoice_code }}" required>
 				</div>
 			</div>
 			<div class="col-sm-5">
@@ -46,29 +46,23 @@
 					</select>
 				</div>
 			</div>
-			<div class="col-sm-5">
-				<div class="form-group">
-					<label for="sale[customer_id]">Customer</label>
-					<select class="form-control customer-select2" name="customer_id" multiple="multiple" >
-						@foreach ($customers as $customer)
-							<option value="{{ $customer->id }}" @if($customer->id == $sale->customer_id) selected="true" @endif>{{ $customer->name }}</option>
-						@endforeach
-					</select>
-				</div>
-			</div>
-			<div class="col-sm-3">
+			<div class="col-sm-4">
 				<div class="form-group">
 					<label for="sale[date]">Date</label>
 					<input type="date" name="date" class="form-control" value="{{ $sale->date }}" required>
 				</div>
 			</div>
-			<div class="col-sm-3">
+			<div class="col-sm-5">
 				<div class="form-group">
-					<label for="sale[customer_name]">Customer Name</label>
-					<input type="text" name="customer_name" class="form-control" value="{{ $sale->custom_name }}">
+					<label for="sale[customer_id]">Customer</label>
+					<select class="form-control customer-select2" name="customer_id" multiple="multiple" >
+						@foreach ($customers as $customer)
+							<option value="{{ $customer->name }}" @if($customer->id == $sale->customer_id) selected="true" @endif>{{ $customer->name }}</option>
+						@endforeach
+					</select>
 				</div>
 			</div>
-			<div class="col-sm-6">
+			<div class="col-sm-7">
 				<div class="form-group">
 					<label for="address">Address</label>
 					<input type="text" name="address" class="form-control" value="{{ $sale->custom_address }}">
@@ -209,13 +203,12 @@
 			</div>
 		</div>
 		<div class="row justify-content-center invoice-form">
-			<div class="col-sm-1">
-				<button type="button" class="btn btn-warning" onclick="window.location.reload();">Refresh</button>
-			</div>
-			<div class="col-sm-1">
-				<input type="submit" class="btn btn-success" value="Save Invoice">
-			</div>
-			<div class="col-sm-10">
+			<div class="col-sm-12">
+				<div class="toolbar">
+					<button type="button" class="btn btn-warning" onclick="window.location.reload();">Refresh</button>
+					<input type="submit" class="btn btn-success" value="Save Invoice">
+				</div>
+
 			</div>
 		</div>
 	</form>
