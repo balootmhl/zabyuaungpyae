@@ -26,12 +26,13 @@ class SaleController extends Controller
         $year = str_replace("20", "", date('Y'));
         $month = date('m');
         $sale = new Sale();
+        $customer = firstOrCreate(['code' => '0000-0000', 'name' => $request->get('customer_id')]);
         $sale->invoice_code = $request->get('invoice_code');
         $sale->invoice_no = '#' . $year . $month . $request->get('invoice_code');
         $sale->user_id = $request->get('user_id');
-        $sale->customer_id = $request->get('customer_id');
+        $sale->customer_id = $customer->id;
         $sale->date = $request->get('date');
-        $sale->custom_name = $request->get('customer_name');
+        $sale->custom_name = $customer->name;
         $sale->custom_address = $request->get('address');
         $sale->is_saleprice = $request->get('is_saleprice');
         $sale->discount = $request->get('discount');

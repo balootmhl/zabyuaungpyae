@@ -58,7 +58,13 @@
                     <div class="col invoice-to">
                         <div class="text-gray-light">INVOICE TO:</div>
                         <h5 class="to">{{ $sale->customer->name }}</h5>
-                        <div class="address">{{ $sale->customer->address }}</div>
+                        <div class="address">
+                            @if($sale->customer->address)
+                                {{ $sale->customer->address }}
+                            @else
+                                {{ $sale->customer->custom_address }}
+                            @endif
+                        </div>
                         {{-- <div class="email"><a href="mailto:john@example.com">john@example.com</a></div> --}}
                     </div>
                     <div class="col invoice-details">

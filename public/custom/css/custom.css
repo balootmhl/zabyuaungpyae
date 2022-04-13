@@ -11,7 +11,13 @@ span.text-ellipsis {
 .invoice-form .col-sm-2,
 .invoice-form .col-sm-3,
 .invoice-form .col-sm-4,
+.invoice-form .col-sm-5,
 .invoice-form .col-sm-6,
+.invoice-form .col-sm-7,
 .invoice-form .col-sm-12 {
 	margin-bottom: 20px;
+}
+
+.toolbar .btn {
+   display: inline-block !important;
 }

@@ -10,6 +10,7 @@
 @stop
 
 @push('head')
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 	<style>
 		.select2 {
@@ -48,7 +49,7 @@
 			<div class="col-sm-5">
 				<div class="form-group">
 					<label for="sale[customer_id]">Customer</label>
-					<select class="form-control customer-select2" name="customer_id" multiple required>
+					<select class="form-control customer-select2" name="customer_id" multiple="multiple" >
 						@foreach ($customers as $customer)
 							<option value="{{ $customer->id }}" @if($customer->id == $sale->customer_id) selected="true" @endif>{{ $customer->name }}</option>
 						@endforeach
@@ -223,16 +224,27 @@
 @stop
 
 @push('scripts')
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 	<script type="text/javascript">
 		// activate select2 plugin
 		$(document).ready(function() {
-		    $('.user-select2').select2();
+		    $('.user-select2').select2({
+		    	placeholder: 'Select User',
+            theme: "bootstrap"
+		    });
 		});
 		$(document).ready(function() {
-		    $('.customer-select2').select2();
+		    $('.customer-select2').select2({
+		    	placeholder: 'Enter to select or create',
+		    	tags: true,
+            theme: "bootstrap"
+		    });
 		});
 		$(document).ready(function() {
-		    $('.product-select2').select2();
+		    $('.product-select2').select2({
+		    	placeholder: 'Select Product',
+		    	theme: "bootstrap"
+		    });
 		});
 	</script>
 	<script>

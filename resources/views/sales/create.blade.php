@@ -26,15 +26,15 @@
 		<input type="hidden" name="_token" value="{{ csrf_token() }}">
 		<input type="hidden" id="app_url" value="{{ config('app.url') }}">
 		<div class="row justify-content-center invoice-form">
-			<div class="col-sm-2">
+			<div class="col-sm-3">
 				<div class="form-group">
-					<label for="sale[code]">Invoice Code</label>
+					<label for="invoice_code">Invoice Code</label>
 					<input type="text" name="invoice_code" class="form-control" required>
 				</div>
 			</div>
 			<div class="col-sm-5">
 				<div class="form-group">
-					<label for="sale[user_id]">Admin or Branch</label>
+					<label for="user_id">Admin or Branch</label>
 					<select class="form-control user-select2" name="user_id" multiple required>
 						@foreach ($users as $user)
 							<option value="{{ $user->id }}">{{ $user->name }}</option>
@@ -42,34 +42,34 @@
 					</select>
 				</div>
 			</div>
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label for="date">Date</label>
+					<input type="date" name="date" class="form-control" required>
+				</div>
+			</div>
 			<div class="col-sm-5">
 				<div class="form-group">
-					<label for="sale[customer_id]">Customer</label>
-					<select class="form-control customer-select2" name="customer_id" multiple required>
+					<label for="customer_id">Customer</label>
+					<select class="form-control customer-select2" name="customer_id" required multiple >
 						@foreach ($customers as $customer)
 							<option value="{{ $customer->id }}">{{ $customer->name }}</option>
 						@endforeach
 					</select>
 				</div>
 			</div>
-			<div class="col-sm-3">
+			<div class="col-sm-7">
 				<div class="form-group">
-					<label for="sale[date]">Date</label>
-					<input type="date" name="date" class="form-control" required>
+					<label for="address">Address</label>
+					<input type="text" name="address" class="form-control">
 				</div>
-			</div>
+			</div>{{--
 			<div class="col-sm-3">
 				<div class="form-group">
 					<label for="sale[customer_name]">Customer Name</label>
 					<input type="text" name="customer_name" class="form-control">
 				</div>
-			</div>
-			<div class="col-sm-6">
-				<div class="form-group">
-					<label for="address">Address</label>
-					<input type="text" name="address" class="form-control">
-				</div>
-			</div>
+			</div> --}}
 			<div class="col-sm-3">
 				<div class="form-group">
 					<label for="is_saleprice">Select Price</label>
@@ -87,7 +87,7 @@
 			</div>
 			<div class="col-sm-6">
 				<div class="form-group">
-					<label for="remark">Remark</label>
+					<label for="remarks">Remark</label>
 					<input type="text" name="remarks" class="form-control">
 				</div>
 			</div>
@@ -187,13 +187,12 @@
 			</div>
 		</div>
 		<div class="row justify-content-center invoice-form">
-			<div class="col-sm-1">
-				<button type="button" class="btn btn-warning" onclick="window.location.reload();">Refresh</button>
-			</div>
-			<div class="col-sm-1">
-				<input type="submit" class="btn btn-success" value="Save Invoice">
-			</div>
-			<div class="col-sm-10">
+			<div class="col-sm-12">
+				<div class="toolbar">
+					<button type="button" class="btn btn-warning" onclick="window.location.reload();">Refresh</button>
+					<input type="submit" class="btn btn-success" value="Save Invoice">
+				</div>
+
 			</div>
 		</div>
 	</form>
@@ -205,13 +204,23 @@
 	<script type="text/javascript">
 		// activate select2 plugin
 		$(document).ready(function() {
-		    $('.user-select2').select2();
+		    $('.user-select2').select2({
+		    	placeholder: 'Select User',
+            theme: "bootstrap"
+		    });
 		});
 		$(document).ready(function() {
-		    $('.customer-select2').select2();
+		    $('.customer-select2').select2({
+		    	placeholder: 'Enter to select or create',
+		    	tags: true,
+            theme: "bootstrap"
+		    });
 		});
 		$(document).ready(function() {
-		    $('.product-select2').select2();
+		    $('.product-select2').select2({
+		    	placeholder: 'Select Product',
+		    	theme: "bootstrap"
+		    });
 		});
 	</script>
 	<script>

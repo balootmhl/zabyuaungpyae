@@ -3,10 +3,10 @@
 namespace App\Orchid\Layouts;
 
 use App\Models\Sale;
-use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\Link;
+use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
 
@@ -38,7 +38,8 @@ class SaleListLayout extends Table
 
             TD::make('customer_name', 'Customer Name')->sort()->filter(Input::make())
                 ->render(function (Sale $sale) {
-                    return $sale->customer->name;
+                    return $sale->custom_name;
+
                 }),
             TD::make('user_id', 'Invoice By')->sort()->filter(Input::make())
                 ->render(function (Sale $sale) {
