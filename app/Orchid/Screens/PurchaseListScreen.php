@@ -56,6 +56,10 @@ class PurchaseListScreen extends Screen
                 ->rawClick()
                 ->novalidate(),
 
+            Link::make('Create beta')
+                ->icon('plus')
+                ->route('platform.purchase.create-custom'),
+
             Link::make('Create new')
                 ->icon('plus')
                 ->route('platform.purchase.edit'),

@@ -1,6 +1,6 @@
 @extends('platform::dashboard')
 
-@section('title','Create Sale Invoice')
+@section('title','Create Purchase Invoice')
 @section('description', '')
 
 @section('navbar')
@@ -21,7 +21,7 @@
 @section('content')
 
 <div class="bg-white rounded shadow-sm p-4 py-4 d-flex flex-column">
-	<form action="{{ route('platform.sale.store-custom') }}" method="POST">
+	<form action="{{ route('platform.purchase.store-custom') }}" method="POST">
 	{{-- <form action="" method="POST"> --}}
 		<input type="hidden" name="_token" value="{{ csrf_token() }}">
 		<input type="hidden" id="app_url" value="{{ config('app.url') }}">
@@ -50,10 +50,10 @@
 			</div>
 			<div class="col-sm-5">
 				<div class="form-group">
-					<label for="customer_id">Customer</label>
-					<select class="form-control customer-select2" name="customer_id" required multiple >
-						@foreach ($customers as $customer)
-							<option value="{{ $customer->name }}">{{ $customer->name }}</option>
+					<label for="customer_id">Supplier</label>
+					<select class="form-control supplier-select2" name="customer_id" required multiple >
+						@foreach ($suppliers as $supplier)
+							<option value="{{ $supplier->name }}">{{ $supplier->name }}</option>
 						@endforeach
 					</select>
 				</div>
@@ -71,13 +71,13 @@
 				</div>
 			</div> --}}
 			<div class="col-sm-3">
-				<div class="form-group">
+				{{-- <div class="form-group">
 					<label for="is_saleprice">Select Price</label>
 					<select class="form-control" name="is_saleprice" id="is_sale" required>
 						<option value="1">Sale Price</option>
 						<option value="0">Buy Price</option>
 					</select>
-				</div>
+				</div> --}}
 			</div>
 			<div class="col-sm-3">
 				<div class="form-group">
@@ -87,7 +87,7 @@
 			</div>
 			<div class="col-sm-6">
 				<div class="form-group">
-					<label for="remarks">Remark</label>
+					<label for="remarks">Remarks</label>
 					<input type="text" name="remarks" class="form-control">
 				</div>
 			</div>
@@ -118,7 +118,7 @@
 							</td>
 							<td width="15%">
 								{{-- <label for="">Price</label> --}}
-								<h6 class="mt-1" id="price" ></h6>
+								<input type="number" id="price" class="form-control" />
 							</td>
 							<td>
 								<div class="form-group">
@@ -210,7 +210,7 @@
 		    });
 		});
 		$(document).ready(function() {
-		    $('.customer-select2').select2({
+		    $('.supplier-select2').select2({
 		    	placeholder: 'Enter to select or create',
 		    	tags: true,
             theme: "bootstrap"
@@ -224,31 +224,31 @@
 		});
 	</script>
 	<script>
-	    $(document).ready(function(){
-	      $('#product').change(function() {
-	       var ids =   $(this).find(':selected')[0].id;
-	       var is_sale = $('#is_sale').val();
-	       var url = $('#app_url').val();
-	        $.ajax({
-	           type:'GET',
-	           url:url+'/admin/getPrice/{id}',
-	           data:{id:ids},
-	           dataType:'json',
-	           success:function(data)
-	             {
+	    // $(document).ready(function(){
+	    //   $('#product').change(function() {
+	    //    var ids =   $(this).find(':selected')[0].id;
+	    //    var is_sale = $('#is_sale').val();
+	    //    var url = $('#app_url').val();
+	    //     $.ajax({
+	    //        type:'GET',
+	    //        url:url+'/admin/getPrice/{id}',
+	    //        data:{id:ids},
+	    //        dataType:'json',
+	    //        success:function(data)
+	    //          {
 
-	                 $.each(data, function(key, resp)
-	                 {
-	                 	if(is_sale == '1') {
-	                 		$('#price').text(resp.sale_price);
-	                 	} else {
-	                 		$('#price').text(resp.buy_price);
-	                 	}
+	    //              $.each(data, function(key, resp)
+	    //              {
+	    //              	if(is_sale == '1') {
+	    //              		$('#price').text(resp.sale_price);
+	    //              	} else {
+	    //              		$('#price').text(resp.buy_price);
+	    //              	}
 
-	                });
-	             }
-	        });
-	      });
+	    //             });
+	    //          }
+	    //     });
+	    //   });
 
 	      //add to cart
 	      var count = 0;
@@ -258,7 +258,7 @@
 	         var name = $('#product').val();
 	         var p_id = $('#product').find(':selected')[0].id;
 	         var qty = $('#qty').val();
-	         var price = $('#price').text();
+	         var price = $('#price').val();
 	         var discount = $('#discount').val();
 
 	         if(qty == 0)
@@ -280,7 +280,7 @@
 	           var subTotal = 0;
 	           subTotal += parseInt(total);
 
-	           var table =   '<tr><td>'+ iteration +'</td><td>'+ name + '<input type="hidden" name="products['+count+'][product_id]" value="'+p_id+'"></td><td class="text-center">' + qty + '<input type="hidden" name="products['+count+'][qty]" value="'+qty+'"></td><td class="text-center">' + price + '</td><td class="text-center"><strong><input type="hidden" id="total" value="'+total+'">' +total+ '</strong></td></tr>';
+	           var table =   '<tr><td>'+ iteration +'</td><td>'+ name + '<input type="hidden" name="products['+count+'][product_id]" value="'+p_id+'"></td><td class="text-center">' + qty + '<input type="hidden" name="products['+count+'][qty]" value="'+qty+'"></td><td class="text-center">' + price + '<input type="hidden" name="products['+count+'][price]" value="'+price+'"></td><td class="text-center"><strong><input type="hidden" id="total" value="'+total+'">' +total+ '</strong></td></tr>';
 	           $('#new').append(table)
 
 	            // Code for Sub Total of Vegitables

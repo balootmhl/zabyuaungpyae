@@ -3,10 +3,10 @@
 namespace App\Orchid\Layouts;
 
 use App\Models\Purchase;
-use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\Link;
+use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
 
@@ -64,6 +64,10 @@ class PurchaseListLayout extends Table
 
                             Link::make(__('Edit'))
                                 ->route('platform.purchase.edit', $purchase->id)
+                                ->icon('pencil'),
+
+                            Link::make(__('Edit beta'))
+                                ->route('platform.purchase.edit-custom', $purchase->id)
                                 ->icon('pencil'),
 
                             Button::make(__('Delete'))

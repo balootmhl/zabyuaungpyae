@@ -266,6 +266,10 @@ Route::screen('suppliers', SupplierListScreen::class)
 });
 
 // Purchase Record Routes
+Route::get('purchase/create-custom', 'App\Http\Controllers\PurchaseController@create')->name('platform.purchase.create-custom');
+Route::post('purchase/custom/store', 'App\Http\Controllers\PurchaseController@store')->name('platform.purchase.store-custom');
+Route::get('purchase/edit-custom/{id}', 'App\Http\Controllers\PurchaseController@edit')->name('platform.purchase.edit-custom');
+Route::post('purchase/custom/update', 'App\Http\Controllers\PurchaseController@update')->name('platform.purchase.update-custom');
 Route::screen('purchase/{purchase?}', PurchaseEditScreen::class)
     ->name('platform.purchase.edit')->breadcrumbs(function (Trail $trail) {
     return $trail
