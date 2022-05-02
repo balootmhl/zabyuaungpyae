@@ -29,10 +29,19 @@
 		<input type="hidden" id="sale_id" name="sale_id" value="{{ $sale->id }}">
 		<input type="hidden" name="items_count" id="items_count" value="{{ $items_count }}">
 		<div class="row justify-content-center invoice-form">
-			<div class="col-sm-3">
+			<div class="col-sm-2">
 				<div class="form-group">
 					<label for="code">Invoice Code</label>
-					<input type="text" name="invoice_code" class="form-control" value="{{ $sale->invoice_code }}" required>
+					<input type="text" name="invoice_code" class="form-control" value="{{ $sale->invoice_code }}">
+				</div>
+			</div>
+			<div class="col-sm-2">
+				<div class="form-group">
+					<label for="is_inv_auto">Inv system</label>
+					<select class="form-control" name="is_inv_auto" id="is_inv_auto" required>
+						<option value="1" @if($sale->is_inv_auto == 1) selected @endif>Auto</option>
+						<option value="0" @if($sale->is_inv_auto == 0) selected @endif>Manual</option>
+					</select>
 				</div>
 			</div>
 			<div class="col-sm-5">
@@ -46,7 +55,7 @@
 					</select>
 				</div>
 			</div>
-			<div class="col-sm-4">
+			<div class="col-sm-3">
 				<div class="form-group">
 					<label for="sale[date]">Date</label>
 					<input type="date" name="date" class="form-control" value="{{ $sale->date }}" required>
@@ -363,21 +372,12 @@
 
 	 </script>
 	 <script>
-	    window.onload = displayClock();
+	    // window.onload = displayClock();
 
-	     function displayClock(){
-	       var time = new Date().toLocaleTimeString();
-	       document.getElementById("time").innerHTML = time;
-	        setTimeout(displayClock, 1000);
-	     }
-	</script>
-	<script>
-		function clear() {
-
-	      	var table = document.getElementById('receipt_bill');
-		    // var rowCount = table.rows.length;
-
-		    table.deleteRow(0);
-	     }
+	    //  function displayClock(){
+	    //    var time = new Date().toLocaleTimeString();
+	    //    document.getElementById("time").innerHTML = time;
+	    //     setTimeout(displayClock, 1000);
+	    //  }
 	</script>
 @endpush

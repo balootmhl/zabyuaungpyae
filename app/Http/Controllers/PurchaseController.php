@@ -45,8 +45,9 @@ class PurchaseController extends Controller
             $items = $request->get('products');
             foreach ($items as $item) {
                 $purchaseitem = new Purchaseitem();
-                $purchaseitem->product_id = $item['product_id'];
                 $purchaseitem->purchase_id = $purchase->id;
+                $purchaseitem->product_id = $item['product_id'];
+                $purchaseitem->price = $item['price'];
                 $purchaseitem->quantity = $item['qty'];
                 $purchaseitem->save();
                 $product = Product::findOrFail($purchaseitem->product_id);

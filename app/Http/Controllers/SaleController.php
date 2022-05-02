@@ -28,18 +28,26 @@ class SaleController extends Controller
         $sale = new Sale();
         $customer = firstOrCreate(['name' => $request->get('customer_id')]);
         $sale->invoice_code = $request->get('invoice_code');
-        $sale->invoice_no = '#' . $year . $month . $request->get('invoice_code');
+        if ($request->get('is_inv_auto') == 0) {
+            $sale->invoice_no = '#' . $year . $month . $request->get('invoice_code');
+        }
+
         $sale->user_id = $request->get('user_id');
         $sale->customer_id = $customer->id;
         $sale->date = $request->get('date');
         $sale->custom_name = $customer->name;
         $sale->custom_address = $request->get('address');
         $sale->is_saleprice = $request->get('is_saleprice');
+        $sale->is_inv_auto = $request->get('is_inv_auto');
         $sale->discount = $request->get('discount');
         $sale->remarks = $request->get('remarks');
         $sale->sub_total = $request->get('sub_total');
         $sale->grand_total = $request->get('grand_total');
         $sale->save();
+        if ($request->get('is_inv_auto') == 1) {
+            $sale->invoice_no = '#01' . str_replace("-", "", $sale->date) . $sale->id;
+            $sale->update();
+        }
 
         if ($request->has('products')) {
             $items = $request->get('products');

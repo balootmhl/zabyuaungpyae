@@ -74,10 +74,10 @@
                             <th class="text-right" style="padding:0 !important;">#</th>
                             <th class="text-left">Code</th>
                             <th class="text-left">Description</th>
-                            <th class="text-center">Check</th>
-                            <th style="text-align: right !important;" >Unit Price</th>
+                            <th class="text-center" style="width: 20px !important;"></th>
+                            <th style="text-align: right !important;" >Price</th>
                             <th style="text-align: right !important;" >Qty</th>
-                            <th style="text-align: right !important;" >Unit Total</th>
+                            <th style="text-align: right !important;" >Total</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -91,9 +91,9 @@
                                    {{ $purchaseitem->product->name }}
                                 </td>
 	                            <td class="text-center"><input type="checkbox" unchecked></td>
-	                            <td class="unit">{{ $purchaseitem->product->buy_price }} Ks</td>
+	                            <td class="unit">{{ $purchaseitem->product->buy_price }}</td>
 	                            <td class="qty">{{ $purchaseitem->quantity }}</td>
-	                            <td class="total">{{ $purchaseitem->product->buy_price * $purchaseitem->quantity }} Ks</td>
+	                            <td class="total">{{ $purchaseitem->product->buy_price * $purchaseitem->quantity }}</td>
 	                        </tr>
                     	@endforeach
 

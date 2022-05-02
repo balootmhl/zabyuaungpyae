@@ -26,13 +26,13 @@
 	{{-- <form action="" method="POST"> --}}
 		<input type="hidden" name="_token" value="{{ csrf_token() }}">
 		<input type="hidden" id="app_url" value="{{ config('app.url') }}">
-		<input type="hidden" id="sale_id" name="sale_id" value="{{ $sale->id }}">
+		<input type="hidden" id="purchase_id" name="purchase_id" value="{{ $purchase->id }}">
 		<input type="hidden" name="items_count" id="items_count" value="{{ $items_count }}">
 		<div class="row justify-content-center invoice-form">
 			<div class="col-sm-3">
 				<div class="form-group">
 					<label for="code">Invoice Code</label>
-					<input type="text" name="invoice_code" class="form-control" value="{{ $sale->invoice_code }}" required>
+					<input type="text" name="invoice_code" class="form-control" value="{{ $purchase->invoice_code }}" required>
 				</div>
 			</div>
 			<div class="col-sm-5">
@@ -41,7 +41,7 @@
 					<label for="user_id">Admin or Branch</label>
 					<select class="form-control user-select2" name="user_id" multiple required>
 						@foreach ($users as $user)
-							<option value="{{ $user->id }}" @if($user->id == $sale->user_id) selected="true" @endif>{{ $user->name }}</option>
+							<option value="{{ $user->id }}" @if($user->id == $purchase->user_id) selected="true" @endif>{{ $user->name }}</option>
 						@endforeach
 					</select>
 				</div>
@@ -49,7 +49,7 @@
 			<div class="col-sm-4">
 				<div class="form-group">
 					<label for="sale[date]">Date</label>
-					<input type="date" name="date" class="form-control" value="{{ $sale->date }}" required>
+					<input type="date" name="date" class="form-control" value="{{ $purchase->date }}" required>
 				</div>
 			</div>
 			<div class="col-sm-5">
@@ -57,7 +57,7 @@
 					<label for="customer_id">Customer</label>
 					<select class="form-control customer-select2" name="customer_id" multiple="multiple" >
 						@foreach ($customers as $customer)
-							<option value="{{ $customer->name }}" @if($customer->id == $sale->customer_id) selected="true" @endif>{{ $customer->name }}</option>
+							<option value="{{ $customer->name }}" @if($customer->id == $purchase->customer_id) selected="true" @endif>{{ $customer->name }}</option>
 						@endforeach
 					</select>
 				</div>
@@ -65,28 +65,28 @@
 			<div class="col-sm-7">
 				<div class="form-group">
 					<label for="address">Address</label>
-					<input type="text" name="address" class="form-control" value="{{ $sale->custom_address }}">
+					<input type="text" name="address" class="form-control" value="{{ $purchase->custom_address }}">
 				</div>
 			</div>
 			<div class="col-sm-3">
 				<div class="form-group">
 					<label for="is_saleprice">Select Price</label>
 					<select class="form-control" name="is_saleprice" id="is_sale" required>
-						<option value="1" @if($sale->is_saleprice == 1) selected @endif>Sale Price</option>
-						<option value="0" @if($sale->is_saleprice == 0) selected @endif>Buy Price</option>
+						<option value="1" @if($purchase->is_saleprice == 1) selected @endif>Sale Price</option>
+						<option value="0" @if($purchase->is_saleprice == 0) selected @endif>Buy Price</option>
 					</select>
 				</div>
 			</div>
 			<div class="col-sm-3">
 				<div class="form-group">
 					<label for="discount">Discount</label>
-					<input type="text" id="discount" name="discount" class="form-control" value="{{ $sale->discount }}">
+					<input type="text" id="discount" name="discount" class="form-control" value="{{ $purchase->discount }}">
 				</div>
 			</div>
 			<div class="col-sm-6">
 				<div class="form-group">
 					<label for="remarks">Remark</label>
-					<input type="text" name="remarks" class="form-control" value="{{ $sale->remarks }}">
+					<input type="text" name="remarks" class="form-control" value="{{ $purchase->remarks }}">
 				</div>
 			</div>
 		</div>
@@ -151,19 +151,19 @@
 						</tr>
 					</thead>
 					<tbody id="new">
-						@foreach($sale->saleitems as $item)
+						@foreach($purchase->purchaseitems as $item)
 							<tr>
 								<td>{{ $loop->iteration }}</td>
 								<td>
 									{{ $item->product->code }} [{{ $item->product->name }}]
 								</td>
 								<td class="text-center">{{ $item->quantity }}</td>
-								@if($sale->is_saleprice == 1)
+								@if($purchase->is_saleprice == 1)
                            <td class="text-center">{{ $item->product->sale_price }}</td>
                         @else
                            <td class="text-center">{{ $item->product->buy_price }}</td>
                         @endif
-								@if($sale->is_saleprice == 1)
+								@if($purchase->is_saleprice == 1)
                            <td class="text-center"><strong><input type="hidden" id="total" value="{{ $item->product->sale_price * $item->quantity }}">{{ $item->product->sale_price * $item->quantity }}</strong></td>
                         @else
                            <td class="text-center"><strong><input type="hidden" id="total" value="{{ $item->product->buy_price * $item->quantity }}">{{ $item->product->buy_price * $item->quantity }}</strong></td>
@@ -181,9 +181,9 @@
 								<p><strong>Discount : MMK </strong></p>
 							</td>
 							<td class="text-center text-dark" >
-                              <h5> <strong><span id="subTotal">{{ $sale->sub_total }}</span></strong></h5>
-                              <input type="hidden" id="sub_total" name="sub_total" value="{{ $sale->sub_total }}">
-                              <h5> <strong><span id="taxAmount">{{ $sale->discount }}</strong></h5>
+                              <h5> <strong><span id="subTotal">{{ $purchase->sub_total }}</span></strong></h5>
+                              <input type="hidden" id="sub_total" name="sub_total" value="{{ $purchase->sub_total }}">
+                              <h5> <strong><span id="taxAmount">{{ $purchase->discount }}</strong></h5>
                            </td>
 						</tr>
 						<tr>
@@ -194,8 +194,8 @@
                               <h5><strong>Gross Total: MMK </strong></h5>
                            </td>
                            <td class="text-center text-danger">
-                              <h5 id="totalPayment"><strong>{{ $sale->grand_total }}</strong></h5>
-                              <input type="hidden" id="grand_total" name="grand_total" value="{{ $sale->grand_total }}">
+                              <h5 id="totalPayment"><strong>{{ $purchase->grand_total }}</strong></h5>
+                              <input type="hidden" id="grand_total" name="grand_total" value="{{ $purchase->grand_total }}">
                            </td>
                         </tr>
 					</tfoot>
@@ -363,21 +363,12 @@
 
 	 </script>
 	 <script>
-	    window.onload = displayClock();
+	    // window.onload = displayClock();
 
-	     function displayClock(){
-	       var time = new Date().toLocaleTimeString();
-	       document.getElementById("time").innerHTML = time;
-	        setTimeout(displayClock, 1000);
-	     }
-	</script>
-	<script>
-		function clear() {
-
-	      	var table = document.getElementById('receipt_bill');
-		    // var rowCount = table.rows.length;
-
-		    table.deleteRow(0);
-	     }
+	    //  function displayClock(){
+	    //    var time = new Date().toLocaleTimeString();
+	    //    document.getElementById("time").innerHTML = time;
+	    //     setTimeout(displayClock, 1000);
+	    //  }
 	</script>
 @endpush

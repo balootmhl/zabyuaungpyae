@@ -117,8 +117,10 @@
 								</div>
 							</td>
 							<td width="15%">
+								<div class="form-group">
 								{{-- <label for="">Price</label> --}}
-								<input type="number" id="price" class="form-control" />
+									<input type="number" id="price" class="form-control" value="0" />
+								</div>
 							</td>
 							<td>
 								<div class="form-group">
@@ -224,7 +226,7 @@
 		});
 	</script>
 	<script>
-	    // $(document).ready(function(){
+	    $(document).ready(function(){
 	    //   $('#product').change(function() {
 	    //    var ids =   $(this).find(':selected')[0].id;
 	    //    var is_sale = $('#is_sale').val();
@@ -346,21 +348,12 @@
 
 	 </script>
 	 <script>
-	    window.onload = displayClock();
+	    // window.onload = displayClock();
 
-	     function displayClock(){
-	       var time = new Date().toLocaleTimeString();
-	       document.getElementById("time").innerHTML = time;
-	        setTimeout(displayClock, 1000);
-	     }
-	</script>
-	<script>
-		function clear() {
-
-	      	var table = document.getElementById('receipt_bill');
-		    // var rowCount = table.rows.length;
-
-		    table.deleteRow(0);
-	     }
+	    //  function displayClock(){
+	    //    var time = new Date().toLocaleTimeString();
+	    //    document.getElementById("time").innerHTML = time;
+	    //     setTimeout(displayClock, 1000);
+	    //  }
 	</script>
 @endpush

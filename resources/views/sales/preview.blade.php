@@ -79,10 +79,10 @@
                             <th class="text-right" style="padding:0 !important;">#</th>
                             <th class="text-left">Code</th>
                             <th class="text-left">Description</th>
-                            <th class="text-center">Check</th>
-                            <th style="text-align: right !important;" >Unit Price</th>
+                            <th class="text-center" style="width: 20px !important;"></th>
+                            <th style="text-align: right !important;" >Price</th>
                             <th style="text-align: right !important;" >Qty</th>
-                            <th style="text-align: right !important;" >Unit Total</th>
+                            <th style="text-align: right !important;" >STotal</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -98,7 +98,7 @@
 	                            <td class="text-center"><input type="checkbox" unchecked></td>
 	                            <td class="unit">
                                     @if($sale->is_saleprice == 1)
-                                        {{ $saleitem->product->sale_price }} Ks
+                                        {{ $saleitem->product->sale_price }}
                                     @else
                                         {{ $saleitem->product->buy_price }}
                                     @endif
@@ -107,9 +107,9 @@
 	                            <td class="qty">{{ $saleitem->quantity }}</td>
 	                            <td class="total">
                                     @if($sale->is_saleprice == 1)
-                                        {{ $saleitem->product->sale_price * $saleitem->quantity }} Ks
+                                        {{ $saleitem->product->sale_price * $saleitem->quantity }}
                                     @else
-                                        {{ $saleitem->product->buy_price * $saleitem->quantity }} Ks
+                                        {{ $saleitem->product->buy_price * $saleitem->quantity }}
                                     @endif
 
                                 </td>

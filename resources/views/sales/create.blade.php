@@ -26,10 +26,19 @@
 		<input type="hidden" name="_token" value="{{ csrf_token() }}">
 		<input type="hidden" id="app_url" value="{{ config('app.url') }}">
 		<div class="row justify-content-center invoice-form">
-			<div class="col-sm-3">
+			<div class="col-sm-2">
 				<div class="form-group">
 					<label for="invoice_code">Invoice Code</label>
-					<input type="text" name="invoice_code" class="form-control" required>
+					<input type="text" name="invoice_code" class="form-control">
+				</div>
+			</div>
+			<div class="col-sm-2">
+				<div class="form-group">
+					<label for="is_inv_auto">Inv system</label>
+					<select class="form-control" name="is_inv_auto" id="is_inv_auto" required>
+						<option value="1">Auto</option>
+						<option value="0">Manual</option>
+					</select>
 				</div>
 			</div>
 			<div class="col-sm-5">
@@ -42,7 +51,7 @@
 					</select>
 				</div>
 			</div>
-			<div class="col-sm-4">
+			<div class="col-sm-3">
 				<div class="form-group">
 					<label for="date">Date</label>
 					<input type="date" name="date" class="form-control" required>
@@ -87,7 +96,7 @@
 			</div>
 			<div class="col-sm-6">
 				<div class="form-group">
-					<label for="remarks">Remark</label>
+					<label for="remarks">Remarks</label>
 					<input type="text" name="remarks" class="form-control">
 				</div>
 			</div>
