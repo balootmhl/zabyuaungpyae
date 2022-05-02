@@ -96,7 +96,7 @@
 	                               {{ $saleitem->product->name }}
 	                            </td>
 	                            <td class="text-center"><input type="checkbox" unchecked></td>
-	                            <td class="unit" style="width: 8% !important;">
+	                            <td class="unit" style="width: 6% !important;">
                                     @if($sale->is_saleprice == 1)
                                         {{ $saleitem->product->sale_price }}
                                     @else
@@ -104,8 +104,8 @@
                                     @endif
 
                                 </td>
-	                            <td class="qty" style="width: 3% !important;">{{ $saleitem->quantity }}</td>
-	                            <td class="total" style="width: 9% !important;">
+	                            <td class="qty" style="width: 2% !important;">{{ $saleitem->quantity }}</td>
+	                            <td class="total" style="width: 7% !important;">
                                     @if($sale->is_saleprice == 1)
                                         {{ $saleitem->product->sale_price * $saleitem->quantity }}
                                     @else
@@ -119,29 +119,29 @@
                     </tbody>
                     <tfoot style="display: table-row-group">
                         <tr>
-                            <td colspan="4"></td>
-                            <td colspan="2">SUBTOTAL</td>
+                            <td colspan="3"></td>
+                            <td colspan="3">SUBTOTAL</td>
                             <td>{{ $sale->sub_total }} Ks</td>
                         </tr>
                         <tr>
-                            <td colspan="4"></td>
-                            <td colspan="2">DISCOUNT</td>
+                            <td colspan="3"></td>
+                            <td colspan="3">DISCOUNT</td>
                             <td>{{ $sale->discount }} Ks</td>
                         </tr>
                         <tr>
-                            <td colspan="4"></td>
-                            <td colspan="2">GRAND TOTAL</td>
+                            <td colspan="3"></td>
+                            <td colspan="3">GRAND TOTAL</td>
                             <td>{{ $sale->grand_total }} Ks</td>
                         </tr>
                         @if($sale->received != 0)
 			          	  <tr>
-				            <td colspan="4"></td>
-				            <td colspan="2">RECEIPT</td>
+				            <td colspan="3"></td>
+				            <td colspan="3">RECEIPT</td>
 				            <td>{{ $sale->received }} Ks</td>
 				          </tr>
 				          <tr>
-				            <td colspan="4"></td>
-				            <td colspan="2">REMAINING <br>AMOUNT</td>
+				            <td colspan="3"></td>
+				            <td colspan="3">REMAINING <br>AMOUNT</td>
 				            <td>{{ $sale->remained }} Ks</td>
 				          </tr>
 			          @endif

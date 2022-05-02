@@ -127,7 +127,7 @@
         white-space: nowrap;
         text-align: right;
         padding: 5px 10px;
-        font-size: 1.3em;
+        font-size: 14px;
         border-top: 1px solid #aaa
     }
 
@@ -137,8 +137,8 @@
 
     .invoice table tfoot tr:last-child td {
         color: #143862;
-        font-size: 1.4em;
-        font-weight: bold;
+        font-size: 14px;
+        /*font-weight: bold;*/
         border-top: 1px solid #143862;
     }
 
