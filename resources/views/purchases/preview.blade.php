@@ -74,7 +74,7 @@
                             <th class="text-right" style="padding:0 !important;">#</th>
                             <th class="text-left">Code</th>
                             <th class="text-left">Description</th>
-                            <th class="text-center" style="width: 20px !important;"></th>
+                            <th class="text-center" style="width: 16px !important;"></th>
                             <th style="text-align: right !important;" >Price</th>
                             <th style="text-align: right !important;" >Qty</th>
                             <th style="text-align: right !important;" >Total</th>
@@ -83,7 +83,7 @@
                     <tbody>
                     	@foreach($purchase->purchaseitems as $purchaseitem)
                             <tr>
-	                            <td class="no" style="padding:0 !important;width: auto !important;">{{ $loop->iteration }}</td>
+	                            <td class="no" style="padding:0 !important;width: 6% !important;">{{ $loop->iteration }}</td>
 	                            <td class="text-left code">
 	                               {{ $purchaseitem->product->code }}
 	                            </td>
