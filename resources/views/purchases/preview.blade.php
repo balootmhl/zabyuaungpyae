@@ -77,7 +77,7 @@
                             <th class="text-center" style="width: 16px !important;"></th>
                             <th style="text-align: right !important;width: 10% !important;" >Price</th>
                             <th style="text-align: right !important;" >Qty</th>
-                            <th style="text-align: right !important;width: 100px !important;" >Total</th>
+                            <th style="text-align: right !important;width: 12% !important;" >Total</th>
                         </tr>
                     </thead>
                     <tbody>
