@@ -121,28 +121,28 @@
                         <tr>
                             <td colspan="3"></td>
                             <td colspan="3">SUBTOTAL</td>
-                            <td>{{ $sale->sub_total }} Ks</td>
+                            <td>{{ $sale->sub_total }}</td>
                         </tr>
                         <tr>
                             <td colspan="3"></td>
                             <td colspan="3">DISCOUNT</td>
-                            <td>{{ $sale->discount }} Ks</td>
+                            <td>{{ $sale->discount }}</td>
                         </tr>
                         <tr>
                             <td colspan="3"></td>
                             <td colspan="3">GRAND TOTAL</td>
-                            <td>{{ $sale->grand_total }} Ks</td>
+                            <td>{{ $sale->grand_total }}</td>
                         </tr>
                         @if($sale->received != 0)
 			          	  <tr>
 				            <td colspan="3"></td>
 				            <td colspan="3">RECEIPT</td>
-				            <td>{{ $sale->received }} Ks</td>
+				            <td>{{ $sale->received }}</td>
 				          </tr>
 				          <tr>
 				            <td colspan="3"></td>
 				            <td colspan="3">REMAINING <br>AMOUNT</td>
-				            <td>{{ $sale->remained }} Ks</td>
+				            <td>{{ $sale->remained }}</td>
 				          </tr>
 			          @endif
                     </tfoot>
