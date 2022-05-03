@@ -26,7 +26,7 @@ class SaleController extends Controller
         $year = str_replace("20", "", date('Y'));
         $month = date('m');
         $sale = new Sale();
-        $customer = firstOrCreate(['name' => $request->get('customer_id')]);
+        $customer = Customer::firstOrCreate(['name' => $request->get('customer_id')]);
         $sale->invoice_code = $request->get('invoice_code');
         if ($request->get('is_inv_auto') == 0) {
             $sale->invoice_no = '#' . $year . $month . $request->get('invoice_code');
@@ -83,7 +83,7 @@ class SaleController extends Controller
         $sale = Sale::findOrFail($request->get('sale_id'));
         $sale->invoice_code = $request->get('invoice_code');
         // $sale->invoice_no = '#' . $year . $month . $request->get('invoice_code');
-        $customer = firstOrCreate(['name' => $request->get('customer_id')]);
+        $customer = Customer::firstOrCreate(['name' => $request->get('customer_id')]);
         $sale->user_id = $request->get('user_id');
         $sale->customer_id = $customer->id;
         $sale->date = $request->get('date');
