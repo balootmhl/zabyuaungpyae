@@ -214,7 +214,6 @@
 		<div class="row justify-content-center invoice-form">
 			<div class="col-sm-12">
 				<div class="toolbar">
-					<button type="button" class="btn btn-warning" onclick="window.location.reload();">Refresh</button>
 					<input type="submit" class="btn btn-success" value="Save Invoice">
 				</div>
 

@@ -6,7 +6,6 @@ use App\Models\Sale;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\Link;
-use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
 
@@ -30,27 +29,27 @@ class SaleListLayout extends Table
     protected function columns(): array
     {
         return [
-            TD::make('invoice_no', 'Invoice No.')->sort()->filter(Input::make())
+            TD::make('invoice_no', 'Invoice No.')->sort()
                 ->render(function (Sale $sale) {
                     return Link::make($sale->invoice_no)
                         ->route('platform.sale.view', $sale->id);
                 }),
 
-            TD::make('custom_name', 'Customer Name')->sort()->filter(Input::make())
+            TD::make('custom_name', 'Customer Name')->sort()
                 ->render(function (Sale $sale) {
                     return $sale->custom_name;
 
                 }),
-            TD::make('user_id', 'Invoice By')->sort()->filter(Input::make())
+            TD::make('user_id', 'Invoice By')->sort()
                 ->render(function (Sale $sale) {
                     return $sale->user->name;
                 }),
-            TD::make('date', 'Issue Date')->sort()->filter(Input::make())
+            TD::make('date', 'Issue Date')->sort()
                 ->render(function (Sale $sale) {
                     return $sale->date;
                 }),
 
-            TD::make('grand_total', 'Grand Total')->filter(Input::make())
+            TD::make('grand_total', 'Grand Total')
                 ->render(function (Sale $sale) {
                     return $sale->grand_total . ' MMK';
                 })->sort(),

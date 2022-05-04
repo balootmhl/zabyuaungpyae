@@ -6,7 +6,6 @@ use App\Models\Customer;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\Link;
-use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
 
@@ -30,21 +29,17 @@ class CustomerListLayout extends Table
     protected function columns(): array
     {
         return [
-            TD::make('code', 'Code')->sort()
-                ->filter(Input::make()),
+            TD::make('code', 'Code')->sort(),
 
             TD::make('name', 'Customer Name')->sort()
-                ->filter(Input::make())
                 ->render(function (Customer $customer) {
                     return Link::make($customer->name)
                         ->route('platform.customer.edit', $customer);
                 }),
 
-            TD::make('phone', 'Phone')->sort()
-                ->filter(Input::make()),
+            TD::make('phone', 'Phone')->sort(),
 
-            TD::make('address', 'Address')->sort()
-                ->filter(Input::make()),
+            TD::make('address', 'Address')->sort(),
 
             TD::make('created_at', 'Registered Date')->sort()
                 ->render(function (Customer $customer) {

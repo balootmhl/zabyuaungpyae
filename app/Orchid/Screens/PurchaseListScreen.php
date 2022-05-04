@@ -74,6 +74,7 @@ class PurchaseListScreen extends Screen
     public function layout(): array
     {
         return [
+            Layout::view('plugins.filter-box'),
             PurchaseListLayout::class,
             // Layout::modal('importModal', Layout::rows([
             //     Input::make('excel')

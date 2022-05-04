@@ -11,11 +11,11 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Orchid\Attachment\File;
 use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Screen;
-use Orchid\Screen\Actions\DropDown;
 use Orchid\Support\Facades\Alert;
 use Orchid\Support\Facades\Layout;
 
@@ -117,6 +117,7 @@ class ProductListScreen extends Screen
     {
         return [
             // ProductFiltersLayout::class,
+            Layout::view('products.filter-box'),
             ProductListLayout::class,
 
             Layout::modal('importModal', Layout::rows([
@@ -140,7 +141,7 @@ class ProductListScreen extends Screen
                 Input::make('qty')
                     ->type('hidden')
                     ->title('Running One Click Fix will change product quantities.'),
-                    // ->help('Running One Click Fix will change product quantities.'),
+                // ->help('Running One Click Fix will change product quantities.'),
 
             ]))->title('Are you sure ?'),
         ];
@@ -188,18 +189,18 @@ class ProductListScreen extends Screen
     public function resetQuantity(Request $request)
     {
         $products = Product::all();
-        foreach($products as $product){
+        foreach ($products as $product) {
             $product->quantity = $request->get('qty');
             $product->update();
         }
-        Alert::info('All products are reset to quantity '.$request->get('qty').'.');
+        Alert::info('All products are reset to quantity ' . $request->get('qty') . '.');
         return redirect()->route('platform.product.list');
     }
 
     public function fixQuantity()
     {
         $items = Purchaseitem::all();
-        foreach($items as $item) {
+        foreach ($items as $item) {
             $product = Product::findOrFail($item->product_id);
             $product->quantity = $product->quantity + $item->quantity;
             $product->update();

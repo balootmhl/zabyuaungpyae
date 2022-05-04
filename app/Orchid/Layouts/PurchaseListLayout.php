@@ -6,7 +6,6 @@ use App\Models\Purchase;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\Link;
-use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
 
@@ -30,26 +29,26 @@ class PurchaseListLayout extends Table
     protected function columns(): array
     {
         return [
-            TD::make('invoice_no', 'Invoice No.')->sort()->filter(Input::make())
+            TD::make('invoice_no', 'Invoice No.')->sort()
                 ->render(function (Purchase $purchase) {
                     return Link::make($purchase->invoice_no)
                         ->route('platform.purchase.view', $purchase->id);
                 }),
 
-            TD::make('customer_name', 'Supplier Name')->sort()->filter(Input::make())
+            TD::make('customer_name', 'Supplier Name')->sort()
                 ->render(function (Purchase $purchase) {
                     return $purchase->supplier->name;
                 }),
-            TD::make('user_id', 'Invoice By')->sort()->filter(Input::make())
+            TD::make('user_id', 'Invoice By')->sort()
                 ->render(function (Purchase $purchase) {
                     return $purchase->user->name;
                 }),
-            TD::make('date', 'Issue Date')->sort()->filter(Input::make())
+            TD::make('date', 'Issue Date')->sort()
                 ->render(function (Purchase $purchase) {
                     return $purchase->date;
                 }),
 
-            TD::make('grand_total', 'Grand Total')->filter(Input::make())
+            TD::make('grand_total', 'Grand Total')
                 ->render(function (Purchase $purchase) {
                     return $purchase->grand_total . ' MMK';
                 })->sort(),

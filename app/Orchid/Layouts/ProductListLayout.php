@@ -6,7 +6,6 @@ use App\Models\Product;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\Link;
-use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
 
@@ -30,11 +29,9 @@ class ProductListLayout extends Table
     protected function columns(): array
     {
         return [
-            TD::make('code', 'Code')->sort()
-                ->filter(Input::make()),
+            TD::make('code', 'Code')->sort(),
 
             TD::make('name', 'Product Name')->sort()
-                ->filter(Input::make())
                 ->render(function (Product $product) {
                     return Link::make($product->name)
                         ->route('platform.product.edit', $product);
@@ -48,8 +45,7 @@ class ProductListLayout extends Table
             TD::make('category_id', 'Category')->sort()
                 ->render(function (Product $product) {
                     return $product->category->name;
-                })
-                ->filter(Input::make()),
+                }),
 
             TD::make('buy_price', 'Buy Price')
                 ->sort(),
