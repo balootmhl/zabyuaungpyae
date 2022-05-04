@@ -10,6 +10,7 @@ use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Alert;
+use Orchid\Support\Facades\Layout;
 
 class SaleListScreen extends Screen
 {
