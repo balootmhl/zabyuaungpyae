@@ -59,7 +59,7 @@ class GroupListScreen extends Screen
     public function layout(): array
     {
         return [
-            Layout::view('plugins.filter-box'),
+            Layout::view('products.filter-box'),
             GroupListLayout::class,
         ];
     }

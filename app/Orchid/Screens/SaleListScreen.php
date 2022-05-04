@@ -91,7 +91,7 @@ class SaleListScreen extends Screen
     public function layout(): array
     {
         return [
-            Layout::view('plugins.filter-box'),
+            Layout::view('products.filter-box'),
             SaleListLayout::class,
             // Layout::modal('importModal', Layout::rows([
             //     Input::make('excel')

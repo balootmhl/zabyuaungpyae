@@ -72,7 +72,7 @@ class SupplierListScreen extends Screen
     public function layout(): array
     {
         return [
-            Layout::view('plugins.filter-box'),
+            Layout::view('products.filter-box'),
             SupplierListLayout::class,
 
             Layout::modal('importModal', Layout::rows([
