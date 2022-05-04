@@ -79,9 +79,9 @@
                             <th class="text-right" style="padding:0 !important;">#</th>
                             <th class="text-left">Code</th>
                             <th class="text-left">Description</th>
-                            <th class="text-center" style="width: 16px !important;"></th>
                             <th style="text-align: right !important;" >Price</th>
                             <th style="text-align: right !important;" >Qty</th>
+                            <th class="text-center"></th>
                             <th style="text-align: right !important;" >Total</th>
                         </tr>
                     </thead>
@@ -95,8 +95,7 @@
 	                            <td class="text-left">
 	                               {{ $saleitem->product->name }}
 	                            </td>
-	                            <td class="text-center"><input type="checkbox" unchecked></td>
-	                            <td class="unit" style="width: 6% !important;">
+	                            <td class="unit">
                                     @if($sale->is_saleprice == 1)
                                         {{ $saleitem->product->sale_price }}
                                     @else
@@ -104,8 +103,9 @@
                                     @endif
 
                                 </td>
-	                            <td class="qty" style="width: 2% !important;">{{ $saleitem->quantity }}</td>
-	                            <td class="total" style="width: 7% !important;">
+	                            <td class="qty">{{ $saleitem->quantity }}</td>
+                                <td class="text-center"><input type="checkbox" unchecked></td>
+	                            <td class="total">
                                     @if($sale->is_saleprice == 1)
                                         {{ $saleitem->product->sale_price * $saleitem->quantity }}
                                     @else
