@@ -43,7 +43,7 @@ class ProductListScreen extends Screen
     public function query(): array
     {
         return [
-            'products' => Product::orderby('created_at', 'desc')->get(),
+            'products' => Product::orderby('created_at', 'desc')->paginate(1000),
         ];
     }
 
