@@ -35,7 +35,7 @@ class SupplierListScreen extends Screen
     public function query(): array
     {
         return [
-            'suppliers' => Supplier::filters()->defaultSort('id')->paginate(),
+            'suppliers' => Supplier::defaultSort('id')->get(),
         ];
     }
 

@@ -36,7 +36,7 @@ class SaleListScreen extends Screen
     public function query(): array
     {
         return [
-            'sales' => Sale::filters()->orderby('created_at', 'desc')->paginate(20),
+            'sales' => Sale::orderby('created_at', 'desc')->get(),
         ];
     }
 

@@ -34,7 +34,7 @@ class PurchaseListScreen extends Screen
     public function query(): array
     {
         return [
-            'purchases' => Purchase::filters()->orderby('created_at', 'desc')->paginate(20),
+            'purchases' => Purchase::orderby('created_at', 'desc')->get(),
         ];
     }
 

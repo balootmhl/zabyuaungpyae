@@ -33,7 +33,7 @@ class CategoryListScreen extends Screen
     public function query(): array
     {
         return [
-            'categories' => Category::paginate(),
+            'categories' => Category::orderby('created_at', 'desc')->get(),
         ];
     }
 

@@ -39,7 +39,7 @@ class CustomerListScreen extends Screen
     public function query(): array
     {
         return [
-            'customers' => Customer::filters()->defaultSort('id')->paginate(),
+            'customers' => Customer::defaultSort('id')->get(),
         ];
     }
 

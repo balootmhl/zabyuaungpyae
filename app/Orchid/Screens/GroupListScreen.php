@@ -33,7 +33,7 @@ class GroupListScreen extends Screen
     public function query(): array
     {
         return [
-            'groups' => Group::paginate(),
+            'groups' => Group::orderby('created_at', 'desc')->get(),
         ];
     }
 
