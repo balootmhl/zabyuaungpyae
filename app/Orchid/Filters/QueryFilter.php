@@ -12,17 +12,16 @@ class QueryFilter extends Filter
     /**
      * @var array
      */
-    public $parameters = [
-        'key',
-    ];
+    public $parameters = ['code'];
 
     /**
      * @return string
      */
-    // public function name(): string
-    // {
-    //     return __('Products');
-    // }
+
+    public function name(): string
+    {
+        return __('Products of');
+    }
 
     /**
      * @param Builder $builder
@@ -31,7 +30,7 @@ class QueryFilter extends Filter
      */
     public function run(Builder $builder): Builder
     {
-        return $builder->where('key', $this->request->get('key'));
+        return $builder->where('code', 'LIKE', '%' . $this->request->get('code') . '%');
     }
 
     /**
@@ -40,9 +39,9 @@ class QueryFilter extends Filter
     public function display(): array
     {
         return [
-            Input::make('key')
+            Input::make('code')
                 ->type('text')
-                ->value($this->request->get('key'))
+                ->value($this->request->get('code'))
                 ->placeholder('Search products...')
                 ->title('Search'),
             // Input::make('submit')->type('submit'),

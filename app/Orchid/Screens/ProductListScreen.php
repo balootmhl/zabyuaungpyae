@@ -6,6 +6,8 @@ use App\Exports\ProductsExport;
 use App\Imports\ProductsImport;
 use App\Models\Product;
 use App\Models\Purchaseitem;
+use App\Orchid\Filters\QueryFilter;
+use App\Orchid\Layouts\ProductFiltersLayout;
 use App\Orchid\Layouts\ProductListLayout;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -43,7 +45,7 @@ class ProductListScreen extends Screen
     public function query(): array
     {
         return [
-            'products' => Product::orderby('created_at', 'desc')->paginate(100),
+            'products' => Product::filtersApply([QueryFilter::class])->orderby('created_at', 'desc')->paginate(100),
         ];
     }
 
@@ -116,7 +118,7 @@ class ProductListScreen extends Screen
     public function layout(): array
     {
         return [
-            // ProductFiltersLayout::class,
+            ProductFiltersLayout::class,
             Layout::view('products.filter-box'),
             ProductListLayout::class,
 
