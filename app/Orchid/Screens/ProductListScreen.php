@@ -119,7 +119,7 @@ class ProductListScreen extends Screen
     {
         return [
             ProductFiltersLayout::class,
-            Layout::view('products.filter-box'),
+            // Layout::view('products.filter-box'),
             ProductListLayout::class,
 
             Layout::modal('importModal', Layout::rows([
