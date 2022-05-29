@@ -44,9 +44,9 @@ class SaleViewScreen extends Screen
             //     ->icon('cloud-download')
             //     ->method('download'),
 
-            Button::make('Edit')
-                ->icon('pencil')
-                ->method('edit'),
+            // Button::make('Edit')
+            //     ->icon('pencil')
+            //     ->method('edit'),
         ];
     }
 

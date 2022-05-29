@@ -8,12 +8,10 @@ use App\Models\Purchaseitem;
 use App\Models\Sale;
 use App\Models\Saleitem;
 // use Barryvdh\DomPDF\PDF;
-use Orchid\Support\Facades\Alert;
-use PDF;
-use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use Orchid\Support\Facades\Alert;
 use Orchid\Support\Facades\Toast;
-
+use PDF;
 
 class CustomController extends Controller
 {
@@ -25,8 +23,19 @@ class CustomController extends Controller
         $product->quantity = $product->quantity + $saleitem->quantity;
         $product->update();
         $saleitem->delete();
-        Alert::info('You have successfully deleted a sale item.');
-        return redirect()->route('platform.sale.edit', $sale_id);
+        $sale = Sale::findOrFail($sale_id);
+        $subtotal = 0;
+
+        foreach ($sale->saleitems as $sitem) {
+            $item_total = $sitem->price * $sitem->quantity;
+            $subtotal = $subtotal + $item_total;
+        }
+
+        $sale->sub_total = $subtotal;
+        $sale->grand_total = $subtotal - $sale->discount;
+        $sale->update();
+        Toast::info('Item deleted successfully.');
+        return redirect()->route('platform.sale.edit-custom', $sale_id);
     }
 
     public function downloadInvoice($id)
@@ -36,7 +45,6 @@ class CustomController extends Controller
 
         return $pdf->stream('invoice_' . $sale->invoice_no . '.pdf');
 
-        
     }
 
     // For Purchase
@@ -76,7 +84,7 @@ class CustomController extends Controller
             $product->sale_price = $request->get('sale_price');
             $product->save();
         }
-            
+
         // Alert::info('Product Saved!');
         Toast::success($request->get('toast', 'Prices Saved!'));
         return redirect()->route('platform.product.stock-control');

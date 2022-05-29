@@ -67,11 +67,11 @@ class SaleListLayout extends Table
                         ->icon('options-vertical')
                         ->list([
 
-                            Link::make(__('Edit'))
-                                ->route('platform.sale.edit', $sale->id)
-                                ->icon('pencil'),
+                            // Link::make(__('Edit'))
+                            //     ->route('platform.sale.edit', $sale->id)
+                            //     ->icon('pencil'),
 
-                            Link::make(__('Edit beta'))
+                            Link::make(__('Edit'))
                                 ->route('platform.sale.edit-custom', $sale->id)
                                 ->icon('pencil'),
 

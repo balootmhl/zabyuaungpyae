@@ -1,15 +1,16 @@
 @extends('platform::dashboard')
 
-@section('title','Create Sale Invoice')
+@section('title','Edit Sale Invoice')
 @section('description', '')
 
 @section('navbar')
     <div class="text-center">
-        {{-- <button type="button" class="btn btn-warning" onclick="window.location.reload();">Refresh</button> --}}
+        <button type="button" class="btn btn-warning" onclick="window.location.reload();">Refresh</button>
     </div>
 @stop
 
 @push('head')
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 	<style>
 		.select2 {
@@ -21,48 +22,51 @@
 @section('content')
 
 <div class="bg-white rounded shadow-sm p-4 py-4 d-flex flex-column">
-	<form action="{{ route('platform.sale.store-custom') }}" method="POST">
+	<form action="{{ route('platform.sale.update-custom') }}" method="POST">
 	{{-- <form action="" method="POST"> --}}
 		<input type="hidden" name="_token" value="{{ csrf_token() }}">
 		<input type="hidden" id="app_url" value="{{ config('app.url') }}">
+		<input type="hidden" id="sale_id" name="sale_id" value="{{ $sale->id }}">
+		<input type="hidden" name="items_count" id="items_count" value="{{ $items_count }}">
 		<div class="row justify-content-center invoice-form">
 			<div class="col-sm-2">
 				<div class="form-group">
-					<label for="invoice_code">Invoice Code</label>
-					<input type="text" name="invoice_code" class="form-control">
+					<label for="code">Invoice Code</label>
+					<input type="text" name="invoice_code" class="form-control" value="{{ $sale->invoice_code }}">
 				</div>
 			</div>
 			<div class="col-sm-2">
 				<div class="form-group">
 					<label for="is_inv_auto">Inv system</label>
 					<select class="form-control" name="is_inv_auto" id="is_inv_auto" required>
-						<option value="1">Auto</option>
-						<option value="0">Manual</option>
+						<option value="1" @if($sale->is_inv_auto == 1) selected @endif>Auto</option>
+						<option value="0" @if($sale->is_inv_auto == 0) selected @endif>Manual</option>
 					</select>
 				</div>
 			</div>
 			<div class="col-sm-5">
 				<div class="form-group">
+
 					<label for="user_id">Admin or Branch</label>
 					<select class="form-control user-select2" name="user_id" multiple required>
 						@foreach ($users as $user)
-							<option value="{{ $user->id }}">{{ $user->name }}</option>
+							<option value="{{ $user->id }}" @if($user->id == $sale->user_id) selected="true" @endif>{{ $user->name }}</option>
 						@endforeach
 					</select>
 				</div>
 			</div>
 			<div class="col-sm-3">
 				<div class="form-group">
-					<label for="date">Date</label>
-					<input type="date" name="date" class="form-control" required>
+					<label for="sale[date]">Date</label>
+					<input type="date" name="date" class="form-control" value="{{ $sale->date }}" required>
 				</div>
 			</div>
 			<div class="col-sm-5">
 				<div class="form-group">
 					<label for="customer_id">Customer</label>
-					<select class="form-control customer-select2" name="customer_id" required multiple >
+					<select class="form-control customer-select2" name="customer_id" multiple="multiple" >
 						@foreach ($customers as $customer)
-							<option value="{{ $customer->name }}">{{ $customer->name }}</option>
+							<option value="{{ $customer->name }}" @if($customer->id == $sale->customer_id) selected="true" @endif>{{ $customer->name }}</option>
 						@endforeach
 					</select>
 				</div>
@@ -70,34 +74,28 @@
 			<div class="col-sm-7">
 				<div class="form-group">
 					<label for="address">Address</label>
-					<input type="text" name="address" class="form-control">
+					<input type="text" name="address" class="form-control" value="{{ $sale->custom_address }}">
 				</div>
-			</div>{{--
-			<div class="col-sm-3">
-				<div class="form-group">
-					<label for="sale[customer_name]">Customer Name</label>
-					<input type="text" name="customer_name" class="form-control">
-				</div>
-			</div> --}}
+			</div>
 			<div class="col-sm-3">
 				<div class="form-group">
 					<label for="is_saleprice">Select Price</label>
 					<select class="form-control" name="is_saleprice" id="is_sale" required>
-						<option value="1">Sale Price</option>
-						<option value="0">Buy Price</option>
+						<option value="1" @if($sale->is_saleprice == 1) selected @endif>Sale Price</option>
+						<option value="0" @if($sale->is_saleprice == 0) selected @endif>Buy Price</option>
 					</select>
 				</div>
 			</div>
 			<div class="col-sm-3">
 				<div class="form-group">
 					<label for="discount">Discount</label>
-					<input type="text" id="discount" name="discount" class="form-control" value="0">
+					<input type="text" id="discount" name="discount" class="form-control" value="{{ $sale->discount }}">
 				</div>
 			</div>
 			<div class="col-sm-6">
 				<div class="form-group">
-					<label for="remarks">Remarks</label>
-					<input type="text" name="remarks" class="form-control">
+					<label for="remarks">Remark</label>
+					<input type="text" name="remarks" class="form-control" value="{{ $sale->remarks }}">
 				</div>
 			</div>
 		</div>
@@ -109,8 +107,8 @@
 					<thead>
 						<tr>
 							<th>Products</th>
-							<th>Price</th>
 							<th>Quantity</th>
+							<th>Price</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -120,30 +118,25 @@
 									{{-- <label for="product">Select Product</label> --}}
 									<select name="product" id="product" class="product-select2 form-control" multiple>
 										@foreach($products as $product)
-										    <option id="{{ $product->id }}" value="{{ $product->id }}">{{ $product->code . ' [' . $product->name . '] ' }}</option>
+										    <option id="{{ $product->id }}" value="{{ $product->code . ' [' . $product->name . '] ' }}">{{ $product->code . ' [' . $product->name . '] ' }}</option>
 										@endforeach
 									</select>
 								</div>
 							</td>
 							<td width="15%">
-								<div class="form-group">
-									<input type="hidden" id="price" name="price" min="0" value="0">
-									<h6 class="mt-1" id="price_text" >0</h6>
-								</div>
 								{{-- <label for="">Price</label> --}}
-								{{-- <h6 class="mt-1" id="price" >0</h6> --}}
+								<h6 class="mt-1" id="price" ></h6>
 							</td>
 							<td>
 								<div class="form-group">
 									{{-- <label for="qty">Quantity</label> --}}
-									<input type="number" id="qty" name="qty" min="0" value="0" class="form-control">
+									<input type="number" id="qty" min="0" value="0" class="form-control">
 								</div>
 							</td>
 							<td>
 								<div class="form-group">
 									{{-- <label for="" style="visibility: hidden;">Select Product</label> --}}
-									{{-- <button type="button" id="add" class="btn btn-primary">Add</button> --}}
-									<button type="submit" class="btn btn-primary">Save</button>
+									<button type="button" id="add" class="btn btn-primary" onclick="clear()">Add</button>
 								</div>
 							</td>
 						</tr>
@@ -167,9 +160,27 @@
 						</tr>
 					</thead>
 					<tbody id="new">
-
+						@foreach($sale->saleitems as $item)
+							<tr>
+								<td>{{ $loop->iteration }}</td>
+								<td>
+									{{ $item->product->code }} [{{ $item->product->name }}]
+								</td>
+								<td class="text-center">{{ $item->quantity }}</td>
+								@if($sale->is_saleprice == 1)
+                           <td class="text-center">{{ $item->product->sale_price }}</td>
+                        @else
+                           <td class="text-center">{{ $item->product->buy_price }}</td>
+                        @endif
+								@if($sale->is_saleprice == 1)
+                           <td class="text-center"><strong><input type="hidden" id="total" value="{{ $item->product->sale_price * $item->quantity }}">{{ $item->product->sale_price * $item->quantity }}</strong></td>
+                        @else
+                           <td class="text-center"><strong><input type="hidden" id="total" value="{{ $item->product->buy_price * $item->quantity }}">{{ $item->product->buy_price * $item->quantity }}</strong></td>
+                        @endif
+							</tr>
+						@endforeach
 					</tbody>
-					{{-- <tfoot>
+					<tfoot>
 						<tr>
 							<td> </td>
 							<td> </td>
@@ -179,9 +190,9 @@
 								<p><strong>Discount : MMK </strong></p>
 							</td>
 							<td class="text-center text-dark" >
-                              <h5> <strong><span id="subTotal"></strong></h5>
-                              <input type="hidden" id="sub_total" name="sub_total" value="">
-                              <h5> <strong><span id="taxAmount"></strong></h5>
+                              <h5> <strong><span id="subTotal">{{ $sale->sub_total }}</span></strong></h5>
+                              <input type="hidden" id="sub_total" name="sub_total" value="{{ $sale->sub_total }}">
+                              <h5> <strong><span id="taxAmount">{{ $sale->discount }}</strong></h5>
                            </td>
 						</tr>
 						<tr>
@@ -192,28 +203,29 @@
                               <h5><strong>Gross Total: MMK </strong></h5>
                            </td>
                            <td class="text-center text-danger">
-                              <h5 id="totalPayment"><strong> </strong></h5>
-                              <input type="hidden" id="grand_total" name="grand_total" value="">
+                              <h5 id="totalPayment"><strong>{{ $sale->grand_total }}</strong></h5>
+                              <input type="hidden" id="grand_total" name="grand_total" value="{{ $sale->grand_total }}">
                            </td>
                         </tr>
-					</tfoot> --}}
+					</tfoot>
 				</table>
 			</div>
 		</div>
-		{{-- <div class="row justify-content-center invoice-form">
+		<div class="row justify-content-center invoice-form">
 			<div class="col-sm-12">
 				<div class="toolbar">
 					<input type="submit" class="btn btn-success" value="Save Invoice">
 				</div>
 
 			</div>
-		</div> --}}
+		</div>
 	</form>
 </div>
 
 @stop
 
 @push('scripts')
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 	<script type="text/javascript">
 		// activate select2 plugin
 		$(document).ready(function() {
@@ -253,11 +265,9 @@
 	                 $.each(data, function(key, resp)
 	                 {
 	                 	if(is_sale == '1') {
-	                 		$('#price').val(resp.sale_price);
-	                 		$('#price_text').text(resp.sale_price);
+	                 		$('#price').text(resp.sale_price);
 	                 	} else {
-	                 		$('#price').val(resp.buy_price);
-	                 		$('#price_text').text(resp.buy_price);
+	                 		$('#price').text(resp.buy_price);
 	                 	}
 
 	                });
@@ -266,7 +276,7 @@
 	      });
 
 	      //add to cart
-	      var count = 0;
+	      var count = $('#items_count').val();
 
 	      $('#add').on('click',function(){
 
@@ -289,13 +299,13 @@
 	         function billFunction()
 	           {
 	           var total = 0;
-	           var iteration = count+1;
+	           var iteration = parseInt(count)+1;
 	           $("#receipt_bill").each(function () {
 	           var total =  price*qty;
 	           var subTotal = 0;
 	           subTotal += parseInt(total);
 
-	           var table =   '<tr id="'+ iteration +'"><td>'+ iteration +'</td><td>'+ name + '<input type="hidden" name="products['+count+'][product_id]" value="'+p_id+'"></td><td class="text-center">' + qty + '<input type="hidden" name="products['+count+'][qty]" value="'+qty+'"></td><td class="text-center">' + price + '</td><td class="text-center"><strong><input type="hidden" id="total" value="'+total+'">' +total+ '</strong></td></tr>';
+	           var table =   '<tr><td>'+ iteration +'</td><td>'+ name + '<input type="hidden" name="products['+count+'][product_id]" value="'+p_id+'"></td><td class="text-center">' + qty + '<input type="hidden" name="products['+count+'][qty]" value="'+qty+'"></td><td class="text-center">' + price + '</td><td class="text-center"><strong><input type="hidden" id="total" value="'+total+'">' +total+ '</strong></td></tr>';
 	           $('#new').append(table)
 
 	            // Code for Sub Total of Vegitables
@@ -323,8 +333,7 @@
 	              // $('#totalPayment').text(totalPayment.toFixed(2)); // Showing using ID
 	              $('#totalPayment').text(totalPayment);
 	              $('#grand_total').val(totalPayment);
-	              document.getElementById('price').innerHTML = '0';
-	              document.getElementById('qty').value = '0';
+
 	          });
 	          count++;
 	          $("#product").val(0).trigger("change");
@@ -361,13 +370,13 @@
 	      });
 
 	 </script>
-	 {{-- <script>
-	    window.onload = displayClock();
+	 <script>
+	    // window.onload = displayClock();
 
-	     function displayClock(){
-	       var time = new Date().toLocaleTimeString();
-	       document.getElementById("time").innerHTML = time;
-	        setTimeout(displayClock, 1000);
-	     }
-	</script> --}}
+	    //  function displayClock(){
+	    //    var time = new Date().toLocaleTimeString();
+	    //    document.getElementById("time").innerHTML = time;
+	    //     setTimeout(displayClock, 1000);
+	    //  }
+	</script>
 @endpush

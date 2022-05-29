@@ -1,11 +1,18 @@
 @extends('platform::dashboard')
 
-@section('title','Edit Sale Invoice')
+@section('title')
+	@if($sale->is_inv_auto == 1)
+		Sale Invoice (Auto)
+	@else
+		Sale Invoice (Auto)
+	@endif
+@stop
+
 @section('description', '')
 
 @section('navbar')
     <div class="text-center">
-        <button type="button" class="btn btn-warning" onclick="window.location.reload();">Refresh</button>
+        <a href="{{ route('platform.sale.view', $sale->id) }}" class="btn btn-primary" >View</a>
     </div>
 @stop
 
@@ -118,25 +125,27 @@
 									{{-- <label for="product">Select Product</label> --}}
 									<select name="product" id="product" class="product-select2 form-control" multiple>
 										@foreach($products as $product)
-										    <option id="{{ $product->id }}" value="{{ $product->code . ' [' . $product->name . '] ' }}">{{ $product->code . ' [' . $product->name . '] ' }}</option>
+										    <option id="{{ $product->id }}" value="{{ $product->id }}">{{ $product->code . ' [' . $product->name . '] ' }}</option>
 										@endforeach
 									</select>
 								</div>
 							</td>
 							<td width="15%">
 								{{-- <label for="">Price</label> --}}
-								<h6 class="mt-1" id="price" ></h6>
+								<input type="hidden" id="price" name="price" min="0" value="0">
+								<h6 class="mt-1" id="price_text" >0</h6>
 							</td>
 							<td>
 								<div class="form-group">
 									{{-- <label for="qty">Quantity</label> --}}
-									<input type="number" id="qty" min="0" value="0" class="form-control">
+									<input type="number" id="qty" name="qty" min="0" value="0" class="form-control">
 								</div>
 							</td>
 							<td>
 								<div class="form-group">
 									{{-- <label for="" style="visibility: hidden;">Select Product</label> --}}
-									<button type="button" id="add" class="btn btn-primary" onclick="clear()">Add</button>
+									{{-- <button type="button" id="add" class="btn btn-primary" onclick="clear()">Add</button> --}}
+									<button type="submit" class="btn btn-primary">Save</button>
 								</div>
 							</td>
 						</tr>
@@ -167,16 +176,18 @@
 									{{ $item->product->code }} [{{ $item->product->name }}]
 								</td>
 								<td class="text-center">{{ $item->quantity }}</td>
-								@if($sale->is_saleprice == 1)
-                           <td class="text-center">{{ $item->product->sale_price }}</td>
-                        @else
-                           <td class="text-center">{{ $item->product->buy_price }}</td>
-                        @endif
-								@if($sale->is_saleprice == 1)
-                           <td class="text-center"><strong><input type="hidden" id="total" value="{{ $item->product->sale_price * $item->quantity }}">{{ $item->product->sale_price * $item->quantity }}</strong></td>
-                        @else
-                           <td class="text-center"><strong><input type="hidden" id="total" value="{{ $item->product->buy_price * $item->quantity }}">{{ $item->product->buy_price * $item->quantity }}</strong></td>
-                        @endif
+                        <td class="text-center">{{ $item->price }}</td>
+                        <td class="text-center">
+                        	<strong>
+	                        	{{-- <input type="hidden" id="total" value="{{ $item->price * $item->quantity }}"> --}}
+	                        	{{ $item->price * $item->quantity }}
+	                        	&nbsp;
+	                        	<a href="{{ url('/admin/sales/saleitems/delete/'. $item->id) }}">
+											<x-orchid-icon path="trash" style="padding-bottom: 5px !important;" />
+									   </a>
+	                        </strong>
+
+                        </td>
 							</tr>
 						@endforeach
 					</tbody>
@@ -190,10 +201,10 @@
 								<p><strong>Discount : MMK </strong></p>
 							</td>
 							<td class="text-center text-dark" >
-                              <h5> <strong><span id="subTotal">{{ $sale->sub_total }}</span></strong></h5>
-                              <input type="hidden" id="sub_total" name="sub_total" value="{{ $sale->sub_total }}">
-                              <h5> <strong><span id="taxAmount">{{ $sale->discount }}</strong></h5>
-                           </td>
+                        <h5> <strong><span id="subTotal">{{ $sale->sub_total }}</span></strong></h5>
+                        <input type="hidden" id="sub_total" name="sub_total" value="{{ $sale->sub_total }}">
+                        <h5> <strong><span id="taxAmount">{{ $sale->discount }}</strong></h5>
+                     </td>
 						</tr>
 						<tr>
                            <td> </td>
@@ -214,7 +225,8 @@
 		<div class="row justify-content-center invoice-form">
 			<div class="col-sm-12">
 				<div class="toolbar">
-					<input type="submit" class="btn btn-success" value="Save Invoice">
+					{{-- <input type="submit" class="btn btn-success" value="Finish"> --}}
+					<a href="{{ route('platform.sale.view', $sale->id) }}" class="btn btn-success" >Finish</a>
 				</div>
 
 			</div>
@@ -265,9 +277,11 @@
 	                 $.each(data, function(key, resp)
 	                 {
 	                 	if(is_sale == '1') {
-	                 		$('#price').text(resp.sale_price);
+	                 		$('#price').val(resp.sale_price);
+	                 		$('#price_text').text(resp.sale_price);
 	                 	} else {
-	                 		$('#price').text(resp.buy_price);
+	                 		$('#price').val(resp.buy_price);
+	                 		$('#price_text').text(resp.buy_price);
 	                 	}
 
 	                });

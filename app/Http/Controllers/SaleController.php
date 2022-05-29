@@ -8,7 +8,7 @@ use App\Models\Sale;
 use App\Models\Saleitem;
 use Illuminate\Http\Request;
 use Orchid\Platform\Models\User;
-use Orchid\Support\Facades\Alert;
+use Orchid\Support\Facades\Toast;
 
 class SaleController extends Controller
 {
@@ -41,8 +41,8 @@ class SaleController extends Controller
         $sale->is_inv_auto = $request->get('is_inv_auto');
         $sale->discount = $request->get('discount');
         $sale->remarks = $request->get('remarks');
-        $sale->sub_total = $request->get('sub_total');
-        $sale->grand_total = $request->get('grand_total');
+        // $sale->sub_total = $request->get('sub_total');
+        // $sale->grand_total = $request->get('grand_total');
         $sale->save();
         if ($request->get('is_inv_auto') == 1) {
             $sale->invoice_no = '#01' . str_replace("-", "", $sale->date) . $sale->id;
@@ -62,9 +62,40 @@ class SaleController extends Controller
                 $product->update();
             }
         }
-        Alert::success('Sale Invoice has been created successfully!');
 
-        return redirect()->route('platform.sale.view', $sale->id);
+        if ($request->get('price') == 0 || $request->get('qty') == 0) {
+            if ($request->get('price') == 0) {
+                Toast::warning('Select product to add.');
+            }
+            if ($request->get('qty') == 0) {
+                Toast::warning('Minimum Qty should be 1 or More than 1.');
+            }
+        } else {
+            $saleitem = new Saleitem();
+            $saleitem->product_id = $request->get('product');
+            $saleitem->sale_id = $sale->id;
+            $saleitem->quantity = $request->get('qty');
+            $saleitem->price = $request->get('price');
+            $saleitem->save();
+            $product = Product::findOrFail($saleitem->product_id);
+            $product->quantity = $product->quantity - $saleitem->quantity;
+            $product->update();
+        }
+
+        $subtotal = 0;
+
+        foreach ($sale->saleitems as $sitem) {
+            $item_total = $sitem->product->buy_price * $sitem->quantity;
+            $subtotal = $subtotal + $item_total;
+        }
+
+        $sale->sub_total = $subtotal;
+        $sale->grand_total = $subtotal - $sale->discount;
+        $sale->update();
+        // Alert::success('Sale Invoice has been created successfully!');
+
+        // return redirect()->route('platform.sale.view', $sale->id);
+        return redirect()->route('platform.sale.edit-custom', $sale->id);
     }
 
     public function edit($id)
@@ -109,9 +140,39 @@ class SaleController extends Controller
                 $product->update();
             }
         }
-        Alert::success('Sale Invoice has been updated successfully!');
 
-        return redirect()->route('platform.sale.view', $sale->id);
+        if ($request->get('price') == 0 || $request->get('qty') == 0) {
+            if ($request->get('price') == 0) {
+                Toast::warning('Select product to add.');
+            }
+            if ($request->get('qty') == 0) {
+                Toast::warning('Minimum Qty should be 1 or More than 1.');
+            }
+        } else {
+            $saleitem = new Saleitem();
+            $saleitem->product_id = $request->get('product');
+            $saleitem->sale_id = $sale->id;
+            $saleitem->quantity = $request->get('qty');
+            $saleitem->price = $request->get('price');
+            $saleitem->save();
+            $product = Product::findOrFail($saleitem->product_id);
+            $product->quantity = $product->quantity - $saleitem->quantity;
+            $product->update();
+        }
+
+        $subtotal = 0;
+
+        foreach ($sale->saleitems as $sitem) {
+            $item_total = $sitem->price * $sitem->quantity;
+            $subtotal = $subtotal + $item_total;
+        }
+
+        $sale->sub_total = $subtotal;
+        $sale->grand_total = $subtotal - $sale->discount;
+        $sale->update();
+        // Alert::success('Sale Invoice has been updated successfully!');
+
+        return redirect()->route('platform.sale.edit-custom', $sale->id);
     }
 
 }

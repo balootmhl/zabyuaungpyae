@@ -5,7 +5,7 @@
 
 @section('navbar')
     <div class="text-center">
-        {{-- <button type="button" class="btn btn-warning" onclick="window.location.reload();">Refresh</button> --}}
+        <button type="button" class="btn btn-warning" onclick="window.location.reload();">Refresh</button>
     </div>
 @stop
 
@@ -109,8 +109,8 @@
 					<thead>
 						<tr>
 							<th>Products</th>
-							<th>Price</th>
 							<th>Quantity</th>
+							<th>Price</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -120,30 +120,25 @@
 									{{-- <label for="product">Select Product</label> --}}
 									<select name="product" id="product" class="product-select2 form-control" multiple>
 										@foreach($products as $product)
-										    <option id="{{ $product->id }}" value="{{ $product->id }}">{{ $product->code . ' [' . $product->name . '] ' }}</option>
+										    <option id="{{ $product->id }}" value="{{ $product->code . ' [' . $product->name . '] ' }}">{{ $product->code . ' [' . $product->name . '] ' }}</option>
 										@endforeach
 									</select>
 								</div>
 							</td>
 							<td width="15%">
-								<div class="form-group">
-									<input type="hidden" id="price" name="price" min="0" value="0">
-									<h6 class="mt-1" id="price_text" >0</h6>
-								</div>
 								{{-- <label for="">Price</label> --}}
-								{{-- <h6 class="mt-1" id="price" >0</h6> --}}
+								<h6 class="mt-1" id="price" >0</h6>
 							</td>
 							<td>
 								<div class="form-group">
 									{{-- <label for="qty">Quantity</label> --}}
-									<input type="number" id="qty" name="qty" min="0" value="0" class="form-control">
+									<input type="number" id="qty" min="0" value="0" class="form-control">
 								</div>
 							</td>
 							<td>
 								<div class="form-group">
 									{{-- <label for="" style="visibility: hidden;">Select Product</label> --}}
-									{{-- <button type="button" id="add" class="btn btn-primary">Add</button> --}}
-									<button type="submit" class="btn btn-primary">Save</button>
+									<button type="button" id="add" class="btn btn-primary">Add</button>
 								</div>
 							</td>
 						</tr>
@@ -169,7 +164,7 @@
 					<tbody id="new">
 
 					</tbody>
-					{{-- <tfoot>
+					<tfoot>
 						<tr>
 							<td> </td>
 							<td> </td>
@@ -196,18 +191,18 @@
                               <input type="hidden" id="grand_total" name="grand_total" value="">
                            </td>
                         </tr>
-					</tfoot> --}}
+					</tfoot>
 				</table>
 			</div>
 		</div>
-		{{-- <div class="row justify-content-center invoice-form">
+		<div class="row justify-content-center invoice-form">
 			<div class="col-sm-12">
 				<div class="toolbar">
 					<input type="submit" class="btn btn-success" value="Save Invoice">
 				</div>
 
 			</div>
-		</div> --}}
+		</div>
 	</form>
 </div>
 
@@ -253,11 +248,9 @@
 	                 $.each(data, function(key, resp)
 	                 {
 	                 	if(is_sale == '1') {
-	                 		$('#price').val(resp.sale_price);
-	                 		$('#price_text').text(resp.sale_price);
+	                 		$('#price').text(resp.sale_price);
 	                 	} else {
-	                 		$('#price').val(resp.buy_price);
-	                 		$('#price_text').text(resp.buy_price);
+	                 		$('#price').text(resp.buy_price);
 	                 	}
 
 	                });

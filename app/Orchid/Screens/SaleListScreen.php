@@ -73,13 +73,13 @@ class SaleListScreen extends Screen
                 ->icon('magnifier')
                 ->route('platform.sale.search'),
 
-            Link::make('Create beta')
+            Link::make('Create')
                 ->icon('plus')
                 ->route('platform.sale.create-custom'),
 
-            Link::make('Create new')
-                ->icon('plus')
-                ->route('platform.sale.edit'),
+            // Link::make('Create new')
+            //     ->icon('plus')
+            //     ->route('platform.sale.edit'),
         ];
     }
 
