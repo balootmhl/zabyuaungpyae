@@ -163,8 +163,8 @@
 						<tr>
 							<th>No.</th>
 							<th>Product</th>
-							<th class="text-center">Quantity</th>
 							<th class="text-center">Price</th>
+							<th class="text-center">Quantity</th>
 							<th class="text-center">Unit Total</th>
 						</tr>
 					</thead>
@@ -175,8 +175,8 @@
 								<td>
 									{{ $item->product->code }} [{{ $item->product->name }}]
 								</td>
-								<td class="text-center">{{ $item->quantity }}</td>
                         <td class="text-center">{{ $item->price }}</td>
+								<td class="text-center">{{ $item->quantity }}</td>
                         <td class="text-center">
                         	<strong>
 	                        	{{-- <input type="hidden" id="total" value="{{ $item->price * $item->quantity }}"> --}}

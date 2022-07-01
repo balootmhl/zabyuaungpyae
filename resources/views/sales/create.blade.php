@@ -105,51 +105,53 @@
 
 		<div class="row justify-content-center invoice-form">
 			<div class="col-sm-12">
-				<table class="table table-responsive">
-					<thead>
-						<tr>
-							<th>Products</th>
-							<th>Price</th>
-							<th>Quantity</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td width="60%">
-								<div class="form-group">
-									{{-- <label for="product">Select Product</label> --}}
-									<select name="product" id="product" class="product-select2 form-control" multiple>
-										@foreach($products as $product)
-										    <option id="{{ $product->id }}" value="{{ $product->id }}">{{ $product->code . ' [' . $product->name . '] ' }}</option>
-										@endforeach
-									</select>
-								</div>
-							</td>
-							<td width="15%">
-								<div class="form-group">
-									<input type="hidden" id="price" name="price" min="0" value="0">
-									<h6 class="mt-1" id="price_text" >0</h6>
-								</div>
-								{{-- <label for="">Price</label> --}}
-								{{-- <h6 class="mt-1" id="price" >0</h6> --}}
-							</td>
-							<td>
-								<div class="form-group">
-									{{-- <label for="qty">Quantity</label> --}}
-									<input type="number" id="qty" name="qty" min="0" value="0" class="form-control">
-								</div>
-							</td>
-							<td>
-								<div class="form-group">
-									{{-- <label for="" style="visibility: hidden;">Select Product</label> --}}
-									{{-- <button type="button" id="add" class="btn btn-primary">Add</button> --}}
-									<button type="submit" class="btn btn-primary">Save</button>
-								</div>
-							</td>
-						</tr>
-					</tbody>
-					<tfoot></tfoot>
-				</table>
+				{{-- <div class="table-responsive"> --}}
+					<table class="table table-responsive">
+						<thead>
+							<tr>
+								<th>Products</th>
+								<th>Price</th>
+								<th>Quantity</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td width="60%">
+									<div class="form-group">
+										{{-- <label for="product">Select Product</label> --}}
+										<select name="product" id="product" class="product-select2 form-control" multiple>
+											@foreach($products as $product)
+											    <option id="{{ $product->id }}" value="{{ $product->id }}">{{ $product->code . ' [' . $product->name . '] ' }}</option>
+											@endforeach
+										</select>
+									</div>
+								</td>
+								<td width="15%">
+									<div class="form-group">
+										<input type="hidden" id="price" name="price" min="0" value="0">
+										<h6 class="mt-1" id="price_text" >0</h6>
+									</div>
+									{{-- <label for="">Price</label> --}}
+									{{-- <h6 class="mt-1" id="price" >0</h6> --}}
+								</td>
+								<td>
+									<div class="form-group">
+										{{-- <label for="qty">Quantity</label> --}}
+										<input type="number" id="qty" name="qty" min="0" value="0" class="form-control">
+									</div>
+								</td>
+								<td>
+									<div class="form-group">
+										{{-- <label for="" style="visibility: hidden;">Select Product</label> --}}
+										{{-- <button type="button" id="add" class="btn btn-primary">Add</button> --}}
+										<button type="submit" class="btn btn-primary">Save</button>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+						<tfoot></tfoot>
+					</table>
+				{{-- </div> --}}
 				<div role="alert" id="errorMsg" class="mt-5" style="margin-bottom:20px;">
 			</div>
 		</div>
@@ -161,8 +163,8 @@
 						<tr>
 							<th>No.</th>
 							<th>Product</th>
-							<th class="text-center">Quantity</th>
 							<th class="text-center">Price</th>
+							<th class="text-center">Quantity</th>
 							<th class="text-center">Unit Total</th>
 						</tr>
 					</thead>
