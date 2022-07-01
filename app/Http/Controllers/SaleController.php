@@ -170,6 +170,9 @@ class SaleController extends Controller
 
         $sale->sub_total = $subtotal;
         $sale->grand_total = $subtotal - $sale->discount;
+        if ($sale->received != 0) {
+            $sale->remained = $sale->grand_total - $sale->received;
+        }
         $sale->update();
         // Alert::success('Sale Invoice has been updated successfully!');
 

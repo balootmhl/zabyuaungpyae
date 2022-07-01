@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Builder;
 use Orchid\Filters\Filter;
 use Orchid\Screen\Field;
 use Orchid\Screen\Fields\Input;
+use Orchid\Screen\Fields\Select;
 
 class QueryFilter extends Filter
 {
     /**
      * @var array
      */
-    public $parameters = ['code'];
+    public $parameters = ['key', 'type'];
 
     /**
      * @return string
@@ -30,7 +31,14 @@ class QueryFilter extends Filter
      */
     public function run(Builder $builder): Builder
     {
-        return $builder->where('code', 'LIKE', '%' . $this->request->get('code') . '%');
+        if ($this->request->get('type') == 'cat') {
+            return $builder->whereHas('category', function (Builder $query) {
+                $query->where('name', 'LIKE', '%' . $this->request->get('key') . '%');
+            });
+        } else {
+            return $builder->where('code', 'LIKE', '%' . $this->request->get('key') . '%');
+        }
+
     }
 
     /**
@@ -39,11 +47,18 @@ class QueryFilter extends Filter
     public function display(): array
     {
         return [
-            Input::make('code')
+            Input::make('key')
                 ->type('text')
-                ->value($this->request->get('code'))
-                ->placeholder('Search products...')
-                ->title('Search'),
+                ->value($this->request->get('key'))
+                ->placeholder('Type keyword')
+                ->title('Search products'),
+            Select::make('type')
+                ->options([
+                    'code' => 'By Code',
+                    'category' => 'By Category',
+                ])
+                ->value($this->request->get('type'))
+                ->title(__('Search Type')),
             // Input::make('submit')->type('submit'),
         ];
     }

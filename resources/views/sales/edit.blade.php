@@ -222,11 +222,19 @@
 	                           <td> </td>
 	                           <td> </td>
 	                           <td class="text-right text-dark">
-	                              <h5><strong>Gross Total: MMK </strong></h5>
+	                              <h5><strong>Grand Total: MMK </strong></h5>
+	                              @if ($sale->received != 0)
+		                              <p><strong>Received : MMK </strong></p>
+		                              <h5><strong>Remain to pay: MMK </strong></h5>
+	                              @endif
 	                           </td>
-	                           <td class="text-center text-danger">
-	                              <h5 id="totalPayment"><strong>{{ $sale->grand_total }}</strong></h5>
+	                           <td class="text-center">
+	                              <h5 id="totalPayment" class="text-danger"><strong>{{ $sale->grand_total }}</strong></h5>
 	                              <input type="hidden" id="grand_total" name="grand_total" value="{{ $sale->grand_total }}">
+	                              @if ($sale->received != 0)
+		                              <h5><strong><span id="taxAmount">{{ $sale->received }}</span></strong></h5>
+		                              <h5 id="totalPayment" class="text-danger"><strong>{{ $sale->remained }}</strong></h5>
+		                           @endif
 	                           </td>
 	                        </tr>
 						</tfoot>
