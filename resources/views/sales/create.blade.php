@@ -57,7 +57,7 @@
 					<input type="date" name="date" class="form-control" required>
 				</div>
 			</div>
-			<div class="col-sm-5">
+			<div class="col-sm-6">
 				<div class="form-group">
 					<label for="customer_id">Customer</label>
 					<select class="form-control customer-select2" name="customer_id" required multiple >
@@ -67,7 +67,7 @@
 					</select>
 				</div>
 			</div>
-			<div class="col-sm-7">
+			<div class="col-sm-6">
 				<div class="form-group">
 					<label for="address">Address</label>
 					<input type="text" name="address" class="form-control">
@@ -79,7 +79,7 @@
 					<input type="text" name="customer_name" class="form-control">
 				</div>
 			</div> --}}
-			<div class="col-sm-3">
+			{{-- <div class="col-sm-3">
 				<div class="form-group">
 					<label for="is_saleprice">Select Price</label>
 					<select class="form-control" name="is_saleprice" id="is_sale" required>
@@ -87,11 +87,18 @@
 						<option value="0">Buy Price</option>
 					</select>
 				</div>
-			</div>
+			</div> --}}
+			<input type="hidden" name="is_saleprice" id="is_sale" value="1">
 			<div class="col-sm-3">
 				<div class="form-group">
 					<label for="discount">Discount</label>
-					<input type="text" id="discount" name="discount" class="form-control" value="0">
+					<input type="text" id="discount" name="discount" class="form-control" min="0" value="0">
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="received">Received</label>
+					<input type="text" id="received" name="received" class="form-control" min="0" value="0">
 				</div>
 			</div>
 			<div class="col-sm-6">
@@ -105,7 +112,7 @@
 
 		<div class="row justify-content-center invoice-form">
 			<div class="col-sm-12">
-				{{-- <div class="table-responsive"> --}}
+				<div class="table-responsive">
 					<table class="table table-responsive">
 						<thead>
 							<tr>
@@ -151,7 +158,7 @@
 						</tbody>
 						<tfoot></tfoot>
 					</table>
-				{{-- </div> --}}
+				</div>
 				<div role="alert" id="errorMsg" class="mt-5" style="margin-bottom:20px;">
 			</div>
 		</div>

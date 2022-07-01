@@ -84,7 +84,7 @@
 					<input type="text" name="address" class="form-control" value="{{ $sale->custom_address }}">
 				</div>
 			</div>
-			<div class="col-sm-3">
+			{{-- <div class="col-sm-3">
 				<div class="form-group">
 					<label for="is_saleprice">Select Price</label>
 					<select class="form-control" name="is_saleprice" id="is_sale" required>
@@ -92,11 +92,19 @@
 						<option value="0" @if($sale->is_saleprice == 0) selected @endif>Buy Price</option>
 					</select>
 				</div>
-			</div>
+			</div> --}}
+			<input type="hidden" name="is_saleprice" id="is_sale" value="1">
 			<div class="col-sm-3">
 				<div class="form-group">
 					<label for="discount">Discount</label>
-					<input type="text" id="discount" name="discount" class="form-control" value="{{ $sale->discount }}">
+					<input type="text" id="discount" name="discount" class="form-control" min="0" value="{{ $sale->discount }}">
+				</div>
+			</div>
+
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="received">Received</label>
+					<input type="text" id="received" name="received" class="form-control" min="0" value="{{ $sale->received }}">
 				</div>
 			</div>
 			<div class="col-sm-6">
@@ -110,116 +118,120 @@
 
 		<div class="row justify-content-center invoice-form">
 			<div class="col-sm-12">
-				<table class="table table-responsive">
-					<thead>
-						<tr>
-							<th>Products</th>
-							<th>Quantity</th>
-							<th>Price</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td width="60%">
-								<div class="form-group">
-									{{-- <label for="product">Select Product</label> --}}
-									<select name="product" id="product" class="product-select2 form-control" multiple>
-										@foreach($products as $product)
-										    <option id="{{ $product->id }}" value="{{ $product->id }}">{{ $product->code . ' [' . $product->name . '] ' }}</option>
-										@endforeach
-									</select>
-								</div>
-							</td>
-							<td width="15%">
-								{{-- <label for="">Price</label> --}}
-								<input type="hidden" id="price" name="price" min="0" value="0">
-								<h6 class="mt-1" id="price_text" >0</h6>
-							</td>
-							<td>
-								<div class="form-group">
-									{{-- <label for="qty">Quantity</label> --}}
-									<input type="number" id="qty" name="qty" min="0" value="0" class="form-control">
-								</div>
-							</td>
-							<td>
-								<div class="form-group">
-									{{-- <label for="" style="visibility: hidden;">Select Product</label> --}}
-									{{-- <button type="button" id="add" class="btn btn-primary" onclick="clear()">Add</button> --}}
-									<button type="submit" class="btn btn-primary">Save</button>
-								</div>
-							</td>
-						</tr>
-					</tbody>
-					<tfoot></tfoot>
-				</table>
+				<div class="table-responsive">
+					<table class="table table-responsive">
+						<thead>
+							<tr>
+								<th>Products</th>
+								<th>Quantity</th>
+								<th>Price</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td width="60%">
+									<div class="form-group">
+										{{-- <label for="product">Select Product</label> --}}
+										<select name="product" id="product" class="product-select2 form-control" multiple>
+											@foreach($products as $product)
+											    <option id="{{ $product->id }}" value="{{ $product->id }}">{{ $product->code . ' [' . $product->name . '] ' }}</option>
+											@endforeach
+										</select>
+									</div>
+								</td>
+								<td width="15%">
+									{{-- <label for="">Price</label> --}}
+									<input type="hidden" id="price" name="price" min="0" value="0">
+									<h6 class="mt-1" id="price_text" >0</h6>
+								</td>
+								<td>
+									<div class="form-group">
+										{{-- <label for="qty">Quantity</label> --}}
+										<input type="number" id="qty" name="qty" min="0" value="0" class="form-control">
+									</div>
+								</td>
+								<td>
+									<div class="form-group">
+										{{-- <label for="" style="visibility: hidden;">Select Product</label> --}}
+										{{-- <button type="button" id="add" class="btn btn-primary" onclick="clear()">Add</button> --}}
+										<button type="submit" class="btn btn-primary">Save</button>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+						<tfoot></tfoot>
+					</table>
+				</div>
 				<div role="alert" id="errorMsg" class="mt-5" style="margin-bottom:20px;">
 			</div>
 		</div>
 
 		<div class="row justify-content-center invoice-form">
 			<div class="col-sm-12">
-				<table id="receipt_bill" class="table table-responsive">
-					<thead>
-						<tr>
-							<th>No.</th>
-							<th>Product</th>
-							<th class="text-center">Price</th>
-							<th class="text-center">Quantity</th>
-							<th class="text-center">Unit Total</th>
-						</tr>
-					</thead>
-					<tbody id="new">
-						@foreach($sale->saleitems as $item)
+				<div class="table-responsive">
+					<table id="receipt_bill" class="table table-responsive">
+						<thead>
 							<tr>
-								<td>{{ $loop->iteration }}</td>
-								<td>
-									{{ $item->product->code }} [{{ $item->product->name }}]
-								</td>
-                        <td class="text-center">{{ $item->price }}</td>
-								<td class="text-center">{{ $item->quantity }}</td>
-                        <td class="text-center">
-                        	<strong>
-	                        	{{-- <input type="hidden" id="total" value="{{ $item->price * $item->quantity }}"> --}}
-	                        	{{ $item->price * $item->quantity }}
-	                        	&nbsp;
-	                        	<a href="{{ url('/admin/sales/saleitems/delete/'. $item->id) }}">
-											<x-orchid-icon path="trash" style="padding-bottom: 5px !important;" />
-									   </a>
-	                        </strong>
-
-                        </td>
+								<th>No.</th>
+								<th>Product</th>
+								<th class="text-center">Price</th>
+								<th class="text-center">Quantity</th>
+								<th class="text-center">Unit Total</th>
 							</tr>
-						@endforeach
-					</tbody>
-					<tfoot>
-						<tr>
-							<td> </td>
-							<td> </td>
-							<td> </td>
-							<td class="text-right text-dark">
-								<h5><strong>Subtotal: MMK </strong></h5>
-								<p><strong>Discount : MMK </strong></p>
-							</td>
-							<td class="text-center text-dark" >
-                        <h5> <strong><span id="subTotal">{{ $sale->sub_total }}</span></strong></h5>
-                        <input type="hidden" id="sub_total" name="sub_total" value="{{ $sale->sub_total }}">
-                        <h5> <strong><span id="taxAmount">{{ $sale->discount }}</strong></h5>
-                     </td>
-						</tr>
-						<tr>
-                           <td> </td>
-                           <td> </td>
-                           <td> </td>
-                           <td class="text-right text-dark">
-                              <h5><strong>Gross Total: MMK </strong></h5>
-                           </td>
-                           <td class="text-center text-danger">
-                              <h5 id="totalPayment"><strong>{{ $sale->grand_total }}</strong></h5>
-                              <input type="hidden" id="grand_total" name="grand_total" value="{{ $sale->grand_total }}">
-                           </td>
-                        </tr>
-					</tfoot>
-				</table>
+						</thead>
+						<tbody id="new">
+							@foreach($sale->saleitems as $item)
+								<tr>
+									<td>{{ $loop->iteration }}</td>
+									<td>
+										{{ $item->product->code }} [{{ $item->product->name }}]
+									</td>
+	                        <td class="text-center">{{ $item->price }}</td>
+									<td class="text-center">{{ $item->quantity }}</td>
+	                        <td class="text-center">
+	                        	<strong>
+		                        	{{-- <input type="hidden" id="total" value="{{ $item->price * $item->quantity }}"> --}}
+		                        	{{ $item->price * $item->quantity }}
+		                        	&nbsp;
+		                        	<a href="{{ url('/admin/sales/saleitems/delete/'. $item->id) }}">
+												<x-orchid-icon path="trash" style="padding-bottom: 5px !important;" />
+										   </a>
+		                        </strong>
+
+	                        </td>
+								</tr>
+							@endforeach
+						</tbody>
+						<tfoot>
+							<tr>
+								<td> </td>
+								<td> </td>
+								<td> </td>
+								<td class="text-right text-dark">
+									<h5><strong>Subtotal: MMK </strong></h5>
+									<p><strong>Discount : MMK </strong></p>
+								</td>
+								<td class="text-center text-dark" >
+	                        <h5> <strong><span id="subTotal">{{ $sale->sub_total }}</span></strong></h5>
+	                        <input type="hidden" id="sub_total" name="sub_total" value="{{ $sale->sub_total }}">
+	                        <h5> <strong><span id="taxAmount">{{ $sale->discount }}</strong></h5>
+	                     </td>
+							</tr>
+							<tr>
+	                           <td> </td>
+	                           <td> </td>
+	                           <td> </td>
+	                           <td class="text-right text-dark">
+	                              <h5><strong>Gross Total: MMK </strong></h5>
+	                           </td>
+	                           <td class="text-center text-danger">
+	                              <h5 id="totalPayment"><strong>{{ $sale->grand_total }}</strong></h5>
+	                              <input type="hidden" id="grand_total" name="grand_total" value="{{ $sale->grand_total }}">
+	                           </td>
+	                        </tr>
+						</tfoot>
+					</table>
+				</div>
 			</div>
 		</div>
 		<div class="row justify-content-center invoice-form">

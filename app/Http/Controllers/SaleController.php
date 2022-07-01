@@ -85,7 +85,7 @@ class SaleController extends Controller
         $subtotal = 0;
 
         foreach ($sale->saleitems as $sitem) {
-            $item_total = $sitem->product->buy_price * $sitem->quantity;
+            $item_total = $sitem->product->sale_price * $sitem->quantity;
             $subtotal = $subtotal + $item_total;
         }
 
@@ -123,8 +123,9 @@ class SaleController extends Controller
         $sale->is_saleprice = $request->get('is_saleprice');
         $sale->discount = $request->get('discount');
         $sale->remarks = $request->get('remarks');
-        $sale->sub_total = $request->get('sub_total');
-        $sale->grand_total = $request->get('grand_total');
+        $sale->received = $request->get('received');
+        // $sale->sub_total = $request->get('sub_total');
+        // $sale->grand_total = $request->get('grand_total');
         $sale->save();
 
         if ($request->has('products')) {
@@ -163,7 +164,7 @@ class SaleController extends Controller
         $subtotal = 0;
 
         foreach ($sale->saleitems as $sitem) {
-            $item_total = $sitem->price * $sitem->quantity;
+            $item_total = $sitem->product->sale_price * $sitem->quantity;
             $subtotal = $subtotal + $item_total;
         }
 
