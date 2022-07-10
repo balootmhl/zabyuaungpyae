@@ -93,7 +93,88 @@
 					</select>
 				</div>
 			</div> --}}
-			<input type="hidden" name="is_saleprice" id="is_sale" value="1">
+			{{-- <div class="col-sm-3">
+				<div class="form-group">
+					<label for="discount">Discount</label>
+					<input type="text" id="discount" name="discount" class="form-control" min="0" value="{{ $sale->discount }}">
+				</div>
+			</div>
+
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="received">Received</label>
+					<input type="text" id="received" name="received" class="form-control" min="0" value="{{ $sale->received }}">
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="remarks">Remark</label>
+					<input type="text" name="remarks" class="form-control" value="{{ $sale->remarks }}">
+				</div>
+			</div> --}}
+		</div>
+	{{-- </form> --}}
+
+		<div class="row justify-content-center invoice-form">
+			<div class="col-sm-12">
+				<div class="table-responsive">
+					<table class="table table-responsive">
+						<thead>
+							<tr>
+								<th>Price by</th>
+								<th>Products</th>
+								<th>Price</th>
+								<th>Qty</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td width="10%">
+									{{-- <div class="form-group"> --}}
+										<select class="form-control" name="is_sale_price" id="is_sale" required>
+											<option value="1">Sale</option>
+											<option value="0">Buy</option>
+										</select>
+									{{-- </div> --}}
+								</td>
+								<td width="60%">
+									<div class="form-group">
+										{{-- <label for="product">Select Product</label> --}}
+										<select name="product" id="product" class="product-select2 form-control" multiple>
+											@foreach($products as $product)
+											    <option id="{{ $product->id }}" value="{{ $product->id }}">{{ $product->code . ' [' . $product->name . '] ' }}</option>
+											@endforeach
+										</select>
+									</div>
+								</td>
+								<td width="15%">
+									{{-- <label for="">Price</label> --}}
+									<input type="hidden" id="price" name="price" min="0" value="0">
+									<h6 class="mt-1" id="price_text" >0</h6>
+								</td>
+								<td width="10%">
+									{{-- <div class="form-group"> --}}
+										{{-- <label for="qty">Quantity</label> --}}
+										<input type="number" id="qty" name="qty" min="0" value="0" class="form-control">
+									{{-- </div> --}}
+								</td>
+								<td width="5%">
+									{{-- <div class="form-group"> --}}
+										{{-- <label for="" style="visibility: hidden;">Select Product</label> --}}
+										{{-- <button type="button" id="add" class="btn btn-primary" onclick="clear()">Add</button> --}}
+										<button type="submit" class="btn btn-primary">Save</button>
+									{{-- </div> --}}
+								</td>
+							</tr>
+						</tbody>
+						<tfoot></tfoot>
+					</table>
+				</div>
+				{{-- <div role="alert" id="errorMsg" class="mt-5" style="margin-bottom:20px;"> --}}
+			</div>
+		</div>
+
+		<div class="row justify-content-center invoice-form">
 			<div class="col-sm-3">
 				<div class="form-group">
 					<label for="discount">Discount</label>
@@ -112,57 +193,6 @@
 					<label for="remarks">Remark</label>
 					<input type="text" name="remarks" class="form-control" value="{{ $sale->remarks }}">
 				</div>
-			</div>
-		</div>
-	{{-- </form> --}}
-
-		<div class="row justify-content-center invoice-form">
-			<div class="col-sm-12">
-				<div class="table-responsive">
-					<table class="table table-responsive">
-						<thead>
-							<tr>
-								<th>Products</th>
-								<th>Quantity</th>
-								<th>Price</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td width="60%">
-									<div class="form-group">
-										{{-- <label for="product">Select Product</label> --}}
-										<select name="product" id="product" class="product-select2 form-control" multiple>
-											@foreach($products as $product)
-											    <option id="{{ $product->id }}" value="{{ $product->id }}">{{ $product->code . ' [' . $product->name . '] ' }}</option>
-											@endforeach
-										</select>
-									</div>
-								</td>
-								<td width="15%">
-									{{-- <label for="">Price</label> --}}
-									<input type="hidden" id="price" name="price" min="0" value="0">
-									<h6 class="mt-1" id="price_text" >0</h6>
-								</td>
-								<td>
-									<div class="form-group">
-										{{-- <label for="qty">Quantity</label> --}}
-										<input type="number" id="qty" name="qty" min="0" value="0" class="form-control">
-									</div>
-								</td>
-								<td>
-									<div class="form-group">
-										{{-- <label for="" style="visibility: hidden;">Select Product</label> --}}
-										{{-- <button type="button" id="add" class="btn btn-primary" onclick="clear()">Add</button> --}}
-										<button type="submit" class="btn btn-primary">Save</button>
-									</div>
-								</td>
-							</tr>
-						</tbody>
-						<tfoot></tfoot>
-					</table>
-				</div>
-				<div role="alert" id="errorMsg" class="mt-5" style="margin-bottom:20px;">
 			</div>
 		</div>
 
@@ -193,7 +223,7 @@
 		                        	{{-- <input type="hidden" id="total" value="{{ $item->price * $item->quantity }}"> --}}
 		                        	{{ $item->price * $item->quantity }}
 		                        	&nbsp;
-		                        	<a href="{{ url('/admin/sales/saleitems/delete/'. $item->id) }}">
+		                        	<a href="{{ url('/admin/sales/saleitems/delete/'. $item->id) }}" class="delete-btn">
 												<x-orchid-icon path="trash" style="padding-bottom: 5px !important;" />
 										   </a>
 		                        </strong>
@@ -245,8 +275,8 @@
 		<div class="row justify-content-center invoice-form">
 			<div class="col-sm-12">
 				<div class="toolbar">
-					{{-- <input type="submit" class="btn btn-success" value="Finish"> --}}
-					<a href="{{ route('platform.sale.view', $sale->id) }}" class="btn btn-success" >Finish</a>
+					<input type="submit" class="btn btn-success" value="Save">
+					<a href="{{ route('platform.sale.view', $sale->id) }}" class="btn btn-success" >View</a>
 				</div>
 
 			</div>

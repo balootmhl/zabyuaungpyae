@@ -10,173 +10,168 @@ use Illuminate\Http\Request;
 use Orchid\Platform\Models\User;
 use Orchid\Support\Facades\Toast;
 
-class SaleController extends Controller
-{
-    public function create()
-    {
-        $products = Product::all();
-        $customers = Customer::all();
-        $users = User::all();
+class SaleController extends Controller {
+	public function create() {
+		$products = Product::all();
+		$customers = Customer::all();
+		$users = User::all();
 
-        return view('sales.create', compact('products', 'customers', 'users'));
-    }
+		return view('sales.create', compact('products', 'customers', 'users'));
+	}
 
-    public function store(Request $request)
-    {
-        $year = str_replace("20", "", date('Y'));
-        $month = date('m');
-        $sale = new Sale();
-        $customer = Customer::firstOrCreate(['name' => $request->get('customer_id')]);
-        $sale->invoice_code = $request->get('invoice_code');
-        if ($request->get('is_inv_auto') == 0) {
-            $sale->invoice_no = '#' . $year . $month . $request->get('invoice_code');
-        }
+	public function store(Request $request) {
+		$year = str_replace("20", "", date('Y'));
+		$month = date('m');
+		$sale = new Sale();
+		$customer = Customer::firstOrCreate(['name' => $request->get('customer_id')]);
+		$sale->invoice_code = $request->get('invoice_code');
+		if ($request->get('is_inv_auto') == 0) {
+			$sale->invoice_no = '#' . $year . $month . $request->get('invoice_code');
+		}
 
-        $sale->user_id = $request->get('user_id');
-        $sale->customer_id = $customer->id;
-        $sale->date = $request->get('date');
-        $sale->custom_name = $customer->name;
-        $sale->custom_address = $request->get('address');
-        $sale->is_saleprice = $request->get('is_saleprice');
-        $sale->is_inv_auto = $request->get('is_inv_auto');
-        $sale->discount = $request->get('discount');
-        $sale->remarks = $request->get('remarks');
-        // $sale->sub_total = $request->get('sub_total');
-        // $sale->grand_total = $request->get('grand_total');
-        $sale->save();
-        if ($request->get('is_inv_auto') == 1) {
-            $sale->invoice_no = '#01' . str_replace("-", "", $sale->date) . $sale->id;
-            $sale->update();
-        }
+		$sale->user_id = $request->get('user_id');
+		$sale->customer_id = $customer->id;
+		$sale->date = $request->get('date');
+		$sale->custom_name = $customer->name;
+		$sale->custom_address = $request->get('address');
+		$sale->is_saleprice = $request->get('is_saleprice');
+		$sale->is_inv_auto = $request->get('is_inv_auto');
+		$sale->discount = $request->get('discount');
+		$sale->remarks = $request->get('remarks');
+		// $sale->sub_total = $request->get('sub_total');
+		// $sale->grand_total = $request->get('grand_total');
+		$sale->save();
+		if ($request->get('is_inv_auto') == 1) {
+			$sale->invoice_no = '#01' . str_replace("-", "", $sale->date) . $sale->id;
+			$sale->update();
+		}
 
-        if ($request->has('products')) {
-            $items = $request->get('products');
-            foreach ($items as $item) {
-                $saleitem = new Saleitem();
-                $saleitem->product_id = $item['product_id'];
-                $saleitem->sale_id = $sale->id;
-                $saleitem->quantity = $item['qty'];
-                $saleitem->save();
-                $product = Product::findOrFail($saleitem->product_id);
-                $product->quantity = $product->quantity - $saleitem->quantity;
-                $product->update();
-            }
-        }
+		if ($request->has('products')) {
+			$items = $request->get('products');
+			foreach ($items as $item) {
+				$saleitem = new Saleitem();
+				$saleitem->product_id = $item['product_id'];
+				$saleitem->sale_id = $sale->id;
+				$saleitem->quantity = $item['qty'];
+				$saleitem->save();
+				$product = Product::findOrFail($saleitem->product_id);
+				$product->quantity = $product->quantity - $saleitem->quantity;
+				$product->update();
+			}
+		}
 
-        if ($request->get('price') == 0 || $request->get('qty') == 0) {
-            if ($request->get('price') == 0) {
-                Toast::warning('Select product to add.');
-            }
-            if ($request->get('qty') == 0) {
-                Toast::warning('Minimum Qty should be 1 or More than 1.');
-            }
-        } else {
-            $saleitem = new Saleitem();
-            $saleitem->product_id = $request->get('product');
-            $saleitem->sale_id = $sale->id;
-            $saleitem->quantity = $request->get('qty');
-            $saleitem->price = $request->get('price');
-            $saleitem->save();
-            $product = Product::findOrFail($saleitem->product_id);
-            $product->quantity = $product->quantity - $saleitem->quantity;
-            $product->update();
-        }
+		if ($request->get('price') == 0 || $request->get('qty') == 0) {
+			if ($request->get('price') == 0) {
+				Toast::warning('Select product to add.');
+			}
+			if ($request->get('qty') == 0) {
+				Toast::warning('Minimum Qty should be 1 or More than 1.');
+			}
+		} else {
+			$saleitem = new Saleitem();
+			$saleitem->product_id = $request->get('product');
+			$saleitem->sale_id = $sale->id;
+			$saleitem->quantity = $request->get('qty');
+			$saleitem->price = $request->get('price');
+			$saleitem->save();
+			$product = Product::findOrFail($saleitem->product_id);
+			$product->quantity = $product->quantity - $saleitem->quantity;
+			$product->update();
+		}
 
-        $subtotal = 0;
+		$subtotal = 0;
 
-        foreach ($sale->saleitems as $sitem) {
-            $item_total = $sitem->product->sale_price * $sitem->quantity;
-            $subtotal = $subtotal + $item_total;
-        }
+		foreach ($sale->saleitems as $sitem) {
+			$item_total = $sitem->price * $sitem->quantity;
+			$subtotal = $subtotal + $item_total;
+		}
 
-        $sale->sub_total = $subtotal;
-        $sale->grand_total = $subtotal - $sale->discount;
-        $sale->update();
-        // Alert::success('Sale Invoice has been created successfully!');
+		$sale->sub_total = $subtotal;
+		$sale->grand_total = $subtotal - $sale->discount;
+		$sale->update();
+		// Alert::success('Sale Invoice has been created successfully!');
 
-        // return redirect()->route('platform.sale.view', $sale->id);
-        return redirect()->route('platform.sale.edit-custom', $sale->id);
-    }
+		// return redirect()->route('platform.sale.view', $sale->id);
+		return redirect()->route('platform.sale.edit-custom', $sale->id);
+	}
 
-    public function edit($id)
-    {
-        $sale = Sale::findOrFail($id);
-        $items_count = count($sale->saleitems);
-        $products = Product::all();
-        $customers = Customer::all();
-        $users = User::all();
+	public function edit($id) {
+		$sale = Sale::findOrFail($id);
+		$items_count = count($sale->saleitems);
+		$products = Product::all();
+		$customers = Customer::all();
+		$users = User::all();
 
-        return view('sales.edit', compact('products', 'customers', 'users', 'sale', 'items_count'));
-    }
+		return view('sales.edit', compact('products', 'customers', 'users', 'sale', 'items_count'));
+	}
 
-    public function update(Request $request)
-    {
-        $sale = Sale::findOrFail($request->get('sale_id'));
-        $sale->invoice_code = $request->get('invoice_code');
-        // $sale->invoice_no = '#' . $year . $month . $request->get('invoice_code');
-        $customer = Customer::firstOrCreate(['name' => $request->get('customer_id')]);
-        $sale->user_id = $request->get('user_id');
-        $sale->customer_id = $customer->id;
-        $sale->date = $request->get('date');
-        $sale->custom_name = $customer->name;
-        $sale->custom_address = $request->get('address');
-        $sale->is_saleprice = $request->get('is_saleprice');
-        $sale->discount = $request->get('discount');
-        $sale->remarks = $request->get('remarks');
-        $sale->received = $request->get('received');
-        // $sale->sub_total = $request->get('sub_total');
-        // $sale->grand_total = $request->get('grand_total');
-        $sale->save();
+	public function update(Request $request) {
+		$sale = Sale::findOrFail($request->get('sale_id'));
+		$sale->invoice_code = $request->get('invoice_code');
+		// $sale->invoice_no = '#' . $year . $month . $request->get('invoice_code');
+		$customer = Customer::firstOrCreate(['name' => $request->get('customer_id')]);
+		$sale->user_id = $request->get('user_id');
+		$sale->customer_id = $customer->id;
+		$sale->date = $request->get('date');
+		$sale->custom_name = $customer->name;
+		$sale->custom_address = $request->get('address');
+		$sale->is_saleprice = $request->get('is_saleprice');
+		$sale->discount = $request->get('discount');
+		$sale->remarks = $request->get('remarks');
+		$sale->received = $request->get('received');
+		// $sale->sub_total = $request->get('sub_total');
+		// $sale->grand_total = $request->get('grand_total');
+		$sale->save();
 
-        if ($request->has('products')) {
-            $items = $request->get('products');
-            foreach ($items as $item) {
-                $saleitem = new Saleitem();
-                $saleitem->product_id = $item['product_id'];
-                $saleitem->sale_id = $sale->id;
-                $saleitem->quantity = $item['qty'];
-                $saleitem->save();
-                $product = Product::findOrFail($saleitem->product_id);
-                $product->quantity = $product->quantity - $saleitem->quantity;
-                $product->update();
-            }
-        }
+		if ($request->has('products')) {
+			$items = $request->get('products');
+			foreach ($items as $item) {
+				$saleitem = new Saleitem();
+				$saleitem->product_id = $item['product_id'];
+				$saleitem->sale_id = $sale->id;
+				$saleitem->quantity = $item['qty'];
+				$saleitem->save();
+				$product = Product::findOrFail($saleitem->product_id);
+				$product->quantity = $product->quantity - $saleitem->quantity;
+				$product->update();
+			}
+		}
 
-        if ($request->get('price') == 0 || $request->get('qty') == 0) {
-            if ($request->get('price') == 0) {
-                Toast::warning('Select product to add.');
-            }
-            if ($request->get('qty') == 0) {
-                Toast::warning('Minimum Qty should be 1 or More than 1.');
-            }
-        } else {
-            $saleitem = new Saleitem();
-            $saleitem->product_id = $request->get('product');
-            $saleitem->sale_id = $sale->id;
-            $saleitem->quantity = $request->get('qty');
-            $saleitem->price = $request->get('price');
-            $saleitem->save();
-            $product = Product::findOrFail($saleitem->product_id);
-            $product->quantity = $product->quantity - $saleitem->quantity;
-            $product->update();
-        }
+		if ($request->get('price') == 0 || $request->get('qty') == 0) {
+			if ($request->get('price') == 0) {
+				Toast::warning('Select product to add.');
+			}
+			if ($request->get('qty') == 0) {
+				Toast::warning('Minimum Qty should be 1 or More than 1.');
+			}
+		} else {
+			$saleitem = new Saleitem();
+			$saleitem->product_id = $request->get('product');
+			$saleitem->sale_id = $sale->id;
+			$saleitem->quantity = $request->get('qty');
+			$saleitem->price = $request->get('price');
+			$saleitem->save();
+			$product = Product::findOrFail($saleitem->product_id);
+			$product->quantity = $product->quantity - $saleitem->quantity;
+			$product->update();
+		}
 
-        $subtotal = 0;
+		$subtotal = 0;
 
-        foreach ($sale->saleitems as $sitem) {
-            $item_total = $sitem->product->sale_price * $sitem->quantity;
-            $subtotal = $subtotal + $item_total;
-        }
+		foreach ($sale->saleitems as $sitem) {
+			$item_total = $sitem->price * $sitem->quantity;
+			$subtotal = $subtotal + $item_total;
+		}
 
-        $sale->sub_total = $subtotal;
-        $sale->grand_total = $subtotal - $sale->discount;
-        if ($sale->received != 0) {
-            $sale->remained = $sale->grand_total - $sale->received;
-        }
-        $sale->update();
-        // Alert::success('Sale Invoice has been updated successfully!');
+		$sale->sub_total = $subtotal;
+		$sale->grand_total = $subtotal - $sale->discount;
+		if ($sale->received != 0) {
+			$sale->remained = $sale->grand_total - $sale->received;
+		}
+		$sale->update();
+		// Alert::success('Sale Invoice has been updated successfully!');
 
-        return redirect()->route('platform.sale.edit-custom', $sale->id);
-    }
+		return redirect()->route('platform.sale.edit-custom', $sale->id);
+	}
 
 }

@@ -88,73 +88,7 @@
 					</select>
 				</div>
 			</div> --}}
-
-		</div>
-	{{-- </form> --}}
-
-		<div class="row justify-content-center invoice-form">
-			<div class="col-sm-12" style="">
-				<div class="table-responsive">
-					<table class="table table-responsive">
-						<thead>
-							<tr>
-								<th>Price by</th>
-								<th>Products</th>
-								<th>Price</th>
-								<th>Qty</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td width="10%">
-									{{-- <div class="form-group"> --}}
-										<select class="form-control" name="is_sale_price" id="is_sale" required>
-											<option value="1">Sale</option>
-											<option value="0">Buy</option>
-										</select>
-									{{-- </div> --}}
-								</td>
-								<td width="60%">
-									{{-- <div class="form-group"> --}}
-										{{-- <label for="product">Select Product</label> --}}
-										<select name="product" id="product" class="product-select2 form-control" multiple>
-											@foreach($products as $product)
-											    <option id="{{ $product->id }}" value="{{ $product->id }}">{{ $product->code . ' [' . $product->name . '] ' }}</option>
-											@endforeach
-										</select>
-									{{-- </div> --}}
-								</td>
-								<td width="15%">
-									{{-- <div class="form-group"> --}}
-										<input type="hidden" id="price" name="price" min="0" value="0">
-										<h6 class="mt-1" id="price_text" >0</h6>
-									{{-- </div> --}}
-									{{-- <label for="">Price</label> --}}
-									{{-- <h6 class="mt-1" id="price" >0</h6> --}}
-								</td>
-								<td width="10%">
-									{{-- <div class="form-group"> --}}
-										{{-- <label for="qty">Quantity</label> --}}
-										<input type="number" id="qty" name="qty" min="0" value="0" class="form-control">
-									{{-- </div> --}}
-								</td>
-								<td width="5%">
-									{{-- <div class="form-group text-center"> --}}
-										{{-- <label for="" style="visibility: hidden;">Select Product</label> --}}
-										{{-- <button type="button" id="add" class="btn btn-primary">Add</button> --}}
-										<button type="submit" class="btn btn-primary ">Save</button>
-									{{-- </div> --}}
-								</td>
-							</tr>
-						</tbody>
-						<tfoot></tfoot>
-					</table>
-				</div>
-				{{-- <div role="alert" id="errorMsg" class="mt-5" style="margin-bottom:20px;"> --}}
-			</div>
-		</div>
-
-		<div class="row">
+			<input type="hidden" name="is_saleprice" id="is_sale" value="1">
 			<div class="col-sm-3">
 				<div class="form-group">
 					<label for="discount">Discount</label>
@@ -174,8 +108,62 @@
 				</div>
 			</div>
 		</div>
+	{{-- </form> --}}
 
-		{{-- <div class="row justify-content-center invoice-form">
+		<div class="row justify-content-center invoice-form">
+			<div class="col-sm-12">
+				<div class="table-responsive">
+					<table class="table table-responsive">
+						<thead>
+							<tr>
+								<th>Products</th>
+								<th>Price</th>
+								<th>Quantity</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td width="60%">
+									<div class="form-group">
+										{{-- <label for="product">Select Product</label> --}}
+										<select name="product" id="product" class="product-select2 form-control" multiple>
+											@foreach($products as $product)
+											    <option id="{{ $product->id }}" value="{{ $product->id }}">{{ $product->code . ' [' . $product->name . '] ' }}</option>
+											@endforeach
+										</select>
+									</div>
+								</td>
+								<td width="15%">
+									<div class="form-group">
+										<input type="hidden" id="price" name="price" min="0" value="0">
+										<h6 class="mt-1" id="price_text" >0</h6>
+									</div>
+									{{-- <label for="">Price</label> --}}
+									{{-- <h6 class="mt-1" id="price" >0</h6> --}}
+								</td>
+								<td>
+									<div class="form-group">
+										{{-- <label for="qty">Quantity</label> --}}
+										<input type="number" id="qty" name="qty" min="0" value="0" class="form-control">
+									</div>
+								</td>
+								<td>
+									<div class="form-group">
+										{{-- <label for="" style="visibility: hidden;">Select Product</label> --}}
+										{{-- <button type="button" id="add" class="btn btn-primary">Add</button> --}}
+										<button type="submit" class="btn btn-primary">Save</button>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+						<tfoot></tfoot>
+					</table>
+				</div>
+				<div role="alert" id="errorMsg" class="mt-5" style="margin-bottom:20px;">
+			</div>
+		</div>
+
+		<div class="row justify-content-center invoice-form">
 			<div class="col-sm-12">
 				<table id="receipt_bill" class="table table-responsive">
 					<thead>
@@ -190,7 +178,7 @@
 					<tbody id="new">
 
 					</tbody>
-					<tfoot>
+					{{-- <tfoot>
 						<tr>
 							<td> </td>
 							<td> </td>
@@ -217,10 +205,10 @@
                               <input type="hidden" id="grand_total" name="grand_total" value="">
                            </td>
                         </tr>
-					</tfoot>
+					</tfoot> --}}
 				</table>
 			</div>
-		</div> --}}
+		</div>
 		{{-- <div class="row justify-content-center invoice-form">
 			<div class="col-sm-12">
 				<div class="toolbar">

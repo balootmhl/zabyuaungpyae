@@ -15,9 +15,17 @@ span.text-ellipsis {
 .invoice-form .col-sm-6,
 .invoice-form .col-sm-7,
 .invoice-form .col-sm-12 {
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 }
 
 .toolbar .btn {
    display: inline-block !important;
+}
+
+.invoice-form .table thead tr th:first-child, .invoice-form .table tbody tr td:first-child {
+	padding-left: 0.1px !important;
+}
+
+.delete-btn {
+	padding: 10px;
 }
