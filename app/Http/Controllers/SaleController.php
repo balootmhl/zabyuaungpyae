@@ -62,10 +62,10 @@ class SaleController extends Controller {
 
 		if ($request->get('price') == 0 || $request->get('qty') == 0) {
 			if ($request->get('price') == 0) {
-				Toast::warning('Select product to add.');
+				// Toast::warning('Select product to add.');
 			}
 			if ($request->get('qty') == 0) {
-				Toast::warning('Minimum Qty should be 1 or More than 1.');
+				// Toast::warning('Minimum Qty should be 1 or More than 1.');
 			}
 		} else {
 			$saleitem = new Saleitem();
