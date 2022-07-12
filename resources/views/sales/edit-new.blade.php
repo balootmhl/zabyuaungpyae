@@ -68,6 +68,8 @@
 					<input type="date" name="date" class="form-control" value="{{ $sale->date }}" required>
 				</div>
 			</div>
+		</div>
+		<div class="row justify-content-center invoice-form">
 			<div class="col-sm-5">
 				<div class="form-group">
 					<label for="customer_id">Customer</label>
@@ -78,13 +80,13 @@
 					</select>
 				</div>
 			</div>
-			<div class="col-sm-7">
+			<div class="col-sm-5">
 				<div class="form-group">
 					<label for="address">Address</label>
 					<input type="text" name="address" class="form-control" value="{{ $sale->custom_address }}">
 				</div>
 			</div>
-			{{-- <div class="col-sm-3">
+			<div class="col-sm-2">
 				<div class="form-group">
 					<label for="is_saleprice">Select Price</label>
 					<select class="form-control" name="is_saleprice" id="is_sale" required>
@@ -92,7 +94,7 @@
 						<option value="0" @if($sale->is_saleprice == 0) selected @endif>Buy Price</option>
 					</select>
 				</div>
-			</div> --}}
+			</div>
 			{{-- <div class="col-sm-3">
 				<div class="form-group">
 					<label for="discount">Discount</label>
@@ -121,7 +123,7 @@
 					<table class="table table-responsive">
 						<thead>
 							<tr>
-								<th>Price by</th>
+								{{-- <th>Price by</th> --}}
 								<th>Products</th>
 								<th>Price</th>
 								<th>Qty</th>
@@ -129,14 +131,14 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td width="10%">
-									{{-- <div class="form-group"> --}}
+								{{-- <td width="10%">
+									<div class="form-group">
 										<select class="form-control" name="is_sale_price" id="is_sale" required>
 											<option value="1">Sale</option>
 											<option value="0">Buy</option>
 										</select>
-									{{-- </div> --}}
-								</td>
+									</div>
+								</td> --}}
 								<td width="60%">
 									<div class="form-group">
 										{{-- <label for="product">Select Product</label> --}}
@@ -152,17 +154,19 @@
 									<input type="hidden" id="price" name="price" min="0" value="0">
 									<h6 class="mt-1" id="price_text" >0</h6>
 								</td>
-								<td width="10%">
+								<td width="15%">
 									{{-- <div class="form-group"> --}}
 										{{-- <label for="qty">Quantity</label> --}}
 										<input type="number" id="qty" name="qty" min="0" value="0" class="form-control">
 									{{-- </div> --}}
 								</td>
-								<td width="5%">
+								<td width="10%">
+									<div class="toolbar">
+										<button type="submit" class="btn btn-primary">Save</button>
+									</div>
 									{{-- <div class="form-group"> --}}
 										{{-- <label for="" style="visibility: hidden;">Select Product</label> --}}
 										{{-- <button type="button" id="add" class="btn btn-primary" onclick="clear()">Add</button> --}}
-										<button type="submit" class="btn btn-primary">Save</button>
 									{{-- </div> --}}
 								</td>
 							</tr>

@@ -96,20 +96,28 @@
 	                               {{ $saleitem->product->name }}
 	                            </td>
 	                            <td class="unit">
-                                    @if($sale->is_saleprice == 1)
-                                        {{ $saleitem->product->sale_price }}
+                                    @if($saleitem->price == null)
+                                        @if($sale->is_saleprice == 1)
+                                            {{ $saleitem->product->sale_price }}
+                                        @else
+                                            {{ $saleitem->product->buy_price }}
+                                        @endif
                                     @else
-                                        {{ $saleitem->product->buy_price }}
+                                        {{ $saleitem->price }}
                                     @endif
 
                                 </td>
 	                            <td class="qty">{{ $saleitem->quantity }}</td>
                                 <td class="text-center"><input type="checkbox" unchecked></td>
 	                            <td class="total">
-                                    @if($sale->is_saleprice == 1)
-                                        {{ $saleitem->product->sale_price * $saleitem->quantity }}
+                                    @if($saleitem->price == null)
+                                        @if($sale->is_saleprice == 1)
+                                            {{ $saleitem->product->sale_price * $saleitem->quantity }}
+                                        @else
+                                            {{ $saleitem->product->buy_price * $saleitem->quantity }}
+                                        @endif
                                     @else
-                                        {{ $saleitem->product->buy_price * $saleitem->quantity }}
+                                        {{ $saleitem->price * $saleitem->quantity }}
                                     @endif
 
                                 </td>

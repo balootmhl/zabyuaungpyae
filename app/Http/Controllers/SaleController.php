@@ -60,14 +60,7 @@ class SaleController extends Controller {
 			}
 		}
 
-		if ($request->get('price') == 0 || $request->get('qty') == 0) {
-			if ($request->get('price') == 0) {
-				// Toast::warning('Select product to add.');
-			}
-			if ($request->get('qty') == 0) {
-				// Toast::warning('Minimum Qty should be 1 or More than 1.');
-			}
-		} else {
+		if ($request->get('price') != 0 || $request->get('qty') != 0) {
 			$saleitem = new Saleitem();
 			$saleitem->product_id = $request->get('product');
 			$saleitem->sale_id = $sale->id;
@@ -90,6 +83,7 @@ class SaleController extends Controller {
 		$sale->grand_total = $subtotal - $sale->discount;
 		$sale->update();
 		// Alert::success('Sale Invoice has been created successfully!');
+		Toast::success('Invoice Saved.');
 
 		// return redirect()->route('platform.sale.view', $sale->id);
 		return redirect()->route('platform.sale.edit-custom', $sale->id);
@@ -102,7 +96,7 @@ class SaleController extends Controller {
 		$customers = Customer::all();
 		$users = User::all();
 
-		return view('sales.edit', compact('products', 'customers', 'users', 'sale', 'items_count'));
+		return view('sales.edit-new', compact('products', 'customers', 'users', 'sale', 'items_count'));
 	}
 
 	public function update(Request $request) {
@@ -137,14 +131,7 @@ class SaleController extends Controller {
 			}
 		}
 
-		if ($request->get('price') == 0 || $request->get('qty') == 0) {
-			if ($request->get('price') == 0) {
-				Toast::warning('Select product to add.');
-			}
-			if ($request->get('qty') == 0) {
-				Toast::warning('Minimum Qty should be 1 or More than 1.');
-			}
-		} else {
+		if ($request->get('product') != null && $request->get('price') != 0 && $request->get('qty') != 0) {
 			$saleitem = new Saleitem();
 			$saleitem->product_id = $request->get('product');
 			$saleitem->sale_id = $sale->id;
@@ -170,6 +157,7 @@ class SaleController extends Controller {
 		}
 		$sale->update();
 		// Alert::success('Sale Invoice has been updated successfully!');
+		Toast::success('Invoice Saved.');
 
 		return redirect()->route('platform.sale.edit-custom', $sale->id);
 	}
