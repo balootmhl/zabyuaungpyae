@@ -4,7 +4,7 @@
 	@if($sale->is_inv_auto == 1)
 		Sale Invoice (Auto)
 	@else
-		Sale Invoice (Auto)
+		Sale Invoice (Manual)
 	@endif
 @stop
 
@@ -227,7 +227,7 @@
 		                        	{{-- <input type="hidden" id="total" value="{{ $item->price * $item->quantity }}"> --}}
 		                        	{{ $item->price * $item->quantity }}
 		                        	&nbsp;
-		                        	<a href="{{ url('/admin/sales/saleitems/delete/'. $item->id) }}" class="delete-btn">
+		                        	<a href="{{ url('/admin/sales/saleitems/delete/'. $item->id) }}" class="delete-btn" onclick="return confirm('Are you sure?')">
 												<x-orchid-icon path="trash" style="padding-bottom: 5px !important;" />
 										   </a>
 		                        </strong>

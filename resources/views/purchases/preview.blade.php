@@ -10,6 +10,7 @@
     <div class="toolbar hidden-print">
         <div class="text-right">
             <button id="printInvoice" class="btn btn-info">{{-- <i class="fa fa-print"></i> --}}<x-orchid-icon path="printer"/>&nbsp; Print</button>
+            <a href="{{ route('platform.purchase.edit-custom', $purchase->id) }}" class="btn btn-info">{{-- <i class="fa fa-print"></i> --}}<x-orchid-icon path="pencil"/>&nbsp; Edit</a>
             {{-- <button class="btn btn-info"><i class="fa fa-file-pdf-o"></i> Export as PDF</button> --}}
         </div>
         <hr>
@@ -69,7 +70,7 @@
                     </div>
                 </div>
                 <table class="table table-striped">
-                    <thead>
+                    {{-- <thead>
                         <tr>
                             <th class="text-right" style="padding:0 !important;">#</th>
                             <th class="text-left">Code</th>
@@ -79,50 +80,69 @@
                             <th style="text-align: right !important;" >Qty</th>
                             <th style="text-align: right !important;width: 12% !important;" >Total</th>
                         </tr>
+                    </thead> --}}
+                    <thead style="display: table-row-group">
+                        <tr>
+                            <th class="text-right" style="padding:0 !important;">#</th>
+                            <th class="text-left">Code</th>
+                            <th class="text-left">Description</th>
+                            <th style="text-align: right !important;" >Price</th>
+                            <th style="text-align: right !important;" >Qty</th>
+                            <th class="text-center"></th>
+                            <th style="text-align: right !important;" >Total</th>
+                        </tr>
                     </thead>
                     <tbody>
                     	@foreach($purchase->purchaseitems as $purchaseitem)
                             <tr>
-	                            <td class="no" style="padding:0 !important;width: 6% !important;">{{ $loop->iteration }}</td>
+	                            <td class="no" style="padding:0 !important;width: 4% !important;">{{ $loop->iteration }}</td>
 	                            <td class="text-left code">
 	                               {{ $purchaseitem->product->code }}
 	                            </td>
                                 <td class="text-left">
                                    {{ $purchaseitem->product->name }}
                                 </td>
-	                            <td class="text-center"><input type="checkbox" unchecked></td>
-	                            <td class="unit">{{ $purchaseitem->product->buy_price }}</td>
+                                @if($purchaseitem->price == null || $purchaseitem->price == 0)
+                                    <td class="unit">{{ $purchaseitem->product->buy_price }}</td>
+                                @else
+                                    <td class="unit">{{ $purchaseitem->price }}</td>
+                                @endif
 	                            <td class="qty">{{ $purchaseitem->quantity }}</td>
-	                            <td class="total">{{ $purchaseitem->product->buy_price * $purchaseitem->quantity }}</td>
+                                <td class="text-center"><input type="checkbox" unchecked></td>
+                                @if($purchaseitem->price == null || $purchaseitem->price == 0)
+                                    <td class="total">{{ $purchaseitem->product->buy_price * $purchaseitem->quantity }}</td>
+                                @else
+                                    <td class="total">{{ $purchaseitem->price * $purchaseitem->quantity }}</td>
+                                @endif
 	                        </tr>
                     	@endforeach
 
                     </tbody>
-                    <tfoot>
+                    <tfoot style="display: table-row-group">
                         <tr>
-                            <td colspan="4"></td>
-                            <td colspan="2">SUBTOTAL</td>
+                            <td colspan="3"></td>
+                            <td colspan="3">SUBTOTAL</td>
                             <td>{{ $purchase->sub_total }} Ks</td>
                         </tr>
                         <tr>
-                            <td colspan="4"></td>
-                            <td colspan="2">DISCOUNT</td>
+                            <td colspan="3"></td>
+                            <td colspan="3">DISCOUNT</td>
                             <td>{{ $purchase->discount }} Ks</td>
                         </tr>
                         <tr>
-                            <td colspan="4"></td>
-                            <td colspan="2">GRAND TOTAL</td>
+                            <td colspan="3"></td>
+                            <td colspan="3">GRAND TOTAL</td>
                             <td>{{ $purchase->grand_total }} Ks</td>
                         </tr>
                         @if($purchase->received != 0)
 			          	  <tr>
-				            <td colspan="4"></td>
-				            <td colspan="2">RECEIPT</td>
+				            <td colspan="3"></td>
+				            <td colspan="3">RECEIPT</td>
 				            <td>{{ $purchase->received }} Ks</td>
 				          </tr>
 				          <tr>
-				            <td colspan="4"></td>
-				            <td colspan="2">REMAINING <br>AMOUNT</td>
+				            <td colspan="3"></td>
+				            <td colspan="3">REMAINING <br>AMOUNT</td>
 				            <td>{{ $purchase->remained }} Ks</td>
 				          </tr>
 			          @endif

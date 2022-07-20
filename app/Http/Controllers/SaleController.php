@@ -15,7 +15,6 @@ class SaleController extends Controller {
 		$products = Product::all();
 		$customers = Customer::all();
 		$users = User::all();
-
 		return view('sales.create', compact('products', 'customers', 'users'));
 	}
 
@@ -28,7 +27,6 @@ class SaleController extends Controller {
 		if ($request->get('is_inv_auto') == 0) {
 			$sale->invoice_no = '#' . $year . $month . $request->get('invoice_code');
 		}
-
 		$sale->user_id = $request->get('user_id');
 		$sale->customer_id = $customer->id;
 		$sale->date = $request->get('date');
@@ -38,29 +36,13 @@ class SaleController extends Controller {
 		$sale->is_inv_auto = $request->get('is_inv_auto');
 		$sale->discount = $request->get('discount');
 		$sale->remarks = $request->get('remarks');
-		// $sale->sub_total = $request->get('sub_total');
-		// $sale->grand_total = $request->get('grand_total');
+		$sale->received = $request->get('received');
 		$sale->save();
 		if ($request->get('is_inv_auto') == 1) {
 			$sale->invoice_no = '#01' . str_replace("-", "", $sale->date) . $sale->id;
 			$sale->update();
 		}
-
-		if ($request->has('products')) {
-			$items = $request->get('products');
-			foreach ($items as $item) {
-				$saleitem = new Saleitem();
-				$saleitem->product_id = $item['product_id'];
-				$saleitem->sale_id = $sale->id;
-				$saleitem->quantity = $item['qty'];
-				$saleitem->save();
-				$product = Product::findOrFail($saleitem->product_id);
-				$product->quantity = $product->quantity - $saleitem->quantity;
-				$product->update();
-			}
-		}
-
-		if ($request->get('price') != 0 || $request->get('qty') != 0) {
+		if ($request->get('product') != null && $request->get('price') != 0 && $request->get('qty') != 0) {
 			$saleitem = new Saleitem();
 			$saleitem->product_id = $request->get('product');
 			$saleitem->sale_id = $sale->id;
@@ -71,21 +53,18 @@ class SaleController extends Controller {
 			$product->quantity = $product->quantity - $saleitem->quantity;
 			$product->update();
 		}
-
 		$subtotal = 0;
-
 		foreach ($sale->saleitems as $sitem) {
 			$item_total = $sitem->price * $sitem->quantity;
 			$subtotal = $subtotal + $item_total;
 		}
-
 		$sale->sub_total = $subtotal;
 		$sale->grand_total = $subtotal - $sale->discount;
+		if ($sale->received != 0) {
+			$sale->remained = $sale->grand_total - $sale->received;
+		}
 		$sale->update();
-		// Alert::success('Sale Invoice has been created successfully!');
 		Toast::success('Invoice Saved.');
-
-		// return redirect()->route('platform.sale.view', $sale->id);
 		return redirect()->route('platform.sale.edit-custom', $sale->id);
 	}
 
@@ -102,7 +81,6 @@ class SaleController extends Controller {
 	public function update(Request $request) {
 		$sale = Sale::findOrFail($request->get('sale_id'));
 		$sale->invoice_code = $request->get('invoice_code');
-		// $sale->invoice_no = '#' . $year . $month . $request->get('invoice_code');
 		$customer = Customer::firstOrCreate(['name' => $request->get('customer_id')]);
 		$sale->user_id = $request->get('user_id');
 		$sale->customer_id = $customer->id;
@@ -110,26 +88,25 @@ class SaleController extends Controller {
 		$sale->custom_name = $customer->name;
 		$sale->custom_address = $request->get('address');
 		$sale->is_saleprice = $request->get('is_saleprice');
+		$sale->is_inv_auto = $request->get('is_inv_auto');
 		$sale->discount = $request->get('discount');
 		$sale->remarks = $request->get('remarks');
 		$sale->received = $request->get('received');
-		// $sale->sub_total = $request->get('sub_total');
-		// $sale->grand_total = $request->get('grand_total');
 		$sale->save();
 
-		if ($request->has('products')) {
-			$items = $request->get('products');
-			foreach ($items as $item) {
-				$saleitem = new Saleitem();
-				$saleitem->product_id = $item['product_id'];
-				$saleitem->sale_id = $sale->id;
-				$saleitem->quantity = $item['qty'];
-				$saleitem->save();
-				$product = Product::findOrFail($saleitem->product_id);
-				$product->quantity = $product->quantity - $saleitem->quantity;
-				$product->update();
-			}
-		}
+		// if ($request->has('products')) {
+		// 	$items = $request->get('products');
+		// 	foreach ($items as $item) {
+		// 		$saleitem = new Saleitem();
+		// 		$saleitem->product_id = $item['product_id'];
+		// 		$saleitem->sale_id = $sale->id;
+		// 		$saleitem->quantity = $item['qty'];
+		// 		$saleitem->save();
+		// 		$product = Product::findOrFail($saleitem->product_id);
+		// 		$product->quantity = $product->quantity - $saleitem->quantity;
+		// 		$product->update();
+		// 	}
+		// }
 
 		if ($request->get('product') != null && $request->get('price') != 0 && $request->get('qty') != 0) {
 			$saleitem = new Saleitem();
@@ -156,7 +133,6 @@ class SaleController extends Controller {
 			$sale->remained = $sale->grand_total - $sale->received;
 		}
 		$sale->update();
-		// Alert::success('Sale Invoice has been updated successfully!');
 		Toast::success('Invoice Saved.');
 
 		return redirect()->route('platform.sale.edit-custom', $sale->id);
