@@ -77,11 +77,11 @@ class ProductListLayout extends Table
                                 ->route('platform.product.edit', $product->id)
                                 ->icon('pencil'),
 
-                            Button::make(__('Delete'))
-                                ->icon('trash')
-                                ->confirm(__('Are you sure?'))
-                                ->method('remove', [
-                                    'id' => $product->id,
+                            // Button::make(__('Delete'))
+                            //     ->icon('trash')
+                            //     ->confirm(__('Are you sure?'))
+                            //     ->method('remove', [
+                            //         'id' => $product->id,
                                 ]),
                         ]);
                 }),
