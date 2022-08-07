@@ -190,16 +190,21 @@ class SaleListScreen extends Screen {
 		$sitems = Saleitem::all();
 		$pitems = Purchaseitem::all();
 		foreach ($sitems as $s) {
-			$sp = Product::findOrFail($s->product_id);
-			$s->name = $sp->name;
-			$s->code = $sp->code;
-			$s->update();
+			// $sp = Product::findOrFail($s->product_id);
+			if ($s->product) {
+				$s->name = $s->product->name;
+				$s->code = $s->product->code;
+				$s->update();
+			}
+
 		}
 		foreach ($pitems as $p) {
-			$pp = Product::findOrFail($p->product_id);
-			$p->name = $pp->name;
-			$p->code = $pp->code;
-			$p->update();
+			// $pp = Product::findOrFail($p->product_id);
+			if ($p->product) {
+				$p->name = $p->product->name;
+				$p->code = $p->product->code;
+				$p->update();
+			}
 		}
 		Toast::success('Fixed the name of sale items & purchase items.');
 		return redirect()->route('platform.sale.list');
