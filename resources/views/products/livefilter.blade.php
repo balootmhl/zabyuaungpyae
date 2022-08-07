@@ -1,5 +1,8 @@
 @push('head')
 	<style>
+		.toolbar input {
+			display: inline-block !important;
+		}
 		#fffilter input {
 			transition: .3s;
 		}

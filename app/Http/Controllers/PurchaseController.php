@@ -42,13 +42,16 @@ class PurchaseController extends Controller {
 			$purchase->update();
 		}
 		if ($request->get('product') != null && $request->get('price') != 0 && $request->get('qty') != 0) {
+			$product = Product::findOrFail($request->get('product'));
 			$purchaseitem = new Purchaseitem();
 			$purchaseitem->product_id = $request->get('product');
 			$purchaseitem->purchase_id = $purchase->id;
+			$purchaseitem->code = $product->code;
+			$purchaseitem->name = $product->name;
 			$purchaseitem->quantity = $request->get('qty');
 			$purchaseitem->price = $request->get('price');
 			$purchaseitem->save();
-			$product = Product::findOrFail($purchaseitem->product_id);
+			// $product = Product::findOrFail($purchaseitem->product_id);
 			$product->quantity = $product->quantity + $purchaseitem->quantity;
 			$product->update();
 		}
@@ -92,13 +95,16 @@ class PurchaseController extends Controller {
 		$purchase->save();
 
 		if ($request->get('product') != null && $request->get('price') != 0 && $request->get('qty') != 0) {
+			$product = Product::findOrFail($request->get('product'));
 			$purchaseitem = new Purchaseitem();
 			$purchaseitem->product_id = $request->get('product');
 			$purchaseitem->purchase_id = $purchase->id;
+			$purchaseitem->code = $product->code;
+			$purchaseitem->name = $product->name;
 			$purchaseitem->quantity = $request->get('qty');
 			$purchaseitem->price = $request->get('price');
 			$purchaseitem->save();
-			$product = Product::findOrFail($purchaseitem->product_id);
+			// $product = Product::findOrFail($purchaseitem->product_id);
 			$product->quantity = $product->quantity + $purchaseitem->quantity;
 			$product->update();
 		}

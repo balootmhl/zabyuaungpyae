@@ -3,6 +3,8 @@
 namespace App\Orchid\Screens;
 
 use App\Models\Purchase;
+use App\Orchid\Filters\PItemsFilter;
+use App\Orchid\Layouts\PurchaseitemFiltersLayout;
 use App\Orchid\Layouts\PurchaseListLayout;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\Link;
@@ -32,9 +34,15 @@ class PurchaseListScreen extends Screen {
 	 */
 	public function query(): array
 	{
-		return [
-			'purchases' => Purchase::orderby('created_at', 'desc')->get(),
-		];
+		if (auth()->user()->name == 'admin') {
+			return [
+				'purchases' => Purchase::filtersApply([PItemsFilter::class])->orderby('created_at', 'desc')->get(),
+			];
+		} else {
+			return [
+				'purchases' => Purchase::where('user_id', auth()->user()->id)->filtersApply([PItemsFilter::class])->orderby('created_at', 'desc')->get(),
+			];
+		}
 	}
 
 	/**
@@ -74,7 +82,8 @@ class PurchaseListScreen extends Screen {
 	public function layout(): array
 	{
 		return [
-			Layout::view('products.filter-box'),
+			Layout::view('products.livefilter'),
+			PurchaseitemFiltersLayout::class,
 			PurchaseListLayout::class,
 			// Layout::modal('importModal', Layout::rows([
 			//     Input::make('excel')

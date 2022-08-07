@@ -52,11 +52,24 @@ class ProductListLayout extends Table {
 				->sort(),
 
 			TD::make('quantity', 'Quantity')
-				->sort(),
+				->sort()
+				->render(function (Product $product) {
+					if ($product->quantity != null) {
+						return $product->quantity;
+					} else {
+						return 0;
+					}
+
+				}),
 
 			TD::make('group_id', 'Group')->sort()
 				->render(function (Product $product) {
-					return $product->group->name;
+					if ($product->group) {
+						return $product->group->name;
+					} else {
+						return 'None';
+					}
+
 				}),
 
 			// TD::make('created_at', 'Created'),

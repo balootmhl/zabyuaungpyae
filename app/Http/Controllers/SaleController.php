@@ -11,6 +11,12 @@ use Orchid\Platform\Models\User;
 use Orchid\Support\Facades\Toast;
 
 class SaleController extends Controller {
+	public function index() {
+		$sales = Sale::orderby('created_at', 'DESC')->get();
+
+		return view('sales.index', compact('sales'));
+	}
+
 	public function create() {
 		$products = Product::all();
 		$customers = Customer::all();
@@ -43,13 +49,16 @@ class SaleController extends Controller {
 			$sale->update();
 		}
 		if ($request->get('product') != null && $request->get('price') != 0 && $request->get('qty') != 0) {
+			$product = Product::findOrFail($request->get('product'));
 			$saleitem = new Saleitem();
 			$saleitem->product_id = $request->get('product');
 			$saleitem->sale_id = $sale->id;
+			$saleitem->code = $product->code;
+			$saleitem->name = $product->name;
 			$saleitem->quantity = $request->get('qty');
 			$saleitem->price = $request->get('price');
 			$saleitem->save();
-			$product = Product::findOrFail($saleitem->product_id);
+			// $product = Product::findOrFail($saleitem->product_id);
 			$product->quantity = $product->quantity - $saleitem->quantity;
 			$product->update();
 		}
@@ -109,13 +118,16 @@ class SaleController extends Controller {
 		// }
 
 		if ($request->get('product') != null && $request->get('price') != 0 && $request->get('qty') != 0) {
+			$product = Product::findOrFail($request->get('product'));
 			$saleitem = new Saleitem();
 			$saleitem->product_id = $request->get('product');
 			$saleitem->sale_id = $sale->id;
+			$saleitem->code = $product->code;
+			$saleitem->name = $product->name;
 			$saleitem->quantity = $request->get('qty');
 			$saleitem->price = $request->get('price');
 			$saleitem->save();
-			$product = Product::findOrFail($saleitem->product_id);
+			// $product = Product::findOrFail($saleitem->product_id);
 			$product->quantity = $product->quantity - $saleitem->quantity;
 			$product->update();
 		}
@@ -136,6 +148,32 @@ class SaleController extends Controller {
 		Toast::success('Invoice Saved.');
 
 		return redirect()->route('platform.sale.edit-custom', $sale->id);
+	}
+
+	public function search(Request $request) {
+		$itemQuery = new Saleitem();
+		$itemQuery = $itemQuery->where('code', 'LIKE', '%' . $this->request->get('search') . '%');
+		$items = $itemQuery->get();
+
+		return view('sales.results', compact('items'));
+	}
+
+	public function delete(Request $request) {
+		$sale = Sale::findOrFail($request->get('id'));
+		$saleitems = $sale->saleitems;
+		if ($saleitems) {
+			foreach ($saleitems as $saleitem) {
+				$product = Product::findOrFail($saleitem->product_id);
+				$product->quantity = $product->quantity + $saleitem->quantity;
+				$product->update();
+				$saleitem->delete();
+			}
+		}
+		$sale->delete();
+
+		Toast::info('Sale Invoice is deleted successfully. Product Quantity are returning back.');
+
+		return redirect()->route('platform.sale.list');
 	}
 
 }
