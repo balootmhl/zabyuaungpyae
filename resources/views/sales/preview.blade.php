@@ -86,38 +86,38 @@
                         </tr>
                     </thead>
                     <tbody>
-                    	@foreach($sale->saleitems as $saleitem)
+                    	@foreach($sale->saleitems as $item)
                             <tr>
 	                            <td class="no" style="padding:0 !important;width: 4% !important;">{{ $loop->iteration }}</td>
 	                            <td class="text-left code">
-	                               {{ $saleitem->product->code }}
+                                    @if($item->code != NULL)
+                                        {{ $item->code }}
+                                    @else
+                                        ??????
+                                    @endif
 	                            </td>
 	                            <td class="text-left">
-	                               {{ $saleitem->product->name }}
+                                    @if($item->name != NULL)
+                                        {{ $item->name }}
+                                    @else
+                                        ??????
+                                    @endif
 	                            </td>
 	                            <td class="unit">
-                                    @if($saleitem->price == null)
-                                        @if($sale->is_saleprice == 1)
-                                            {{ $saleitem->product->sale_price }}
-                                        @else
-                                            {{ $saleitem->product->buy_price }}
-                                        @endif
+                                    @if($item->price != NULL)
+                                        {{ $item->price }}
                                     @else
-                                        {{ $saleitem->price }}
+                                        ?????
                                     @endif
 
                                 </td>
-	                            <td class="qty">{{ $saleitem->quantity }}</td>
+	                            <td class="qty">{{ $item->quantity }}</td>
                                 <td class="text-center"><input type="checkbox" unchecked></td>
 	                            <td class="total">
-                                    @if($saleitem->price == null)
-                                        @if($sale->is_saleprice == 1)
-                                            {{ $saleitem->product->sale_price * $saleitem->quantity }}
-                                        @else
-                                            {{ $saleitem->product->buy_price * $saleitem->quantity }}
-                                        @endif
+                                    @if($item->price != NULL)
+                                        {{ $item->price * $item->quantity }}
                                     @else
-                                        {{ $saleitem->price * $saleitem->quantity }}
+                                        ?????
                                     @endif
 
                                 </td>

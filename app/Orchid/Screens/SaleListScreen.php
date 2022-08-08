@@ -11,6 +11,7 @@ use App\Orchid\Filters\ItemsFilter;
 use App\Orchid\Layouts\SaleitemFiltersLayout;
 use App\Orchid\Layouts\SaleListLayout;
 use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Alert;
@@ -59,26 +60,36 @@ class SaleListScreen extends Screen {
 	public function commandBar(): array
 	{
 		return [
-			// ModalToggle::make('Import')
-			//     ->modal('importModal')
-			//     ->method('import')
-			//     ->icon('cloud-upload'),
 
-			// Button::make('Fix Prices')
-			//     ->method('fixPrice')
-			//     ->icon('wrench')
-			//     ->novalidate(),
-
-			Button::make('Fix Names')
-				->method('itemsName')
+			DropDown::make('Fix')
 				->icon('wrench')
-				->novalidate(),
+				->list([
+					// ModalToggle::make('Import')
+					//     ->modal('importModal')
+					//     ->method('import')
+					//     ->icon('cloud-upload'),
 
-			Button::make('Export')
-				->method('export')
-				->icon('cloud-download')
-				->rawClick()
-				->novalidate(),
+					// Button::make('Fix Prices')
+					//     ->method('fixPrice')
+					//     ->icon('wrench')
+					//     ->novalidate(),
+
+					// Button::make('Fix Names')
+					// 	->method('itemsName')
+					// 	->icon('wrench')
+					// 	->novalidate(),
+
+					Button::make('Item Prices')
+						->method('itemsPrice')
+						->icon('wrench')
+						->novalidate(),
+
+					// Button::make('Export')
+					// 	->method('export')
+					// 	->icon('cloud-download')
+					// 	->rawClick()
+					// 	->novalidate(),
+				]),
 
 			Link::make('Find Invoices')
 				->icon('magnifier')
@@ -207,6 +218,33 @@ class SaleListScreen extends Screen {
 			}
 		}
 		Toast::success('Fixed the name of sale items & purchase items.');
+		return redirect()->route('platform.sale.list');
+	}
+
+	public function itemsPrice($value = '') {
+		$sitems = Saleitem::all();
+		$pitems = Purchaseitem::all();
+		foreach ($sitems as $s) {
+			// $sp = Product::findOrFail($s->product_id);
+			if ($s->product) {
+				if ($s->sale->is_saleprice == 1) {
+					$s->price = $s->product->sale_price;
+				} elseif ($s->sale->is_saleprice == 0) {
+					$s->price = $s->product->buy_price;
+				}
+				$s->update();
+			}
+
+		}
+		foreach ($pitems as $p) {
+			if ($p->product) {
+				if ($p->price == NULL || $p->price == 0) {
+					$p->price = $p->product->buy_price;
+				}
+				$p->update();
+			}
+		}
+		Toast::success('Fixed the prices of sale & purchase items.');
 		return redirect()->route('platform.sale.list');
 	}
 }

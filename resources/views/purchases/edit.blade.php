@@ -208,21 +208,39 @@
 								<tr>
 									<td>{{ $loop->iteration }}</td>
 									<td>
-										{{ $item->product->code }} [{{ $item->product->name }}]
+										@if($item->code != NULL)
+	                                        {{ $item->code }}
+	                                    @else
+	                                        ??????
+	                                    @endif
+	                                    @if($item->name != NULL)
+	                                        _[{{ $item->name }}]
+	                                    @else
+	                                        _[??????]
+	                                    @endif
 									</td>
-	                        <td class="text-center">{{ $item->price }}</td>
+	                       			<td class="text-center">
+	                       				@if($item->price != NULL)
+	                                        {{ $item->price }}
+	                                    @else
+	                                        ?????
+	                                    @endif
+	                       			</td>
 									<td class="text-center">{{ $item->quantity }}</td>
-	                        <td class="text-center">
-	                        	<strong>
-		                        	{{-- <input type="hidden" id="total" value="{{ $item->price * $item->quantity }}"> --}}
-		                        	{{ $item->price * $item->quantity }}
-		                        	&nbsp;
-		                        	<a href="{{ url('/admin/purchases/purchaseitems/delete/'. $item->id) }}" class="delete-btn" onclick="return confirm('Are you sure?')">
+			                        <td class="text-center">
+			                        	<strong>
+				                        	@if($item->price != NULL)
+					                        	{{ $item->price * $item->quantity }}
+					                        @else
+					                        	?????
+					                        @endif
+				                        	&nbsp;
+				                        	<a href="{{ url('/admin/purchases/purchaseitems/delete/'. $item->id) }}" class="delete-btn" onclick="return confirm('Are you sure?')">
 												<x-orchid-icon path="trash" style="padding-bottom: 5px !important;" />
-										   </a>
-		                        </strong>
+											</a>
+				                        </strong>
 
-	                        </td>
+			                        </td>
 								</tr>
 							@endforeach
 						</tbody>
