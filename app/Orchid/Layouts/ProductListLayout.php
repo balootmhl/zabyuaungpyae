@@ -81,7 +81,7 @@ class ProductListLayout extends Table {
 				->align(TD::ALIGN_CENTER)
 				->width('100px')
 				->render(function (Product $product) {
-					if (auth()->user()->name == 'admin') {
+					if (auth()->user()->presenter()->subTitle() == 'Super Admin') {
 						return DropDown::make()
 							->icon('options-vertical')
 							->list([

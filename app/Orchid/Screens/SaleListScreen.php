@@ -39,7 +39,7 @@ class SaleListScreen extends Screen {
 	 */
 	public function query(): array
 	{
-		if (auth()->user()->name == 'admin') {
+		if (auth()->user()->presenter()->subTitle() == 'Super Admin') {
 			return [
 				'sales' => Sale::filtersApply([ItemsFilter::class])->orderby('created_at', 'desc')->get(),
 			];
