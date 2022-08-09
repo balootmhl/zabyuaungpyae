@@ -21,7 +21,12 @@
             <td>{{ $product->buy_price }}</td>
             <td>{{ $product->sale_price }}</td>
             <td>{{ $product->quantity }}</td>
-            <td>{{ $product->group->name }}</td>
+            <td>
+                @if($product->group)
+                {{ $product->group->name }}
+                @else
+                @endif
+            </td>
         </tr>
     @endforeach
     </tbody>
