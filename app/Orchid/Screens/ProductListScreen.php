@@ -44,7 +44,7 @@ class ProductListScreen extends Screen {
 	public function query(): array
 	{
 		return [
-			'products' => Product::filtersApply([QueryFilter::class])->orderby('created_at', 'desc')->paginate(100),
+			'products' => Product::where('user_id', auth()->user()->id)->filtersApply([QueryFilter::class])->orderby('created_at', 'desc')->paginate(100),
 		];
 	}
 
@@ -63,30 +63,29 @@ class ProductListScreen extends Screen {
 						->modal('resetModal')
 						->method('resetQuantity')
 						->icon('reload'),
-					Link::make('Batch Edit')
-						->icon('wrench')
-						->route('platform.product.stock-control'),
+					// Link::make('Batch Edit')
+					// 	->icon('wrench')
+					// 	->route('platform.product.stock-control'),
 					Button::make('Clear Groups')
 						->method('clearGroup')
+						->icon('wrench'),
+					Button::make('Claim')
+						->method('claimProducts')
 						->icon('wrench'),
 					// ModalToggle::make('One Click Fix')
 					//     ->modal('fixModal')
 					//     ->method('fixQuantity')
 					//     ->icon('refresh'),
 				]),
-			// ModalToggle::make('Reset Stock')
-			//     ->modal('resetModal')
-			//     ->method('resetQuantity')
-			//     ->icon('refresh'),
 
 			DropDown::make('Import/Export')
 				->icon('wrench')
 				->list([
 
-					ModalToggle::make('Import')
-						->modal('importModal')
-						->method('import')
-						->icon('cloud-upload'),
+					// ModalToggle::make('Import')
+					// 	->modal('importModal')
+					// 	->method('import')
+					// 	->icon('cloud-upload'),
 
 					Button::make('Export')
 						->method('export')
@@ -215,6 +214,16 @@ class ProductListScreen extends Screen {
 			$product->update();
 		}
 		Toast::info('Cleared product groups.');
+		return redirect()->route('platform.product.list');
+	}
+
+	public function claimProducts($value = '') {
+		$products = Product::all();
+		foreach ($products as $product) {
+			$product->user_id = auth()->user()->id;
+			$product->update();
+		}
+		Toast::info('Claimed products as current admin.');
 		return redirect()->route('platform.product.list');
 	}
 
