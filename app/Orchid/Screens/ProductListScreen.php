@@ -8,7 +8,9 @@ use App\Models\Product;
 use App\Models\Purchaseitem;
 use App\Orchid\Filters\QueryFilter;
 use App\Orchid\Layouts\ProductFiltersLayout;
+use Orchid\Platform\Models\User;
 use App\Orchid\Layouts\ProductListLayout;
+use Orchid\Screen\Fields\Select;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Orchid\Attachment\File;
@@ -69,9 +71,13 @@ class ProductListScreen extends Screen {
 					Button::make('Clear Groups')
 						->method('clearGroup')
 						->icon('wrench'),
-					Button::make('Claim')
-						->method('claimProducts')
-						->icon('wrench'),
+					// Button::make('Claim')
+					// 	->method('claimProducts')
+					// 	->icon('wrench'),
+					ModalToggle::make('Share to')
+						->modal('shareModal')
+						->method('duplicate')
+						->icon('share-alt'),
 					// ModalToggle::make('One Click Fix')
 					//     ->modal('fixModal')
 					//     ->method('fixQuantity')
@@ -132,6 +138,7 @@ class ProductListScreen extends Screen {
 					->required(),
 
 			]))->title('Import products from excel file'),
+
 			Layout::modal('resetModal', Layout::rows([
 				Input::make('qty')
 					->type('number')
@@ -140,13 +147,23 @@ class ProductListScreen extends Screen {
 					->required(),
 
 			]))->title('Reset the quantity of all products.'),
-			Layout::modal('fixModal', Layout::rows([
-				Input::make('qty')
-					->type('hidden')
-					->title('Running One Click Fix will change product quantities.'),
-				// ->help('Running One Click Fix will change product quantities.'),
 
-			]))->title('Are you sure ?'),
+			Layout::modal('shareModal', Layout::rows([
+				Select::make('user_id')
+                    ->fromModel(User::class, 'name')
+                    ->required()->title('Select branch to share warehouse products.')
+                    ->empty('No select')
+                    ->placeholder('Choose Branch'),
+
+			]))->title('Share the warehouse products to branches to use separately.'),
+
+			// Layout::modal('fixModal', Layout::rows([
+			// 	Input::make('qty')
+			// 		->type('hidden')
+			// 		->title('Running One Click Fix will change product quantities.'),
+			// 	->help('Running One Click Fix will change product quantities.'),
+
+			// ]))->title('Are you sure ?'),
 		];
 	}
 
@@ -225,6 +242,25 @@ class ProductListScreen extends Screen {
 		}
 		Toast::info('Claimed products as current admin.');
 		return redirect()->route('platform.product.list');
+	}
+
+	public function duplicate(Request $request)
+	{
+		$products = Product::where('user_id', 1)->get();
+		$user = User::findOrFail($request->get('user_id'));
+		foreach ($products as $product) {
+			$p = new Product();
+			$p->code = $product->code;
+			$p->name = $product->name;
+			$p->user_id = $user->id;
+			$p->category_id = $product->category_id;
+			$p->group_id = $product->group_id;
+			$p->buy_price = $product->buy_price;
+			$p->sale_price = $product->sale_price;
+			$p->quantity = 0;
+			$p->update();
+		}
+		Toast::success('Shared warehouse products to '.$user->name.'.');
 	}
 
 }

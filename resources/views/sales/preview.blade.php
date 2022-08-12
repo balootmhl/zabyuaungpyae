@@ -14,7 +14,7 @@
         <hr>
     </div>
     <div class="invoice overflow-auto">
-        <div style="min-width: 600px">
+        <div style="min-width: 600px;">
             <header>
                 <div class="row">
                     <div class="col-2">
