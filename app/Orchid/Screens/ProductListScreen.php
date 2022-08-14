@@ -88,10 +88,15 @@ class ProductListScreen extends Screen {
 				->icon('wrench')
 				->list([
 
-					// ModalToggle::make('Import')
-					// 	->modal('importModal')
-					// 	->method('import')
-					// 	->icon('cloud-upload'),
+					ModalToggle::make('Import')
+						->modal('importModal')
+						->method('import')
+						->icon('cloud-upload'),
+
+					// ModalToggle::make('Export')
+					// 	->modal('exportModal')
+					// 	->method('export')
+					// 	->icon('cloud-download'),
 
 					Button::make('Export')
 						->method('export')
@@ -156,6 +161,15 @@ class ProductListScreen extends Screen {
                     ->placeholder('Choose Branch'),
 
 			]))->title('Share the warehouse products to branches to use separately.'),
+
+			Layout::modal('exportModal', Layout::rows([
+				Select::make('user_id')
+                    ->fromModel(User::class, 'name')
+                    ->required()->title('Select branch to export their products.')
+                    ->empty('No select')
+                    ->placeholder('Choose Branch'),
+
+			]))->title('Export/Download any branch products you want.'),
 
 			// Layout::modal('fixModal', Layout::rows([
 			// 	Input::make('qty')
