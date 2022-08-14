@@ -33,10 +33,10 @@ class QueryFilter extends Filter
     {
         if ($this->request->get('type') == 'cat') {
             return $builder->whereHas('category', function (Builder $query) {
-                $query->where('name', 'LIKE', '%' . $this->request->get('key') . '%');
+                $query->where('user_id', auth()user()->id)->where('name', 'LIKE', '%' . $this->request->get('key') . '%');
             });
         } else {
-            return $builder->where('code', 'LIKE', '%' . $this->request->get('key') . '%');
+            return $builder->where('user_id', auth()user()->id)->where('user_id', auth()user()->id)->where('code', 'LIKE', '%' . $this->request->get('key') . '%');
         }
 
     }
