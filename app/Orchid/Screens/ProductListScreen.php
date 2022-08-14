@@ -258,9 +258,10 @@ class ProductListScreen extends Screen {
 			$p->buy_price = $product->buy_price;
 			$p->sale_price = $product->sale_price;
 			$p->quantity = 0;
-			$p->update();
+			$p->save();
 		}
 		Toast::success('Shared warehouse products to '.$user->name.'.');
+		return redirect()->route('platform.product.list');
 	}
 
 }
