@@ -74,10 +74,10 @@ class SaleListScreen extends Screen {
 					//     ->icon('wrench')
 					//     ->novalidate(),
 
-					// Button::make('Fix Names')
-					// 	->method('itemsName')
-					// 	->icon('wrench')
-					// 	->novalidate(),
+					Button::make('Fix Names')
+						->method('itemsName')
+						->icon('wrench')
+						->novalidate(),
 
 					Button::make('Item Prices')
 						->method('itemsPrice')
