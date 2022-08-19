@@ -202,7 +202,7 @@ class SaleListScreen extends Screen {
 		$pitems = Purchaseitem::all();
 		foreach ($sitems as $s) {
 			// $sp = Product::findOrFail($s->product_id);
-			if ($s->product) {
+			if ($s->product->code != null) {
 				$s->name = $s->product->name;
 				$s->code = $s->product->code;
 				$s->update();
@@ -211,7 +211,7 @@ class SaleListScreen extends Screen {
 		}
 		foreach ($pitems as $p) {
 			// $pp = Product::findOrFail($p->product_id);
-			if ($p->product) {
+			if ($p->product->code != null) {
 				$p->name = $p->product->name;
 				$p->code = $p->product->code;
 				$p->update();
