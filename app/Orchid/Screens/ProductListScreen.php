@@ -71,9 +71,9 @@ class ProductListScreen extends Screen {
 					Button::make('Clear Groups')
 						->method('clearGroup')
 						->icon('wrench'),
-					// Button::make('Claim')
-					// 	->method('claimProducts')
-					// 	->icon('wrench'),
+					Button::make('Claim')
+						->method('claimProducts')
+						->icon('wrench'),
 					ModalToggle::make('Share to')
 						->modal('shareModal')
 						->method('duplicate')
