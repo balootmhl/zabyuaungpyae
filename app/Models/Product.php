@@ -27,6 +27,7 @@ class Product extends Model {
 		'sale_price',
 		'quantity',
 		'group_id',
+		'user_id',
 	];
 
 	/**

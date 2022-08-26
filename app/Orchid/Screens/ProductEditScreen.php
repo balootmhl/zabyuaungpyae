@@ -7,6 +7,7 @@ use App\Models\Group;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Orchid\Screen\Actions\Button;
+use Orchid\Platform\Models\User;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Relation;
 use Orchid\Screen\Screen;
@@ -81,6 +82,11 @@ class ProductEditScreen extends Screen {
 	{
 		return [
 			Layout::rows([
+				Relation::make('product.user_id')->horizontal()
+					->fromModel(User::class, 'name')
+					->title('Choose branch')
+					->required()
+					->help('Will be saved as selected branch product.'),
 				Input::make('product.code')->horizontal()
 					->title('Code')
 					->required()
