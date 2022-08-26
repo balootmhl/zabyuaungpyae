@@ -46,7 +46,7 @@ class ProductListScreen extends Screen {
 	public function query(): array
 	{
 		return [
-			'products' => Product::where('user_id', auth()->user()->id)->filtersApply([QueryFilter::class])->orderby('created_at', 'desc')->paginate(100),
+			'products' => Product::where('user_id', auth()->user()->id)->filtersApply([QueryFilter::class])->orderby('created_at', 'desc')->paginate(50),
 		];
 	}
 
@@ -260,7 +260,7 @@ class ProductListScreen extends Screen {
 
 	public function duplicate(Request $request)
 	{
-		$products = Product::where('user_id', 1)->get();
+		$products = Product::where('user_id', 1)->orderby('created_at', 'asc')->get();
 		$user = User::findOrFail($request->get('user_id'));
 		foreach ($products as $product) {
 			$p = new Product();

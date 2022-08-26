@@ -26,7 +26,7 @@ class ProductsExport implements FromView
     public function view(): View
     {
         return view('export.products', [
-            'products' => Product::all(),
+            'products' => Product::where('user_id', auth()->user()->id)->get(),
         ]);
     }
 }
