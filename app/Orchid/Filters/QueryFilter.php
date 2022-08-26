@@ -36,7 +36,7 @@ class QueryFilter extends Filter
                 $query->where('user_id', auth()->user()->id)->where('name', 'LIKE', '%' . $this->request->get('key') . '%');
             });
         } else {
-            return $builder->where('user_id', auth()->user()->id)->where('user_id', auth()user()->id)->where('code', 'LIKE', '%' . $this->request->get('key') . '%');
+            return $builder->where('user_id', auth()user()->id)->where('code', 'LIKE', '%' . $this->request->get('key') . '%');
         }
 
     }
