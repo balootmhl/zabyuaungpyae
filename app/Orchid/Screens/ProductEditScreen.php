@@ -10,6 +10,7 @@ use Orchid\Screen\Actions\Button;
 use Orchid\Platform\Models\User;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Relation;
+use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Alert;
 use Orchid\Support\Facades\Layout;
@@ -82,10 +83,11 @@ class ProductEditScreen extends Screen {
 	{
 		return [
 			Layout::rows([
-				Relation::make('product.user_id')->horizontal()
+				Select::make('product.user_id')->horizontal()
 					->fromModel(User::class, 'name')
 					->title('Choose branch')
 					->required()
+					->multiple()
 					->help('Will be saved as selected branch product.'),
 				Input::make('product.code')->horizontal()
 					->title('Code')
