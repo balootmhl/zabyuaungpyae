@@ -83,11 +83,10 @@ class ProductEditScreen extends Screen {
 	{
 		return [
 			Layout::rows([
-				Relation::make('user_id[]')->horizontal()
+				Relation::make('user_id')->horizontal()
 					->fromModel(User::class, 'name')
 					->title('Select branch')
 					->required()
-					->multiple()
 					->help('Will be saved as selected branch product.'),
 				Input::make('product.code')->horizontal()
 					->title('Code')
@@ -139,11 +138,7 @@ class ProductEditScreen extends Screen {
 	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	public function createOrUpdate(Product $product, Request $request) {
-		foreach($request->get('user_id') as $user_id) {
-			$product->fill($request->get('product'))->save();
-			$product->user_id = $user_id;
-			$product->update();
-		}
+		$product->fill($request->get('product'))->save();
 
 
 		Alert::info('A product is updated.');
