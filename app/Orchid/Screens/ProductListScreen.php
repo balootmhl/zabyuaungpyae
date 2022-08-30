@@ -57,69 +57,87 @@ class ProductListScreen extends Screen {
 	 */
 	public function commandBar(): array
 	{
-		return [
-			DropDown::make('Manage Stock')
-				->icon('loading')
-				->list([
-					ModalToggle::make('Reset Stock')
-						->modal('resetModal')
-						->method('resetQuantity')
-						->icon('reload'),
-					// Link::make('Batch Edit')
-					// 	->icon('wrench')
-					// 	->route('platform.product.stock-control'),
-					Button::make('Clear Groups')
-						->method('clearGroup')
-						->icon('wrench'),
-					Button::make('Claim')
-						->method('claimProducts')
-						->icon('wrench'),
-					ModalToggle::make('Share to')
-						->modal('shareModal')
-						->method('duplicate')
-						->icon('share-alt'),
-					// ModalToggle::make('One Click Fix')
-					//     ->modal('fixModal')
-					//     ->method('fixQuantity')
-					//     ->icon('refresh'),
-				]),
+		if(auth()->user()->id == 1) {
+			return [
+				DropDown::make('Manage Stock')
+					->icon('loading')
+					->list([
+						ModalToggle::make('Reset Stock')
+							->modal('resetModal')
+							->method('resetQuantity')
+							->icon('reload'),
+						// Link::make('Batch Edit')
+						// 	->icon('wrench')
+						// 	->route('platform.product.stock-control'),
+						Button::make('Clear Groups')
+							->method('clearGroup')
+							->icon('wrench'),
+						Button::make('Claim')
+							->method('claimProducts')
+							->icon('wrench'),
+						ModalToggle::make('Share to')
+							->modal('shareModal')
+							->method('duplicate')
+							->icon('share-alt'),
+						// ModalToggle::make('One Click Fix')
+						//     ->modal('fixModal')
+						//     ->method('fixQuantity')
+						//     ->icon('refresh'),
+					]),
 
-			DropDown::make('Import/Export')
-				->icon('wrench')
-				->list([
+				DropDown::make('Import/Export')
+					->icon('wrench')
+					->list([
 
-					ModalToggle::make('Import')
-						->modal('importModal')
-						->method('import')
-						->icon('cloud-upload'),
+						ModalToggle::make('Import')
+							->modal('importModal')
+							->method('import')
+							->icon('cloud-upload'),
 
-					// ModalToggle::make('Export')
-					// 	->modal('exportModal')
-					// 	->method('export')
-					// 	->icon('cloud-download'),
+						// ModalToggle::make('Export')
+						// 	->modal('exportModal')
+						// 	->method('export')
+						// 	->icon('cloud-download'),
 
-					Button::make('Export')
-						->method('export')
-						->icon('cloud-download')
-						->rawClick()
-						->novalidate(),
-				]),
+						Button::make('Export')
+							->method('export')
+							->icon('cloud-download')
+							->rawClick()
+							->novalidate(),
+					]),
 
-			// ModalToggle::make('Import')
-			//     ->modal('importModal')
-			//     ->method('import')
-			//     ->icon('cloud-upload'),
+				// ModalToggle::make('Import')
+				//     ->modal('importModal')
+				//     ->method('import')
+				//     ->icon('cloud-upload'),
 
-			// Button::make('Export')
-			//     ->method('export')
-			//     ->icon('cloud-download')
-			//     ->rawClick()
-			//     ->novalidate(),
+				// Button::make('Export')
+				//     ->method('export')
+				//     ->icon('cloud-download')
+				//     ->rawClick()
+				//     ->novalidate(),
 
-			Link::make('Create new')
-				->icon('plus')
-				->route('platform.product.edit'),
-		];
+				Link::make('Create new')
+					->icon('plus')
+					->route('platform.product.edit'),
+			];
+		} else {
+			return [
+				DropDown::make('Import/Export')
+					->icon('wrench')
+					->list([
+						// ModalToggle::make('Import')
+						// 	->modal('importModal')
+						// 	->method('import')
+						// 	->icon('cloud-upload'),
+						Button::make('Export')
+							->method('export')
+							->icon('cloud-download')
+							->rawClick()
+							->novalidate(),
+					]),
+			];
+		}
 	}
 
 	/**
