@@ -83,7 +83,7 @@ class ProductEditScreen extends Screen {
 	{
 		return [
 			Layout::rows([
-				Relation::make('user_id')->horizontal()
+				Relation::make('product.user_id')->horizontal()
 					->fromModel(User::class, 'name')
 					->title('Select branch')
 					->required()
