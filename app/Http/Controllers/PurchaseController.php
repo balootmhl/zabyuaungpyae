@@ -12,7 +12,7 @@ use Orchid\Support\Facades\Toast;
 
 class PurchaseController extends Controller {
 	public function create() {
-		$products = Product::where('user_id', 1)->get();
+		$products = Product::where('user_id', auth()->user()->id)->get();
 		$suppliers = Supplier::all();
 		$users = User::all();
 		return view('purchases.create', compact('products', 'suppliers', 'users'));
@@ -73,7 +73,7 @@ class PurchaseController extends Controller {
 	public function edit($id) {
 		$purchase = Purchase::findOrFail($id);
 		$items_count = count($purchase->purchaseitems);
-		$products = Product::where('user_id', 1)->get();
+		$products = Product::where('user_id', auth()->user()->id)->get();
 		$suppliers = Supplier::all();
 		$users = User::all();
 
