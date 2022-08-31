@@ -51,9 +51,9 @@
 			<div class="col-sm-5">
 				<div class="form-group">
 					<label for="user_id">Admin or Branch</label>
-					<select class="form-control user-select2" name="user_id" multiple required @if(auth()->user()->id != 1) disabled value="{{ $purchase->user_id }}" @endif>
+					<select class="form-control user-select2" name="user_id" multiple required @if(auth()->user()->id != 1) value="{{ $purchase->user_id }}" @endif>
 						@foreach ($users as $user)
-							<option value="{{ $user->id }}" @if($user->id == $purchase->user_id) selected="true" @endif>{{ $user->name }}</option>
+							<option value="{{ $user->id }}" @if($user->id == $purchase->user_id) selected="true" @endif @if(auth()->user()->id != 1) disabled @endif>{{ $user->name }}</option>
 						@endforeach
 					</select>
 				</div>
