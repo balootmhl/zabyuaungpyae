@@ -52,7 +52,7 @@
 				<div class="form-group">
 					<label for="user_id">Admin or Branch</label>
 					
-					@if(auth()->user()->id != 1)
+					@if(auth()->user()->id == 1)
 						<select class="form-control user-select2" name="user_id" multiple required>
 							@foreach ($users as $user)
 								<option value="{{ $user->id }}" @if($user->id == $purchase->user_id) selected="true" @endif>{{ $user->name }}</option>
@@ -62,7 +62,6 @@
 						<input type="text" name="user" class="form-control" value="{{ $purchase->user->name }}" disabled>
 						<input type="hidden" name="user_id" value="{{$purchase->user->id}}">
 					@endif
-					value="{{ $purchase->user_id }}"
 				</div>
 			</div>
 			<div class="col-sm-3">
