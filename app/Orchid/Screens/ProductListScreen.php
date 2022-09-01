@@ -126,16 +126,15 @@ class ProductListScreen extends Screen {
 				DropDown::make('Import/Export')
 					->icon('wrench')
 					->list([
-						// ModalToggle::make('Import')
-						// 	->modal('importModal')
-						// 	->method('import')
-						// 	->icon('cloud-upload'),
 						Button::make('Export')
 							->method('export')
 							->icon('cloud-download')
 							->rawClick()
 							->novalidate(),
 					]),
+				Link::make('Create new')
+				->icon('plus')
+				->route('platform.product.edit'),
 			];
 		}
 	}

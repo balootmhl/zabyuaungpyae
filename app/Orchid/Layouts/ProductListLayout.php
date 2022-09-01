@@ -82,39 +82,21 @@ class ProductListLayout extends Table {
 					->align(TD::ALIGN_CENTER)
 					->width('100px')
 					->render(function (Product $product) {
-						if (auth()->user()->presenter()->subTitle() == 'Super Admin') {
-							return DropDown::make()
-								->icon('options-vertical')
-								->list([
+						return DropDown::make()
+							->icon('options-vertical')
+							->list([
 
-									Link::make(__('Edit'))
-										->route('platform.product.edit', $product->id)
-										->icon('pencil'),
+								Link::make(__('Edit'))
+									->route('platform.product.edit', $product->id)
+									->icon('pencil'),
 
-									Button::make(__('Delete'))
-										->icon('trash')
-										->confirm(__('Are you sure?'))
-										->method('remove', [
-											'id' => $product->id,
-										]),
-								]);
-						} else {
-							return DropDown::make()
-								->icon('options-vertical')
-								->list([
-
-									Link::make(__('Edit'))
-										->route('platform.product.edit', $product->id)
-										->icon('pencil'),
-
-									// Button::make(__('Delete'))
-									//     ->icon('trash')
-									//     ->confirm(__('Are you sure?'))
-									//     ->method('remove', [
-									//         'id' => $product->id,
-									//     ]),
-								]);
-						}
+								Button::make(__('Delete'))
+									->icon('trash')
+									->confirm(__('Are you sure?'))
+									->method('remove', [
+										'id' => $product->id,
+									]),
+							]);
 					}),
 			];
 		} else {
@@ -166,31 +148,21 @@ class ProductListLayout extends Table {
 					->align(TD::ALIGN_CENTER)
 					->width('100px')
 					->render(function (Product $product) {
-						if (auth()->user()->presenter()->subTitle() == 'Super Admin') {
-							return DropDown::make()
-								->icon('options-vertical')
-								->list([
+						return DropDown::make()
+							->icon('options-vertical')
+							->list([
 
-									Link::make(__('Edit'))
-										->route('platform.product.edit', $product->id)
-										->icon('pencil'),
+								Link::make(__('Edit'))
+									->route('platform.product.edit', $product->id)
+									->icon('pencil'),
 
-									Button::make(__('Delete'))
-										->icon('trash')
-										->confirm(__('Are you sure?'))
-										->method('remove', [
-											'id' => $product->id,
-										]),
-								]);
-						} else {
-							return DropDown::make()
-								->icon('options-vertical')
-								->list([
-									// Link::make(__('Edit'))
-									// 	->route('platform.product.edit', $product->id)
-									// 	->icon('pencil'),
-								]);
-						}
+								// Button::make(__('Delete'))
+								// 	->icon('trash')
+								// 	->confirm(__('Are you sure?'))
+								// 	->method('remove', [
+								// 		'id' => $product->id,
+								// 	]),
+							]);
 					}),
 			];
 		}
