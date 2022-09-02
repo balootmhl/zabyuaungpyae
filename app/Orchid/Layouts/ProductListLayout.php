@@ -37,10 +37,10 @@ class ProductListLayout extends Table {
 							->route('platform.product.edit', $product);
 					}),
 
-				TD::make('category_code', 'Category Code')->sort()
-					->render(function (Product $product) {
-						return $product->category->code;
-					}),
+				// TD::make('category_code', 'Category Code')->sort()
+				// 	->render(function (Product $product) {
+				// 		return $product->category->code;
+				// 	}),
 
 				TD::make('category_id', 'Category')->sort()
 					->render(function (Product $product) {
@@ -109,10 +109,10 @@ class ProductListLayout extends Table {
 							->route('platform.product.edit', $product);
 					}),
 
-				TD::make('category_code', 'Category Code')->sort()
-					->render(function (Product $product) {
-						return $product->category->code;
-					}),
+				// TD::make('category_code', 'Category Code')->sort()
+				// 	->render(function (Product $product) {
+				// 		return $product->category->code;
+				// 	}),
 
 				TD::make('category_id', 'Category')->sort()
 					->render(function (Product $product) {

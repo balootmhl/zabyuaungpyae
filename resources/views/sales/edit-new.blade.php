@@ -55,11 +55,21 @@
 				<div class="form-group">
 
 					<label for="user_id">Admin or Branch</label>
-					<select class="form-control user-select2" name="user_id" multiple required @if(auth()->user()->id != 1) disabled @endif>
+					{{-- <select class="form-control user-select2" name="user_id" multiple required @if(auth()->user()->id != 1) disabled @endif>
 						@foreach ($users as $user)
 							<option value="{{ $user->id }}" @if($user->id == $sale->user_id) selected="true" @endif>{{ $user->name }}</option>
 						@endforeach
-					</select>
+					</select> --}}
+					@if(auth()->user()->id == 1)
+						<select class="form-control user-select2" name="user_id" multiple required>
+							@foreach ($users as $user)
+								<option value="{{ $user->id }}" @if($user->id == $sale->user_id) selected="true" @endif>{{ $user->name }}</option>
+							@endforeach 
+						</select>
+					@else
+						<input type="text" name="user" class="form-control" value="{{ $sale->user->name }}" disabled>
+						<input type="hidden" name="user_id" value="{{$sale->user->id}}">
+					@endif
 				</div>
 			</div>
 			<div class="col-sm-3">
