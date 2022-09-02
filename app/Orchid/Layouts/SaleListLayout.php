@@ -42,7 +42,12 @@ class SaleListLayout extends Table
                 }),
             TD::make('user_id', 'Invoice By')->sort()
                 ->render(function (Sale $sale) {
-                    return $sale->user->name;
+                    if($sale->user){
+                        return $sale->user->name;
+                    } else {
+                        return 'None';
+                    }
+                    
                 }),
             TD::make('date', 'Issue Date')->sort()
                 ->render(function (Sale $sale) {
