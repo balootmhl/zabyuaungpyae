@@ -97,8 +97,7 @@ class ProductListScreen extends Screen {
 						ModalToggle::make('Export')
 							->modal('exportModal')
 							->method('export')
-							->icon('cloud-download')
-							->novalidate(),
+							->icon('cloud-download'),
 
 						// Button::make('Export')
 						// 	->method('export')
@@ -184,7 +183,6 @@ class ProductListScreen extends Screen {
 				Select::make('user_id')
                     ->fromModel(User::class, 'name')
                     ->title('Select branch to export their products.')
-                    ->empty('No select')
                     ->placeholder('Choose Branch'),
 
 			]))->title('Export/Download any branch products you want.'),
