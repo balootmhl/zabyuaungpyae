@@ -19,7 +19,7 @@ class SaleController extends Controller {
 
 	public function create() {
 		if(auth()->user()->id == 1){
-			$products = Product::orderby('created_at', 'DESC')->getAll();
+			$products = Product::orderby('created_at', 'DESC')->get();
 		} else {
 			$products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
 		}
@@ -87,7 +87,7 @@ class SaleController extends Controller {
 		$items_count = count($sale->saleitems);
 		// $products = Product::where('user_id', auth()->user()->id)->get();
 		if(auth()->user()->id == 1){
-			$products = Product::orderby('created_at', 'DESC')->getAll();
+			$products = Product::orderby('created_at', 'DESC')->get();
 		} else {
 			$products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
 		}
