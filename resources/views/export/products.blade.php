@@ -14,7 +14,7 @@
     @foreach($products as $product)
         <tr>
             <td>{{ $product->code }}</td>
-            <td style="width:auto !important;">{{ $product->name }}</td>
+            <td width="auto">{{ $product->name }}</td>
             <td>{{ $product->category->name }}</td>
             <td>{{ $product->buy_price }}</td>
             <td>{{ $product->sale_price }}</td>
