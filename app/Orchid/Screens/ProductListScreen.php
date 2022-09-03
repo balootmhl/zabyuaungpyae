@@ -94,16 +94,16 @@ class ProductListScreen extends Screen {
 							->method('import')
 							->icon('cloud-upload'),
 
-						ModalToggle::make('Export')
-							->modal('exportModal')
-							->method('export')
-							->icon('cloud-download'),
-
-						// Button::make('Export')
+						// ModalToggle::make('Export')
+						// 	->modal('exportModal')
 						// 	->method('export')
-						// 	->icon('cloud-download')
-						// 	->rawClick()
-						// 	->novalidate(),
+						// 	->icon('cloud-download'),
+
+						Button::make('Export')
+							->method('exportBranch')
+							->icon('cloud-download')
+							->rawClick()
+							->novalidate(),
 					]),
 
 				// ModalToggle::make('Import')
