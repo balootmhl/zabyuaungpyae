@@ -97,7 +97,8 @@ class ProductListScreen extends Screen {
 						ModalToggle::make('Export')
 							->modal('exportModal')
 							->method('export')
-							->icon('cloud-download'),
+							->icon('cloud-download')
+							->novalidate(),
 
 						// Button::make('Export')
 						// 	->method('export')
@@ -182,7 +183,7 @@ class ProductListScreen extends Screen {
 			Layout::modal('exportModal', Layout::rows([
 				Select::make('user_id')
                     ->fromModel(User::class, 'name')
-                    ->required()->title('Select branch to export their products.')
+                    ->title('Select branch to export their products.')
                     ->empty('No select')
                     ->placeholder('Choose Branch'),
 
@@ -218,14 +219,14 @@ class ProductListScreen extends Screen {
 	 */
 	public function export(Request $request) {
 		$user = User::findOrFail($request->get('user_id'));
-		return Excel::download(new ProductsExport($request->get('user_id')), 'products_of_'. $user->name .'_export'. now() . '.xlsx');
+		return Excel::download(new ProductsExport($request->get('user_id')), 'products_of_'. $user->name .'_export_'. now() . '.xlsx');
 	}
 
 	/**
 	 * @return Export products and download as excel file
 	 */
 	public function exportBranch() {
-		return Excel::download(new ProductsExport(auth()->user()->id), 'products_of_'. auth()->user()->name .'_export' . now() . '.xlsx');
+		return Excel::download(new ProductsExport(auth()->user()->id), 'products_of_'. auth()->user()->name .'_export_' . now() . '.xlsx');
 	}
 
 	/**
