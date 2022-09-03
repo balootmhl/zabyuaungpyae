@@ -94,16 +94,16 @@ class ProductListScreen extends Screen {
 							->method('import')
 							->icon('cloud-upload'),
 
-						// ModalToggle::make('Export')
-						// 	->modal('exportModal')
-						// 	->method('export')
-						// 	->icon('cloud-download'),
-
-						Button::make('Export')
+						ModalToggle::make('Export')
+							->modal('exportModal')
 							->method('export')
-							->icon('cloud-download')
-							->rawClick()
-							->novalidate(),
+							->icon('cloud-download'),
+
+						// Button::make('Export')
+						// 	->method('export')
+						// 	->icon('cloud-download')
+						// 	->rawClick()
+						// 	->novalidate(),
 					]),
 
 				// ModalToggle::make('Import')
@@ -127,7 +127,7 @@ class ProductListScreen extends Screen {
 					->icon('wrench')
 					->list([
 						Button::make('Export')
-							->method('export')
+							->method('exportBranch')
 							->icon('cloud-download')
 							->rawClick()
 							->novalidate(),
@@ -210,13 +210,22 @@ class ProductListScreen extends Screen {
 		Toast::info('You have successfully deleted the product.');
 
 		return redirect()->route('platform.product.list');
+
 	}
 
 	/**
 	 * @return Export products and download as excel file
 	 */
-	public function export() {
-		return Excel::download(new ProductsExport, 'products_' . now() . '.xlsx');
+	public function export(Request $request) {
+		$user = User::findOrFail($request->get('user_id'));
+		return Excel::download(new ProductsExport($request->get('user_id')), 'products_of_'. $user->name . now() . '.xlsx');
+	}
+
+	/**
+	 * @return Export products and download as excel file
+	 */
+	public function exportBranch() {
+		return Excel::download(new ProductsExport(auth()->user()->id), 'products_of_'. auth()->user()->name . now() . '.xlsx');
 	}
 
 	/**

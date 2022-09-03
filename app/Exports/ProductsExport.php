@@ -8,6 +8,13 @@ use Maatwebsite\Excel\Concerns\FromView;
 
 class ProductsExport implements FromView
 {
+    protected $id;
+
+    function __construct($id) {
+            $this->id = $id;
+    }
+    
+    
     /**
      * @return \Illuminate\Support\Collection
      */
@@ -26,7 +33,7 @@ class ProductsExport implements FromView
     public function view(): View
     {
         return view('export.products', [
-            'products' => Product::where('user_id', auth()->user()->id)->get(),
+            'products' => Product::where('user_id', $this->id)->get(),
         ]);
     }
 }
