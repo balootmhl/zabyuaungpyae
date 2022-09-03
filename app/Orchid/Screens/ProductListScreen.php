@@ -218,14 +218,14 @@ class ProductListScreen extends Screen {
 	 */
 	public function export(Request $request) {
 		$user = User::findOrFail($request->get('user_id'));
-		return Excel::download(new ProductsExport($request->get('user_id')), 'products_of_'. $user->name . now() . '.xlsx');
+		return Excel::download(new ProductsExport($request->get('user_id')), 'products_of_'. $user->name .'_export'. now() . '.xlsx');
 	}
 
 	/**
 	 * @return Export products and download as excel file
 	 */
 	public function exportBranch() {
-		return Excel::download(new ProductsExport(auth()->user()->id), 'products_of_'. auth()->user()->name . now() . '.xlsx');
+		return Excel::download(new ProductsExport(auth()->user()->id), 'products_of_'. auth()->user()->name .'_export' . now() . '.xlsx');
 	}
 
 	/**
