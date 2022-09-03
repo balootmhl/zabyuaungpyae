@@ -18,7 +18,12 @@ class SaleController extends Controller {
 	}
 
 	public function create() {
-		$products = Product::where('user_id', auth()->user()->id)->get();
+		if(auth()->user()->id == 1){
+			$products = Product::orderby('created_at', DESC)->all();
+		} else {
+			$products = Product::where('user_id', auth()->user()->id)->orderby('created_at', DESC)->get();
+		}
+		// $products = Product::where('user_id', auth()->user()->id)->get();
 		$customers = Customer::all();
 		$users = User::all();
 		return view('sales.create', compact('products', 'customers', 'users'));
@@ -80,7 +85,12 @@ class SaleController extends Controller {
 	public function edit($id) {
 		$sale = Sale::findOrFail($id);
 		$items_count = count($sale->saleitems);
-		$products = Product::where('user_id', auth()->user()->id)->get();
+		// $products = Product::where('user_id', auth()->user()->id)->get();
+		if(auth()->user()->id == 1){
+			$products = Product::orderby('created_at', DESC)->all();
+		} else {
+			$products = Product::where('user_id', auth()->user()->id)->orderby('created_at', DESC)->get();
+		}
 		$customers = Customer::all();
 		$users = User::all();
 

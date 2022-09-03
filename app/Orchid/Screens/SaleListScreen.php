@@ -40,15 +40,10 @@ class SaleListScreen extends Screen {
 	 */
 	public function query(): array
 	{
-		if (auth()->user()->presenter()->subTitle() == 'Super Admin') {
-			return [
-				'sales' => Sale::filtersApply([ItemsFilter::class])->orderby('created_at', 'desc')->get(),
-			];
-		} else {
-			return [
-				'sales' => Sale::where('user_id', auth()->user()->id)->filtersApply([ItemsFilter::class])->orderby('created_at', 'desc')->get(),
-			];
-		}
+		
+		return [
+			'sales' => Sale::where('user_id', auth()->user()->id)->filtersApply([ItemsFilter::class])->orderby('created_at', 'desc')->get(),
+		];
 
 	}
 

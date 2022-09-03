@@ -34,15 +34,9 @@ class PurchaseListScreen extends Screen {
 	 */
 	public function query(): array
 	{
-		if (auth()->user()->presenter()->subTitle() == 'Super Admin') {
-			return [
-				'purchases' => Purchase::filtersApply([PItemsFilter::class])->orderby('created_at', 'desc')->get(),
-			];
-		} else {
-			return [
-				'purchases' => Purchase::where('user_id', auth()->user()->id)->filtersApply([PItemsFilter::class])->orderby('created_at', 'desc')->get(),
-			];
-		}
+		return [
+			'purchases' => Purchase::where('user_id', auth()->user()->id)->filtersApply([PItemsFilter::class])->orderby('created_at', 'desc')->get(),
+		];
 	}
 
 	/**

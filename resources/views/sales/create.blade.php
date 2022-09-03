@@ -123,7 +123,13 @@
 										{{-- <label for="product">Select Product</label> --}}
 										<select name="product" id="product" class="product-select2 form-control" multiple>
 											@foreach($products as $product)
-											    <option id="{{ $product->id }}" value="{{ $product->id }}">{{ $product->code . ' [' . $product->name . '] ' }}</option>
+											    <option id="{{ $product->id }}" value="{{ $product->id }}">
+													@if(auth()->user()->id == 1)
+													{{ '['.$product->user->name.'] '.$product->code . '_' . $product->name . '_' }}
+													@else
+													{{ $product->code . '_' . $product->name . '_' }}
+													@endif
+												</option>
 											@endforeach
 										</select>
 									{{-- </div> --}}
