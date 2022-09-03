@@ -13,7 +13,7 @@ use Orchid\Support\Facades\Toast;
 class PurchaseController extends Controller {
 	public function create() {
 		if(auth()->user()->id == 1){
-			$products = Product::orderby('created_at', 'DESC')->all();
+			$products = Product::orderby('created_at', 'DESC')->getAll();
 		} else {
 			$products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
 		}
@@ -80,7 +80,7 @@ class PurchaseController extends Controller {
 		$items_count = count($purchase->purchaseitems);
 		// $products = Product::where('user_id', auth()->user()->id)->get();
 		if(auth()->user()->id == 1){
-			$products = Product::orderby('created_at', 'DESC')->all();
+			$products = Product::orderby('created_at', 'DESC')->getAll();
 		} else {
 			$products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
 		}
