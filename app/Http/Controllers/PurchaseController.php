@@ -12,11 +12,12 @@ use Orchid\Support\Facades\Toast;
 
 class PurchaseController extends Controller {
 	public function create() {
-		if(auth()->user()->id == 1){
-			$products = Product::orderby('created_at', 'DESC')->get();
-		} else {
-			$products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
-		}
+		$products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
+		// if(auth()->user()->id == 1){
+		// 	$products = Product::orderby('created_at', 'DESC')->get();
+		// } else {
+		// 	$products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
+		// }
 			
 		$suppliers = Supplier::all();
 		$users = User::all();
@@ -78,12 +79,12 @@ class PurchaseController extends Controller {
 	public function edit($id) {
 		$purchase = Purchase::findOrFail($id);
 		$items_count = count($purchase->purchaseitems);
-		// $products = Product::where('user_id', auth()->user()->id)->get();
-		if(auth()->user()->id == 1){
-			$products = Product::orderby('created_at', 'DESC')->get();
-		} else {
-			$products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
-		}
+		$products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
+		// if(auth()->user()->id == 1){
+		// 	$products = Product::orderby('created_at', 'DESC')->get();
+		// } else {
+		// 	$products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
+		// }
 		$suppliers = Supplier::all();
 		$users = User::all();
 

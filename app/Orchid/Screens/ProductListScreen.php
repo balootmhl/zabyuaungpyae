@@ -5,6 +5,8 @@ namespace App\Orchid\Screens;
 use App\Exports\ProductsExport;
 use App\Imports\ProductsImport;
 use App\Models\Product;
+use App\Models\Sale;
+use App\Models\Purchase;
 use App\Models\Purchaseitem;
 use App\Orchid\Filters\QueryFilter;
 use App\Orchid\Layouts\ProductFiltersLayout;
@@ -79,10 +81,10 @@ class ProductListScreen extends Screen {
 							->modal('shareModal')
 							->method('duplicate')
 							->icon('share-alt'),
-						// ModalToggle::make('One Click Fix')
-						//     ->modal('fixModal')
-						//     ->method('fixQuantity')
-						//     ->icon('refresh'),
+						ModalToggle::make('One Click Fix')
+						    ->modal('fixModal')
+						    ->method('fixQuantity')
+						    ->icon('refresh'),
 					]),
 
 				DropDown::make('Import/Export')
@@ -187,13 +189,12 @@ class ProductListScreen extends Screen {
 
 			]))->title('Export/Download any branch products you want.'),
 
-			// Layout::modal('fixModal', Layout::rows([
-			// 	Input::make('qty')
-			// 		->type('hidden')
-			// 		->title('Running One Click Fix will change product quantities.'),
-			// 	->help('Running One Click Fix will change product quantities.'),
+			Layout::modal('fixModal', Layout::rows([
+				Input::make('qty')
+					->type('hidden')
+					->title('Running One Click Fix will change product quantities.'),
 
-			// ]))->title('Are you sure ?'),
+			]))->title('Are you sure ?'),
 		];
 	}
 
@@ -253,13 +254,25 @@ class ProductListScreen extends Screen {
 	}
 
 	public function fixQuantity() {
-		$items = Purchaseitem::all();
-		foreach ($items as $item) {
-			$product = Product::findOrFail($item->product_id);
-			$product->quantity = $product->quantity + $item->quantity;
-			$product->update();
+		$sales = Sale::all();
+		$purchases = Purchase::all();
+
+		foreach ($purchases as $purchase) {
+			foreach($purchase->purchaseitems as $purchaseitem){
+				$pp = Product::findOrFail($purchaseitem->product_id);
+				$pp->quantity = $pp->quantity + $purchaseitem->quantity;
+				$pp->update();
+			}
 		}
-		Toast::info('Product quantities are changed according to purchase invoices.');
+
+		foreach ($sales as $sale) {
+			foreach($sale->saleitems as $saleitem){
+				$sp = Product::findOrFail($saleitem->product_id);
+				$sp->quantity = $sp->quantity - $saleitem->quantity;
+				$sp->update();
+			}
+		}
+		Toast::info('Calculated product quantities using invoices.');
 		return redirect()->route('platform.product.list');
 	}
 
