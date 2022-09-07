@@ -102,7 +102,7 @@ class PurchaseListScreen extends Screen {
 		if ($purchaseitems) {
 			foreach ($purchaseitems as $purchaseitem) {
 				$product = Product::findOrFail($purchaseitem->product_id);
-				$product->quantity = $product->quantity + $purchaseitem->quantity;
+				$product->quantity = $product->quantity - $purchaseitem->quantity;
 				$product->update();
 				$purchaseitem->delete();
 			}
