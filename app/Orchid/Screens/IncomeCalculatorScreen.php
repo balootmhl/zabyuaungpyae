@@ -79,7 +79,7 @@ class IncomeCalculatorScreen extends Screen
      */
     public function calculate(Request $request)
     {
-        $invoices = Sale::where('date', $request->get('date'))->get();
+        $invoices = Sale::where('date', $request->get('date'))->where('user_id', auth()->user()->id)->get();
         $total_income = 0;
         $total_discount = 0;
         foreach ($invoices as $invoice) {
