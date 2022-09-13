@@ -2,7 +2,7 @@
 
 <div class="rounded bg-white mb-3 p-3">
     <div class="row g-0">
-        <div class="col col-lg-7 mt-6 p-4 pe-md-0">
+        <div class="col col-lg-12 mt-6 p-4 pe-md-0">
 
             <h2 class="mt-2 text-dark fw-light">
                 Total Sold Amount - <strong>{{ session('total_income') }} MMK</strong>
@@ -13,15 +13,15 @@
                 {{-- You are minutes away from creativity than ever before. Enjoy! --}}
             </p>
         </div>
-        <div class="d-none d-lg-block col align-self-center text-end text-muted p-4">
+        {{-- <div class="d-none d-lg-block col align-self-center text-end text-muted p-4"> --}}
             {{-- <x-orchid-icon path="orchid" width="6em" height="100%"/> --}}
-            <img src="{{ asset('custom/img/logo.png') }}" width="auto" height="80" alt="" >
-        </div>
+            {{-- <img src="{{ asset('custom/img/logo.png') }}" width="auto" height="80" alt="" > --}}
+        {{-- </div> --}}
     </div>
 </div>
 <div class="rounded bg-white mb-3 p-3">
     <div class="row g-0">
-        <div class="col col-lg-7 mt-6 p-4 pe-md-0">
+        <div class="col col-lg-12 mt-6 p-4 pe-md-0">
 
             <h2 class="mt-2 text-dark fw-light">
                 Total Discount Amount - <strong>{{ session('total_discount') }} MMK</strong>
@@ -32,12 +32,34 @@
                 {{-- You are minutes away from creativity than ever before. Enjoy! --}}
             </p>
         </div>
-        <div class="d-none d-lg-block col align-self-center text-end text-muted p-4">
+        {{-- <div class="d-none d-lg-block col align-self-center text-end text-muted p-4"> --}}
             {{-- <x-orchid-icon path="orchid" width="6em" height="100%"/> --}}
-            <img src="{{ asset('custom/img/logo.png') }}" width="auto" height="80" alt="" >
-        </div>
+            {{-- <img src="{{ asset('custom/img/logo.png') }}" width="auto" height="80" alt="" > --}}
+        {{-- </div> --}}
     </div>
 </div>
+
+@if(session('customer'))
+<div class="rounded bg-white mb-3 p-3">
+    <div class="row g-0">
+        <div class="col col-lg-12 mt-6 p-4 pe-md-0">
+
+            <h3 class="mt-2 text-dark fw-light">
+                Debt Amount of {{session('customer')->name}} - <strong><text class="text-danger">{{ session('customer')->debt }} MMK</text></strong>
+            </h3>
+
+            <p>
+                This is total debt amount of selected customer.<br>
+                {{-- You are minutes away from creativity than ever before. Enjoy! --}}
+            </p>
+        </div>
+        {{-- <div class="d-none d-lg-block col align-self-center text-end text-muted p-4"> --}}
+            {{-- <x-orchid-icon path="orchid" width="6em" height="100%"/> --}}
+            {{-- <img src="{{ asset('custom/img/logo.png') }}" width="auto" height="80" alt="" > --}}
+        {{-- </div> --}}
+    </div>
+</div>
+@endif
 
 <div class="bg-white rounded shadow-sm mb-3" >
     <small class="text-dark d-block mb-1" style="padding: 10px 15px;"><strong>Sale invoices on that day</strong></small>
@@ -50,6 +72,7 @@
 					<th style="color: #667780 !important;">Invoice By</th>
 					<th style="color: #667780 !important;">Discount</th>
 					<th style="color: #667780 !important;">Grand Total</th>
+                    <th style="color: #667780 !important;">Remain to pay</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -60,6 +83,7 @@
 				    	<td>{{ $invoice->user->name }}</td>
 				    	<td>{{ $invoice->discount }} MMK</td>
 				    	<td>{{ $invoice->grand_total }} MMK</td>
+                        <td @if($invoice->remained != 0) class="text-danger" @else class="text-success" @endif><strong>{{ $invoice->remained }} MMK</strong></td>
 				    </tr>
 				@endforeach
 			</tbody>
