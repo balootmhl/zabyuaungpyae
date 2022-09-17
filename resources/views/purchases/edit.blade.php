@@ -217,7 +217,7 @@
 									<td>{{ $loop->iteration }}</td>
 									<td>
 										@if($item->code != NULL)
-	                                        {{ $item->code }}
+										{{ $item->code }}
 	                                    @else
 	                                        ??????
 	                                    @endif

@@ -81,9 +81,9 @@ class ProductListScreen extends Screen {
 							->modal('shareModal')
 							->method('duplicate')
 							->icon('share-alt'),
-						ModalToggle::make('One Click Fix')
+						ModalToggle::make('Calibrate qty')
 						    ->modal('fixModal')
-						    ->method('fixQuantity')
+						    ->method('fix')
 						    ->icon('refresh'),
 					]),
 
@@ -125,6 +125,19 @@ class ProductListScreen extends Screen {
 			];
 		} else {
 			return [
+				DropDown::make('Manage Stock')
+					->icon('loading')
+					->list([
+						// ModalToggle::make('Reset Stock')
+						// 	->modal('resetModal')
+						// 	->method('resetQuantity')
+						// 	->icon('reload'),
+						
+						ModalToggle::make('Calibrate qty')
+						    ->modal('fixModal')
+						    ->method('fix')
+						    ->icon('refresh'),
+					]),
 				DropDown::make('Import/Export')
 					->icon('wrench')
 					->list([
@@ -192,7 +205,7 @@ class ProductListScreen extends Screen {
 			Layout::modal('fixModal', Layout::rows([
 				Input::make('qty')
 					->type('hidden')
-					->title('Running One Click Fix will change product quantities.'),
+					->title('Running this function will change product quantities.'),
 
 			]))->title('Are you sure ?'),
 		];
@@ -313,6 +326,34 @@ class ProductListScreen extends Screen {
 			$p->save();
 		}
 		Toast::success('Shared warehouse products to '.$user->name.'.');
+		return redirect()->route('platform.product.list');
+	}
+	
+	public function fix() {
+		$products = Product::where('user_id', 2)->get();
+		$purchases = Purchase::where('user_id', 2)->get();
+		$sales = Sale::where('user_id', 2)->get();
+		foreach($products as $product){
+			$product->quantity = 0;
+			$product->update();
+			
+		}
+		foreach($purchases as $purchase){
+			foreach($purchase->purchaseitems as $pitem){
+				$pp = Product::findOrFail($pitem->product_id);
+				$pp->quantity = $pp->quantity + $pitem->quantity;
+				$pp->update();
+			}
+		}
+		foreach($sales as $sale){
+			foreach($sale->saleitems as $sitem){
+				$sp = Product::findOrFail($sitem->product_id);
+				$sp->quantity = $sp->quantity - $sitem->quantity;
+				$sp->update();
+			}
+		}
+
+		Toast::success('Calibrated invoices and product quantities.');
 		return redirect()->route('platform.product.list');
 	}
 
