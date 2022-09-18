@@ -3,13 +3,14 @@
 namespace App\Orchid\Screens;
 
 use App\Models\Purchase;
+use App\Models\Product;
 use App\Orchid\Filters\PItemsFilter;
 use App\Orchid\Layouts\PurchaseitemFiltersLayout;
 use App\Orchid\Layouts\PurchaseListLayout;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
-use Orchid\Support\Facades\Alert;
+use Orchid\Support\Facades\Toast;
 use Orchid\Support\Facades\Layout;
 
 class PurchaseListScreen extends Screen {
@@ -98,7 +99,7 @@ class PurchaseListScreen extends Screen {
 	 * @throws \Exception
 	 */
 	public function remove(Purchase $purchase) {
-		$purchaseitems = $purchase->saleitems;
+		$purchaseitems = $purchase->purchaseitems;
 		if ($purchaseitems) {
 			foreach ($purchaseitems as $purchaseitem) {
 				$product = Product::findOrFail($purchaseitem->product_id);
@@ -109,7 +110,7 @@ class PurchaseListScreen extends Screen {
 		}
 		$purchase->delete();
 
-		Alert::info('Purchase Invoice is deleted successfully. Product Quantity are returning back.');
+		Toast::info('Purchase Invoice is deleted successfully. Product Quantity are returning back.');
 
 		return redirect()->route('platform.purchase.list');
 	}
