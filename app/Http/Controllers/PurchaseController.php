@@ -71,6 +71,7 @@ class PurchaseController extends Controller {
 		if ($purchase->received != 0) {
 			$purchase->remained = $purchase->grand_total - $purchase->received;
 		}
+		
 		$purchase->update();
 		Toast::success('Invoice Saved.');
 		return redirect()->route('platform.purchase.edit-custom', $purchase->id);

@@ -77,6 +77,10 @@ class SaleController extends Controller {
 		if ($sale->received != 0) {
 			$sale->remained = $sale->grand_total - $sale->received;
 		}
+		if($sale->remained != 0 || $sale->remained != NULL){
+			$customer = Customer::findOrFail($sale->customer_id);
+			$customer->debt = $customer->debt + $sale->remained;
+		}
 		$sale->update();
 		Toast::success('Invoice Saved.');
 		return redirect()->route('platform.sale.edit-custom', $sale->id);
@@ -110,8 +114,18 @@ class SaleController extends Controller {
 		$sale->is_inv_auto = $request->get('is_inv_auto');
 		$sale->discount = $request->get('discount');
 		$sale->remarks = $request->get('remarks');
+		if ($sale->received != $request->get('received')) {
+			// $customer = Customer::findOrFail($sale->customer_id);
+			$customer->debt = $customer->debt - $sale->remained;
+			$customer->update();
+			$sale->remained = $sale->grand_total - $request->get('received');
+			// $sale->received = $request->get('received');
+			$sale->update();
+			$customer->debt = $customer->debt + $sale->remained;
+			$customer->update();
+		}
 		$sale->received = $request->get('received');
-		$sale->save();
+		$sale->update();
 
 		// if ($request->has('products')) {
 		// 	$items = $request->get('products');
@@ -151,9 +165,6 @@ class SaleController extends Controller {
 
 		$sale->sub_total = $subtotal;
 		$sale->grand_total = $subtotal - $sale->discount;
-		if ($sale->received != 0) {
-			$sale->remained = $sale->grand_total - $sale->received;
-		}
 		$sale->update();
 		Toast::success('Invoice Saved.');
 
