@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Customer;
 use App\Models\Purchase;
 use App\Models\Purchaseitem;
 use App\Models\Sale;
@@ -13,6 +14,7 @@ use Orchid\Support\Facades\Toast;
 use PDF;
 
 class CustomController extends Controller {
+
 	public function deleteSaleItems($id) {
 		$saleitem = Saleitem::findOrFail($id);
 		$sale_id = $saleitem->sale_id;
@@ -31,6 +33,15 @@ class CustomController extends Controller {
 		$sale->sub_total = $subtotal;
 		$sale->grand_total = $subtotal - $sale->discount;
 		$sale->update();
+		$customer = Customer::findOrFail($sale->customer_id);
+		$customer->debt = $customer->debt - $sale->remained;
+		$customer->update();
+		// $sale->remained = $sale->grand_total - $sale->received;
+		// $sale->update();
+		$sale->remained = $sale->grand_total - $sale->received;
+		$sale->update();
+		$customer->debt = $customer->debt + $sale->remained;
+		$customer->update();
 		Toast::info('Item deleted successfully.');
 		return redirect()->route('platform.sale.edit-custom', $sale_id);
 	}

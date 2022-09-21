@@ -77,9 +77,11 @@ class SaleController extends Controller {
 		if ($sale->received != 0) {
 			$sale->remained = $sale->grand_total - $sale->received;
 		}
-		if($sale->remained != 0 || $sale->remained != NULL){
-			$customer = Customer::findOrFail($sale->customer_id);
+		$sale->update();
+		if($request->get('received') != 0){
+			// $customer = Customer::findOrFail($sale->customer_id);
 			$customer->debt = $customer->debt + $sale->remained;
+			$customer->update();
 		}
 		$sale->update();
 		Toast::success('Invoice Saved.');
@@ -104,26 +106,18 @@ class SaleController extends Controller {
 	public function update(Request $request) {
 		$sale = Sale::findOrFail($request->get('sale_id'));
 		$sale->invoice_code = $request->get('invoice_code');
-		$customer = Customer::firstOrCreate(['name' => $request->get('customer_id')]);
+		$cus = Customer::firstOrCreate(['name' => $request->get('customer_id')]);
 		$sale->user_id = $request->get('user_id');
-		$sale->customer_id = $customer->id;
+		$sale->customer_id = $cus->id;
 		$sale->date = $request->get('date');
-		$sale->custom_name = $customer->name;
+		$sale->custom_name = $cus->name;
 		$sale->custom_address = $request->get('address');
 		$sale->is_saleprice = $request->get('is_saleprice');
 		$sale->is_inv_auto = $request->get('is_inv_auto');
 		$sale->discount = $request->get('discount');
 		$sale->remarks = $request->get('remarks');
-		if ($sale->received != $request->get('received')) {
-			// $customer = Customer::findOrFail($sale->customer_id);
-			$customer->debt = $customer->debt - $sale->remained;
-			$customer->update();
-			$sale->remained = $sale->grand_total - $request->get('received');
-			// $sale->received = $request->get('received');
-			$sale->update();
-			$customer->debt = $customer->debt + $sale->remained;
-			$customer->update();
-		}
+		
+		
 		$sale->received = $request->get('received');
 		$sale->update();
 
@@ -166,6 +160,15 @@ class SaleController extends Controller {
 		$sale->sub_total = $subtotal;
 		$sale->grand_total = $subtotal - $sale->discount;
 		$sale->update();
+		$customer = Customer::findOrFail($sale->customer_id);
+		$customer->debt = $customer->debt - $sale->remained;
+		$customer->update();
+		// $sale->remained = $sale->grand_total - $sale->received;
+		// $sale->update();
+		$sale->remained = $sale->grand_total - $request->get('received');
+		$sale->update();
+		$customer->debt = $customer->debt + $sale->remained;
+		$customer->update();
 		Toast::success('Invoice Saved.');
 
 		return redirect()->route('platform.sale.edit-custom', $sale->id);
