@@ -15,7 +15,7 @@
         @if(auth()->user()->id == 1)
             <img src="{{ asset('custom/img/logo.png') }}" alt="" style="height: 150px;width:auto;text-align: center;">
         @else
-            <img src="{{ asset('custom/img/zabyuaungpyae-logo.jpeg') }}" alt="" style="height: 150px;width:auto;text-align: center;">
+            <img src="{{ asset('custom/img/zabyuaungpyae-logo.jpeg') }}" alt="" style="height: 150px;width:auto;text-align: center;border-radius:30%;">
         @endif
     </span>
 
