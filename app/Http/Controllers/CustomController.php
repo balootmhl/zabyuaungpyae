@@ -84,7 +84,7 @@ class CustomController extends Controller {
 	}
 
 	public function stockControl() {
-		$products = Product::all();
+		$products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
 
 		return view('products.stock-control', compact('products'));
 	}
