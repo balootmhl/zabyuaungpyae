@@ -68,9 +68,9 @@ class ProductListScreen extends Screen {
 							->modal('resetModal')
 							->method('resetQuantity')
 							->icon('reload'),
-						// Link::make('Batch Edit')
-						// 	->icon('wrench')
-						// 	->route('platform.product.stock-control'),
+						Link::make('Stock Control')
+							->icon('wrench')
+							->route('platform.product.stock-control'),
 						Button::make('Clear Groups')
 							->method('clearGroup')
 							->icon('wrench'),
@@ -257,7 +257,7 @@ class ProductListScreen extends Screen {
 	}
 
 	public function resetQuantity(Request $request) {
-		$products = Product::all();
+		$products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
 		foreach ($products as $product) {
 			$product->quantity = $request->get('qty');
 			$product->update();

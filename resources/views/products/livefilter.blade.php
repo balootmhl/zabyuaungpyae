@@ -16,10 +16,14 @@
 
 <div class="mb-3" style="">
 	<div class="row">
-		<div class="col"></div>
+		<div class="col">
+			<form action="" class="form form-inline">
+				<div class="form-group"><input type="text" class="form-control" placeholder="Search Products"> <input type="submit"></div>
+			</form>
+		</div>
 		<div class="col"></div>
 		<div class="col-sm-4" >
-			<div class="form-group" id="fffilter"><input type="text" class="form-control" placeholder="Search..."></div>
+			<div class="form-group" id="fffilter"><input type="text" class="form-control" placeholder="Filter..."></div>
 		</div>
 	</div>
 </div>
