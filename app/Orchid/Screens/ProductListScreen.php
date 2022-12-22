@@ -132,6 +132,13 @@ class ProductListScreen extends Screen {
 						// 	->modal('resetModal')
 						// 	->method('resetQuantity')
 						// 	->icon('reload'),
+						ModalToggle::make('Reset Stock')
+							->modal('resetModal')
+							->method('resetQuantity')
+							->icon('reload'),
+						Link::make('Stock Control')
+							->icon('wrench')
+							->route('platform.product.stock-control'),
 						
 						ModalToggle::make('Calibrate qty')
 						    ->modal('fixModal')
