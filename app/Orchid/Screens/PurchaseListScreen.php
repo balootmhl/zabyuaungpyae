@@ -2,16 +2,16 @@
 
 namespace App\Orchid\Screens;
 
-use App\Models\Purchase;
 use App\Models\Product;
+use App\Models\Purchase;
 use App\Orchid\Filters\PItemsFilter;
 use App\Orchid\Layouts\PurchaseitemFiltersLayout;
 use App\Orchid\Layouts\PurchaseListLayout;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
-use Orchid\Support\Facades\Toast;
 use Orchid\Support\Facades\Layout;
+use Orchid\Support\Facades\Toast;
 
 class PurchaseListScreen extends Screen {
 	/**
@@ -36,7 +36,7 @@ class PurchaseListScreen extends Screen {
 	public function query(): array
 	{
 		return [
-			'purchases' => Purchase::where('user_id', auth()->user()->id)->filtersApply([PItemsFilter::class])->orderby('created_at', 'desc')->get(),
+			'purchases' => Purchase::where('user_id', auth()->user()->id)->filtersApply([PItemsFilter::class])->orderby('created_at', 'desc')->paginate(50),
 		];
 	}
 
