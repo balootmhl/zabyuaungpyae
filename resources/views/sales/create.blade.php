@@ -45,20 +45,27 @@
 				<div class="form-group">
 					<label for="user_id">Admin or Branch</label>
 					<select class="form-control user-select2" name="user_id" multiple required>
-						@if(auth()->user()->id == 1)
+						{{-- @if(auth()->user()->id == 1)
 							@foreach ($users as $user)
 								<option value="{{ $user->id }}">{{ $user->name }}</option>
 							@endforeach
 						@else
 							<option value="{{ auth()->user()->id }}" selected='true'>{{ auth()->user()->name }}</option>
-						@endif
+						@endif --}}
+						@foreach ($users as $user)
+							@if($user->id == 2)
+								<option value="{{ $user->id }}" selected='true'>{{ $user->name }}</option>
+							@else
+								<option value="{{ $user->id }}">{{ $user->name }}</option>
+							@endif
+						@endforeach
 					</select>
 				</div>
 			</div>
 			<div class="col-sm-3">
 				<div class="form-group">
 					<label for="date">Date</label>
-					<input type="date" name="date" class="form-control" required>
+					<input type="date" name="date" class="form-control" value="{{ date('mm/dd/yyyy') }}" required allowInput="true">
 				</div>
 			</div>
 			<div class="col-sm-5">
@@ -66,7 +73,11 @@
 					<label for="customer_id">Customer</label>
 					<select class="form-control customer-select2" name="customer_id" required multiple >
 						@foreach ($customers as $customer)
+							@if($customer->id == 9)
+							<option value="{{ $customer->name }}" selected='true'>{{ $customer->name }}</option>
+							@else
 							<option value="{{ $customer->name }}">{{ $customer->name }}</option>
+							@endif
 						@endforeach
 					</select>
 				</div>
