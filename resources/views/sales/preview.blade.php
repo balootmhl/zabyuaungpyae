@@ -31,8 +31,8 @@
                             </a>
                         </h5>
                         {{-- <div><strong><font style="font-size: 1.2rem;">Kubota</font> လယ်ယာသုံး စက်ပစ္စည်းအရောင်းဆိုင်</strong></div> --}}
-                        <div><x-orchid-icon path="pointer"/>Yangon, Myanmar.</div>
-                        <div><x-orchid-icon path="phone"/>09 428 936 585, 09 428 936 585</div>
+                        <div><x-orchid-icon path="pointer"/>Thongwa Township, Pale Village, No(6) Main Road, Yangon.</div>
+                        <div><x-orchid-icon path="phone"/>09420250449</div>
                         <div><x-orchid-icon path="globe"/>http://zabyuaungpyae.com</div>
                     </div>
                     <div class="col-3">
