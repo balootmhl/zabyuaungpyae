@@ -3,7 +3,7 @@
 	<link rel="stylesheet" href="{{ asset('custom/css/invoice.css') }}" media="all" />
 @endpush
 
-<div id="invoice">
+<div id="invoice" style="">
 
     <div class="toolbar hidden-print">
         <div class="text-right">
