@@ -12,6 +12,8 @@ use App\Models\Saleitem;
 use Illuminate\Http\Request;
 use Orchid\Support\Facades\Toast;
 use PDF;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ProductsExport;
 
 class CustomController extends Controller {
 
@@ -101,5 +103,10 @@ class CustomController extends Controller {
 		// Alert::info('Product Saved!');
 		Toast::success($request->get('toast', 'Prices Saved!'));
 		return redirect()->route('platform.product.stock-control');
+	}
+
+	public function exportProduct(Request $request)
+	{
+		return Excel::download(new ProductsExport(auth()->user()->id), 'products_of_'. auth()->user()->name .'_export_' . now() . '.xlsx');
 	}
 }

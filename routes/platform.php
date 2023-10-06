@@ -168,6 +168,7 @@ Route::screen('products/import-products', ProductImportScreen::class)
 
 Route::get('products/stock-control', 'App\Http\Controllers\CustomController@stockControl')->name('platform.product.stock-control');
 Route::post('products/stock-control/save', 'App\Http\Controllers\CustomController@saveStock')->name('platform.product.stock.save');
+Route::get('products/export-custom', 'App\Http\Controllers\CustomController@exportProduct')->name('platform.product.export-custom');
 
 // Category Routes
 Route::screen('category/{category?}', CategoryEditScreen::class)
