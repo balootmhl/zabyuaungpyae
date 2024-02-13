@@ -87,6 +87,7 @@
                             <th class="text-left">Code</th>
                             <th class="text-left">Description</th>
                             <th style="text-align: right !important;" >Price</th>
+                            <th style="text-align: right !important;" >Group</th>
                             <th style="text-align: right !important;" >Qty</th>
                             <th class="text-center"></th>
                             <th style="text-align: right !important;" >Total</th>
@@ -117,6 +118,7 @@
                                         ?????
                                     @endif
                                 </td>
+	                            <td class="qty">{{ $item->product->group->name }}</td>
 	                            <td class="qty">{{ $item->quantity }}</td>
                                 <td class="text-center"><input type="checkbox" unchecked></td>
                                 <td class="total">
@@ -132,28 +134,28 @@
                     </tbody>
                     <tfoot style="display: table-row-group">
                         <tr>
-                            <td colspan="3"></td>
+                            <td colspan="4"></td>
                             <td colspan="3">SUBTOTAL</td>
                             <td>{{ $purchase->sub_total }} Ks</td>
                         </tr>
                         <tr>
-                            <td colspan="3"></td>
+                            <td colspan="4"></td>
                             <td colspan="3">DISCOUNT</td>
                             <td>{{ $purchase->discount }} Ks</td>
                         </tr>
                         <tr>
-                            <td colspan="3"></td>
+                            <td colspan="4"></td>
                             <td colspan="3">GRAND TOTAL</td>
                             <td>{{ $purchase->grand_total }} Ks</td>
                         </tr>
                         @if($purchase->received != 0)
 			          	  <tr>
-				            <td colspan="3"></td>
+				            <td colspan="4"></td>
 				            <td colspan="3">RECEIPT</td>
 				            <td>{{ $purchase->received }} Ks</td>
 				          </tr>
 				          <tr>
-				            <td colspan="3"></td>
+				            <td colspan="4"></td>
 				            <td colspan="3">REMAINING <br>AMOUNT</td>
 				            <td>{{ $purchase->remained }} Ks</td>
 				          </tr>

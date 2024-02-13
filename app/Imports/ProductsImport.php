@@ -17,8 +17,8 @@ class ProductsImport implements OnEachRow
      */
     public function onRow(Row $row)
     {
-        $rowIndex = $row->getIndex();
         $row = $row->toArray();
+        $encodedArray = json_encode($row);
         $product = new Product();
         $product->code = $row[0];
         $product->name = $row[1];
@@ -37,7 +37,7 @@ class ProductsImport implements OnEachRow
         } else {
             $group = Group::firstOrCreate(['name' => $row[6]]);
         }
-        
+
         $product->group_id = $group->id;
         $product->save();
     }

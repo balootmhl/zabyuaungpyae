@@ -55,16 +55,11 @@
 				<div class="form-group">
 
 					<label for="user_id">Admin or Branch</label>
-					{{-- <select class="form-control user-select2" name="user_id" multiple required @if(auth()->user()->id != 1) disabled @endif>
-						@foreach ($users as $user)
-							<option value="{{ $user->id }}" @if($user->id == $sale->user_id) selected="true" @endif>{{ $user->name }}</option>
-						@endforeach
-					</select> --}}
 					@if(auth()->user()->id == 1)
 						<select class="form-control user-select2" name="user_id" multiple required>
 							@foreach ($users as $user)
 								<option value="{{ $user->id }}" @if($user->id == $sale->user_id) selected="true" @endif>{{ $user->name }}</option>
-							@endforeach 
+							@endforeach
 						</select>
 					@else
 						<input type="text" name="user" class="form-control" value="{{ $sale->user->name }}" disabled>
@@ -221,6 +216,7 @@
 								<th>No.</th>
 								<th>Product</th>
 								<th class="text-center">Price</th>
+								<th class="text-center">Group</th>
 								<th class="text-center">Quantity</th>
 								<th class="text-center">Unit Total</th>
 							</tr>
@@ -248,6 +244,7 @@
 	                                        ?????
 	                                    @endif
                                 	</td>
+									<td class="text-center">{{ $item->product->group->name }}</td>
 									<td class="text-center">{{ $item->quantity }}</td>
 	                        		<td class="text-center">
 			                        	<strong>
@@ -270,6 +267,7 @@
 								<td> </td>
 								<td> </td>
 								<td> </td>
+								<td> </td>
 								<td class="text-right text-dark">
 									<h5><strong>Subtotal: MMK </strong></h5>
 									<p><strong>Discount : MMK </strong></p>
@@ -281,6 +279,7 @@
 	                     </td>
 							</tr>
 							<tr>
+	                           <td> </td>
 	                           <td> </td>
 	                           <td> </td>
 	                           <td> </td>
