@@ -26,46 +26,25 @@
 		<input type="hidden" name="_token" value="{{ csrf_token() }}">
 		<input type="hidden" id="app_url" value="{{ config('app.url') }}">
 		<div class="row justify-content-center invoice-form">
-			<div class="col-sm-2">
+			<div class="col-sm-4">
 				<div class="form-group">
 					<label for="invoice_code">Invoice Code</label>
 					<input type="text" name="invoice_code" class="form-control">
 				</div>
 			</div>
-			<div class="col-sm-2">
+			<div class="col-sm-4">
 				<div class="form-group">
 					<label for="is_inv_auto">Inv system</label>
 					<select class="form-control" name="is_inv_auto" id="is_inv_auto" required>
-						<option value="1">Auto</option>
+						<option value="1" selected>Auto</option>
 						<option value="0">Manual</option>
 					</select>
 				</div>
 			</div>
-			<div class="col-sm-5">
-				<div class="form-group">
-					<label for="user_id">Admin or Branch</label>
-					<select class="form-control user-select2" name="user_id" multiple required>
-						{{-- @if(auth()->user()->id == 1)
-							@foreach ($users as $user)
-								<option value="{{ $user->id }}">{{ $user->name }}</option>
-							@endforeach
-						@else
-							<option value="{{ auth()->user()->id }}" selected='true'>{{ auth()->user()->name }}</option>
-						@endif --}}
-						@foreach ($users as $user)
-							@if($user->id == 2)
-								<option value="{{ $user->id }}" selected='true'>{{ $user->name }}</option>
-							@else
-								<option value="{{ $user->id }}">{{ $user->name }}</option>
-							@endif
-						@endforeach
-					</select>
-				</div>
-			</div>
-			<div class="col-sm-3">
+			<div class="col-sm-4">
 				<div class="form-group">
 					<label for="date">Date</label>
-					<input type="date" name="date" class="form-control" value="{{ date('mm/dd/yyyy') }}" required allowInput="true">
+					<input type="date" name="date" class="form-control" value="{{ now()->format('mm/dd/yyyy') }}" required allowInput="true">
 				</div>
 			</div>
 			<div class="col-sm-5">
