@@ -235,7 +235,7 @@
 	                                        ?????
 	                                    @endif
 	                       			</td>
-									<td class="text-center">{{ $item->product->group->name }}</td>
+									<td class="text-center">@if(!is_null($item->product->group)) {{ $item->product->group->name }} @endif</td>
 									<td class="text-center">{{ $item->quantity }}</td>
 			                        <td class="text-center">
 			                        	<strong>

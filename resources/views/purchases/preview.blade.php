@@ -118,7 +118,7 @@
                                         ?????
                                     @endif
                                 </td>
-	                            <td class="qty">{{ $item->product->group->name }}</td>
+	                            <td class="qty">@if(!is_null($item->product->group)) {{ $item->product->group->name }} @endif</td>
 	                            <td class="qty">{{ $item->quantity }}</td>
                                 <td class="text-center"><input type="checkbox" unchecked></td>
                                 <td class="total">
