@@ -51,79 +51,79 @@ use Tabuna\Breadcrumbs\Trail;
 
 // Main
 Route::screen('/main', PlatformScreen::class)
-    ->name('platform.main');
+	->name('platform.main');
 
 // Platform > Profile
 Route::screen('profile', UserProfileScreen::class)
-    ->name('platform.profile')
-    ->breadcrumbs(function (Trail $trail) {
-        return $trail
-            ->parent('platform.index')
-            ->push(__('Profile'), route('platform.profile'));
-    });
+	->name('platform.profile')
+	->breadcrumbs(function (Trail $trail) {
+		return $trail
+			->parent('platform.index')
+			->push(__('Profile'), route('platform.profile'));
+	});
 
 // Platform > System > Users
 Route::screen('users/{user}/edit', UserEditScreen::class)
-    ->name('platform.systems.users.edit')
-    ->breadcrumbs(function (Trail $trail, $user) {
-        return $trail
-            ->parent('platform.systems.users')
-            ->push(__('User'), route('platform.systems.users.edit', $user));
-    });
+	->name('platform.systems.users.edit')
+	->breadcrumbs(function (Trail $trail, $user) {
+		return $trail
+			->parent('platform.systems.users')
+			->push(__('User'), route('platform.systems.users.edit', $user));
+	});
 
 // Platform > System > Users > Create
 Route::screen('users/create', UserEditScreen::class)
-    ->name('platform.systems.users.create')
-    ->breadcrumbs(function (Trail $trail) {
-        return $trail
-            ->parent('platform.systems.users')
-            ->push(__('Create'), route('platform.systems.users.create'));
-    });
+	->name('platform.systems.users.create')
+	->breadcrumbs(function (Trail $trail) {
+		return $trail
+			->parent('platform.systems.users')
+			->push(__('Create'), route('platform.systems.users.create'));
+	});
 
 // Platform > System > Users > User
 Route::screen('users', UserListScreen::class)
-    ->name('platform.systems.users')
-    ->breadcrumbs(function (Trail $trail) {
-        return $trail
-            ->parent('platform.index')
-            ->push(__('Users'), route('platform.systems.users'));
-    });
+	->name('platform.systems.users')
+	->breadcrumbs(function (Trail $trail) {
+		return $trail
+			->parent('platform.index')
+			->push(__('Users'), route('platform.systems.users'));
+	});
 
 // Platform > System > Roles > Role
 Route::screen('roles/{roles}/edit', RoleEditScreen::class)
-    ->name('platform.systems.roles.edit')
-    ->breadcrumbs(function (Trail $trail, $role) {
-        return $trail
-            ->parent('platform.systems.roles')
-            ->push(__('Role'), route('platform.systems.roles.edit', $role));
-    });
+	->name('platform.systems.roles.edit')
+	->breadcrumbs(function (Trail $trail, $role) {
+		return $trail
+			->parent('platform.systems.roles')
+			->push(__('Role'), route('platform.systems.roles.edit', $role));
+	});
 
 // Platform > System > Roles > Create
 Route::screen('roles/create', RoleEditScreen::class)
-    ->name('platform.systems.roles.create')
-    ->breadcrumbs(function (Trail $trail) {
-        return $trail
-            ->parent('platform.systems.roles')
-            ->push(__('Create'), route('platform.systems.roles.create'));
-    });
+	->name('platform.systems.roles.create')
+	->breadcrumbs(function (Trail $trail) {
+		return $trail
+			->parent('platform.systems.roles')
+			->push(__('Create'), route('platform.systems.roles.create'));
+	});
 
 // Platform > System > Roles
 Route::screen('roles', RoleListScreen::class)
-    ->name('platform.systems.roles')
-    ->breadcrumbs(function (Trail $trail) {
-        return $trail
-            ->parent('platform.index')
-            ->push(__('Roles'), route('platform.systems.roles'));
-    });
+	->name('platform.systems.roles')
+	->breadcrumbs(function (Trail $trail) {
+		return $trail
+			->parent('platform.index')
+			->push(__('Roles'), route('platform.systems.roles'));
+	});
 
 // Example...
 Route::screen('/home', ExampleScreen::class)
-    ->name('platform.example')
-    ->breadcrumbs(function (Trail $trail) {
-        return $trail
-            ->parent('platform.index')
-            ->push('Welcome to Mahar Shin');
-    });
+	->name('platform.example')
+	->breadcrumbs(function (Trail $trail) {
+		return $trail
+			->parent('platform.index')
+			->push('Welcome to Mahar Shin');
+	});
 
 Route::screen('example-fields', ExampleFieldsScreen::class)->name('platform.example.fields');
 Route::screen('example-layouts', ExampleLayoutsScreen::class)->name('platform.example.layouts');
@@ -132,151 +132,176 @@ Route::screen('example-editors', ExampleTextEditorsScreen::class)->name('platfor
 Route::screen('example-cards', ExampleCardsScreen::class)->name('platform.example.cards');
 Route::screen('example-advanced', ExampleFieldsAdvancedScreen::class)->name('platform.example.advanced');
 Route::screen('email', EmailSenderScreen::class)->name('platform.email')->breadcrumbs(function (Trail $trail) {
-    return $trail
-        ->parent('platform.index')
-        ->push('Email sender');
+	return $trail
+		->parent('platform.index')
+		->push('Email sender');
 });
 
 // Product Routes
 Route::screen('product/{product?}', ProductEditScreen::class)
-    ->name('platform.product.edit')->breadcrumbs(function (Trail $trail) {
-    return $trail
-        ->parent('platform.product.list')
-        ->push('Manage Product');
+	->name('platform.product.edit')->breadcrumbs(function (Trail $trail) {
+	return $trail
+		->parent('platform.product.list')
+		->push('Manage Product');
 });
 
 Route::screen('products', ProductListScreen::class)
-    ->name('platform.product.list')->breadcrumbs(function (Trail $trail) {
-    return $trail
-        ->parent('platform.index')
-        ->push('Product List');
+	->name('platform.product.list')->breadcrumbs(function (Trail $trail) {
+	return $trail
+		->parent('platform.index')
+		->push('Product List');
 });
 
 Route::screen('products/import-products', ProductImportScreen::class)
-    ->name('platform.product.import-products')->breadcrumbs(function (Trail $trail) {
-    return $trail
-        ->parent('platform.product.list')
-        ->push('Import Products');
+	->name('platform.product.import-products')->breadcrumbs(function (Trail $trail) {
+	return $trail
+		->parent('platform.product.list')
+		->push('Import Products');
 });
+
+// Route::screen('products/stock-control', StockControlScreen::class)
+//     ->name('platform.product.stock-control')->breadcrumbs(function (Trail $trail) {
+//     return $trail
+//         ->parent('platform.product.list')
+//         ->push('Import Products');
+// });
+
+Route::get('products/stock-control', 'App\Http\Controllers\CustomController@stockControl')->name('platform.product.stock-control');
+Route::post('products/stock-control/save', 'App\Http\Controllers\CustomController@saveStock')->name('platform.product.stock.save');
+Route::get('products/export-custom', 'App\Http\Controllers\CustomController@exportProduct')->name('platform.product.export-custom');
 
 // Category Routes
 Route::screen('category/{category?}', CategoryEditScreen::class)
-    ->name('platform.category.edit')->breadcrumbs(function (Trail $trail) {
-    return $trail
-        ->parent('platform.category.list')
-        ->push('Manage Category');
+	->name('platform.category.edit')->breadcrumbs(function (Trail $trail) {
+	return $trail
+		->parent('platform.category.list')
+		->push('Manage Category');
 });
 
 Route::screen('categories', CategoryListScreen::class)
-    ->name('platform.category.list')->breadcrumbs(function (Trail $trail) {
-    return $trail
-        ->parent('platform.index')
-        ->push('Category List');
+	->name('platform.category.list')->breadcrumbs(function (Trail $trail) {
+	return $trail
+		->parent('platform.index')
+		->push('Category List');
 });
 
 // Group Routes
 Route::screen('group/{group?}', GroupEditScreen::class)
-    ->name('platform.group.edit')->breadcrumbs(function (Trail $trail) {
-    return $trail
-        ->parent('platform.group.list')
-        ->push('Manage Group');
+	->name('platform.group.edit')->breadcrumbs(function (Trail $trail) {
+	return $trail
+		->parent('platform.group.list')
+		->push('Manage Group');
 });
 
 Route::screen('groups', GroupListScreen::class)
-    ->name('platform.group.list')->breadcrumbs(function (Trail $trail) {
-    return $trail
-        ->parent('platform.index')
-        ->push('Group List');
+	->name('platform.group.list')->breadcrumbs(function (Trail $trail) {
+	return $trail
+		->parent('platform.index')
+		->push('Group List');
 });
 
 // Sales Routes
 
 // Customer Routes
 Route::screen('customer/{customer?}', CustomerEditScreen::class)
-    ->name('platform.customer.edit')->breadcrumbs(function (Trail $trail) {
-    return $trail
-        ->parent('platform.customer.list')
-        ->push('Manage Customer');
+	->name('platform.customer.edit')->breadcrumbs(function (Trail $trail) {
+	return $trail
+		->parent('platform.customer.list')
+		->push('Manage Customer');
 });
 Route::screen('customers', CustomerListScreen::class)
-    ->name('platform.customer.list')->breadcrumbs(function (Trail $trail) {
-    return $trail
-        ->parent('platform.index')
-        ->push('Customer List');
+	->name('platform.customer.list')->breadcrumbs(function (Trail $trail) {
+	return $trail
+		->parent('platform.index')
+		->push('Customer List');
 });
 
 // Sale Record Routes
+// Route::get('sales', 'App\Http\Controllers\SaleController@index')->name('platform.sale.list');
+Route::get('sale/create-custom', 'App\Http\Controllers\SaleController@create')->name('platform.sale.create-custom');
+Route::post('sale/custom/store', 'App\Http\Controllers\SaleController@store')->name('platform.sale.store-custom');
+Route::post('sale/custom/search', 'App\Http\Controllers\SaleController@search')->name('platform.sale.search-custom');
+Route::get('sale/edit-custom/{id}', 'App\Http\Controllers\SaleController@edit')->name('platform.sale.edit-custom');
+Route::post('sale/custom/update', 'App\Http\Controllers\SaleController@update')->name('platform.sale.update-custom');
+Route::post('sale/custom/delete', 'App\Http\Controllers\SaleController@delete')->name('platform.sale.delete-custom');
+Route::get('getPrice/{id}', 'App\Http\Controllers\RecipeController@getPrice');
 Route::screen('sale/{sale?}', SaleEditScreen::class)
-    ->name('platform.sale.edit')->breadcrumbs(function (Trail $trail) {
-    return $trail
-        ->parent('platform.sale.list')
-        ->push('Manage Sale Invoice');
+	->name('platform.sale.edit')->breadcrumbs(function (Trail $trail) {
+	return $trail
+		->parent('platform.sale.list')
+		->push('Manage Sale Invoice');
 });
 Route::screen('sale/view/{sale?}', SaleViewScreen::class)
-    ->name('platform.sale.view')->breadcrumbs(function (Trail $trail) {
-    return $trail
-        ->parent('platform.sale.list')
-        ->push('View Invoice');
-});
+	->name('platform.sale.view')
+	->breadcrumbs(function (Trail $trail) {
+		return $trail
+			->parent('platform.sale.list')
+			->push('View Invoice');
+	});
 Route::screen('sales', SaleListScreen::class)
-    ->name('platform.sale.list')->breadcrumbs(function (Trail $trail) {
-    return $trail
-        ->parent('platform.index')
-        ->push('Sale Invoices List');
+	->name('platform.sale.list')->breadcrumbs(function (Trail $trail) {
+	return $trail
+		->parent('platform.index')
+		->push('Sale Invoices List');
 });
 Route::get('sales/saleitems/delete/{id}', 'App\Http\Controllers\CustomController@deleteSaleItems');
-Route::get('sales/invoice/download/{id}', 'App\Http\Controllers\CustomController@downloadInvoice');
+Route::get('purchases/purchaseitems/delete/{id}', 'App\Http\Controllers\CustomController@deletePurchaseItems');
+Route::get('sales/invoice/print/{id}', 'App\Http\Controllers\CustomController@downloadInvoice')->name('platform.sale.print');
 // Find Sale Invoices
 Route::screen('sales/search', FindInvoiceScreen::class)
-    ->name('platform.sale.search')->breadcrumbs(function (Trail $trail) {
-    return $trail
-        ->parent('platform.sale.list')
-        ->push('Search Invoices');
+	->name('platform.sale.search')->breadcrumbs(function (Trail $trail) {
+	return $trail
+		->parent('platform.sale.list')
+		->push('Search Invoices');
 });
 
 // Purchase Routes
 // Supplier Routes
 Route::screen('supplier/{supplier?}', SupplierEditScreen::class)
-    ->name('platform.supplier.edit')->breadcrumbs(function (Trail $trail) {
-    return $trail
-        ->parent('platform.supplier.list')
-        ->push('Manage Supplier');
+	->name('platform.supplier.edit')->breadcrumbs(function (Trail $trail) {
+	return $trail
+		->parent('platform.supplier.list')
+		->push('Manage Supplier');
 });
 Route::screen('suppliers', SupplierListScreen::class)
-    ->name('platform.supplier.list')->breadcrumbs(function (Trail $trail) {
-    return $trail
-        ->parent('platform.index')
-        ->push('Supplier List');
+	->name('platform.supplier.list')->breadcrumbs(function (Trail $trail) {
+	return $trail
+		->parent('platform.index')
+		->push('Supplier List');
 });
 
 // Purchase Record Routes
+Route::get('purchase/create-custom', 'App\Http\Controllers\PurchaseController@create')->name('platform.purchase.create-custom');
+Route::post('purchase/custom/store', 'App\Http\Controllers\PurchaseController@store')->name('platform.purchase.store-custom');
+Route::get('purchase/edit-custom/{id}', 'App\Http\Controllers\PurchaseController@edit')->name('platform.purchase.edit-custom');
+Route::post('purchase/custom/update', 'App\Http\Controllers\PurchaseController@update')->name('platform.purchase.update-custom');
 Route::screen('purchase/{purchase?}', PurchaseEditScreen::class)
-    ->name('platform.purchase.edit')->breadcrumbs(function (Trail $trail) {
-    return $trail
-        ->parent('platform.purchase.list')
-        ->push('Manage Purchase Invoice');
+	->name('platform.purchase.edit')->breadcrumbs(function (Trail $trail) {
+	return $trail
+		->parent('platform.purchase.list')
+		->push('Manage Purchase Invoice');
 });
 Route::screen('purchase/view/{purchase?}', PurchaseViewScreen::class)
-    ->name('platform.purchase.view')->breadcrumbs(function (Trail $trail) {
-    return $trail
-        ->parent('platform.purchase.list')
-        ->push('View Invoice');
+	->name('platform.purchase.view')->breadcrumbs(function (Trail $trail) {
+	return $trail
+		->parent('platform.purchase.list')
+		->push('View Invoice');
 });
 Route::screen('purchases', PurchaseListScreen::class)
-    ->name('platform.purchase.list')->breadcrumbs(function (Trail $trail) {
-    return $trail
-        ->parent('platform.index')
-        ->push('Purchase Invoices List');
+	->name('platform.purchase.list')->breadcrumbs(function (Trail $trail) {
+	return $trail
+		->parent('platform.index')
+		->push('Purchase Invoices List');
 });
 Route::get('purchases/purchaseitems/delete/{id}', 'App\Http\Controllers\CustomController@deletePurchaseItems');
-Route::get('purchases/invoice/download/{id}', 'App\Http\Controllers\CustomController@downloadPInvoice');
+Route::get('purchases/invoice/print/{id}', 'App\Http\Controllers\CustomController@downloadPInvoice')->name('platform.purchase.print');
 
 // Total Income & Discount Calculator
 Route::screen('incomes', IncomeCalculatorScreen::class)
-    ->name('platform.income.discount')->breadcrumbs(function (Trail $trail) {
-    return $trail
-        ->parent('platform.index')
-        ->push('Income & Discount Calculator');
+	->name('platform.income.discount')->breadcrumbs(function (Trail $trail) {
+	return $trail
+		->parent('platform.index')
+		->push('Income & Discount Calculator');
 });
 
 //Route::screen('idea', 'Idea::class','platform.screens.idea');

@@ -2,3 +2,30 @@
 span.text-ellipsis {
 	font-size: 1.1em !important;
 }
+
+.table thead tr th {
+	color: #3f6079;
+	font-weight: bold;
+}
+
+.invoice-form .col-sm-2,
+.invoice-form .col-sm-3,
+.invoice-form .col-sm-4,
+.invoice-form .col-sm-5,
+.invoice-form .col-sm-6,
+.invoice-form .col-sm-7,
+.invoice-form .col-sm-12 {
+	margin-bottom: 10px;
+}
+
+.toolbar .btn {
+   display: inline-block !important;
+}
+
+.invoice-form .table thead tr th:first-child, .invoice-form .table tbody tr td:first-child {
+	padding-left: 0.1px !important;
+}
+
+.delete-btn {
+	padding: 10px;
+}

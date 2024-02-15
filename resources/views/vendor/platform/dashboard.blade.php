@@ -15,7 +15,11 @@
                 </a>
 
                 <a class="header-brand order-last" href="{{route('platform.index')}}">
-                    @includeFirst([config('platform.template.header'), 'platform::header'])
+                    @if(auth()->user()->id == 1)
+                        @includeFirst([config('platform.template.header'), 'platform::header'])
+                    @else
+                        @include('platform::header')
+                    @endif
                 </a>
             </header>
 

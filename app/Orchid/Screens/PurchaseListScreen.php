@@ -2,116 +2,123 @@
 
 namespace App\Orchid\Screens;
 
+use App\Models\Product;
 use App\Models\Purchase;
+use App\Orchid\Filters\PItemsFilter;
+use App\Orchid\Layouts\PurchaseitemFiltersLayout;
 use App\Orchid\Layouts\PurchaseListLayout;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
-use Orchid\Support\Facades\Alert;
+use Orchid\Support\Facades\Layout;
+use Orchid\Support\Facades\Toast;
 
-class PurchaseListScreen extends Screen
-{
-    /**
-     * Display header name.
-     *
-     * @var string
-     */
-    public $name = 'Purchase Invoices';
+class PurchaseListScreen extends Screen {
+	/**
+	 * Display header name.
+	 *
+	 * @var string
+	 */
+	public $name = 'Purchase Invoices';
 
-    /**
-     * Display header description.
-     *
-     * @var string
-     */
-    public $description = 'All purchase invoice list of the company.';
+	/**
+	 * Display header description.
+	 *
+	 * @var string
+	 */
+	public $description = 'All purchase invoice list of the company.';
 
-    /**
-     * Query data.
-     *
-     * @return array
-     */
-    public function query(): array
-    {
-        return [
-            'purchases' => Purchase::filters()->defaultSort('id')->paginate(),
-        ];
-    }
+	/**
+	 * Query data.
+	 *
+	 * @return array
+	 */
+	public function query(): array
+	{
+		return [
+			'purchases' => Purchase::where('user_id', auth()->user()->id)->filtersApply([PItemsFilter::class])->orderby('created_at', 'desc')->paginate(50),
+		];
+	}
 
-    /**
-     * Button commands.
-     *
-     * @return \Orchid\Screen\Action[]
-     */
-    public function commandBar(): array
-    {
-        return [
-            // ModalToggle::make('Import')
-            //     ->modal('importModal')
-            //     ->method('import')
-            //     ->icon('cloud-upload'),
+	/**
+	 * Button commands.
+	 *
+	 * @return \Orchid\Screen\Action[]
+	 */
+	public function commandBar(): array
+	{
+		return [
+			// ModalToggle::make('Import')
+			//     ->modal('importModal')
+			//     ->method('import')
+			//     ->icon('cloud-upload'),
 
-            Button::make('Export')
-                ->method('export')
-                ->icon('cloud-download')
-                ->rawClick()
-                ->novalidate(),
+			Button::make('Export')
+				->method('export')
+				->icon('cloud-download')
+				->rawClick()
+				->novalidate(),
 
-            Link::make('Create new')
-                ->icon('plus')
-                ->route('platform.purchase.edit'),
-        ];
-    }
+			Link::make('Create')
+				->icon('plus')
+				->route('platform.purchase.create-custom'),
 
-    /**
-     * Views.
-     *
-     * @return \Orchid\Screen\Layout[]|string[]
-     */
-    public function layout(): array
-    {
-        return [
-            PurchaseListLayout::class,
-            // Layout::modal('importModal', Layout::rows([
-            //     Input::make('excel')
-            //         ->type('file')
-            //         ->acceptedFiles('.xlsx')
-            //         ->title('Upload excel file')
-            //         ->help('The data in the excel file will be created as new sales invoice.')
-            //         ->required(),
+			// Link::make('Create new')
+			//     ->icon('plus')
+			//     ->route('platform.purchase.edit'),
+		];
+	}
 
-            // ]))->title('Import Purchase invoices from excel file'),
-        ];
-    }
+	/**
+	 * Views.
+	 *
+	 * @return \Orchid\Screen\Layout[]|string[]
+	 */
+	public function layout(): array
+	{
+		return [
+			Layout::view('products.livefilter'),
+			PurchaseitemFiltersLayout::class,
+			PurchaseListLayout::class,
+			// Layout::modal('importModal', Layout::rows([
+			//     Input::make('excel')
+			//         ->type('file')
+			//         ->acceptedFiles('.xlsx')
+			//         ->title('Upload excel file')
+			//         ->help('The data in the excel file will be created as new sales invoice.')
+			//         ->required(),
 
-    /**
-     * @param Purchase $purchase
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
-     */
-    public function remove(Purchase $purchase)
-    {
-        $purchaseitems = $purchase->saleitems;
-        if ($purchaseitems) {
-            foreach ($purchaseitems as $purchaseitem) {
-                $product = Product::findOrFail($purchaseitem->product_id);
-                $product->quantity = $product->quantity + $purchaseitem->quantity;
-                $product->update();
-                $purchaseitem->delete();
-            }
-        }
-        $purchase->delete();
+			// ]))->title('Import Purchase invoices from excel file'),
+		];
+	}
 
-        Alert::info('Purchase Invoice is deleted successfully. Product Quantity are returning back.');
+	/**
+	 * @param Purchase $purchase
+	 *
+	 * @return \Illuminate\Http\RedirectResponse
+	 * @throws \Exception
+	 */
+	public function remove(Purchase $purchase) {
+		$purchaseitems = $purchase->purchaseitems;
+		if ($purchaseitems) {
+			foreach ($purchaseitems as $purchaseitem) {
+				$product = Product::findOrFail($purchaseitem->product_id);
+				$product->quantity = $product->quantity - $purchaseitem->quantity;
+				$product->update();
+				$purchaseitem->delete();
+			}
+		}
+		$purchase->delete();
 
-        return redirect()->route('platform.purchase.list');
-    }
+		Toast::info('Purchase Invoice is deleted successfully. Product Quantity are returning back.');
 
-    /**
-     * @return Export products and download as excel file
-     */
-    public function export()
-    {
-        // return Excel::download(new ProductsExport, 'products_' . now() . '.xlsx');
-    }
+		return redirect()->route('platform.purchase.list');
+	}
+
+	/**
+	 * @return Export products and download as excel file
+	 */
+	public function export() {
+		// return Excel::download(new ProductsExport, 'products_' . now() . '.xlsx');
+	}
 }

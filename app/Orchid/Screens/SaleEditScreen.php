@@ -114,7 +114,7 @@ class SaleEditScreen extends Screen
                         ->title('Add Invoice Items')
                         ->required()
                         ->columns([
-                            'Product Name' => 'product_id', 'Quantity' => 'qty',
+                            'Product Code' => 'product_id', 'Quantity' => 'qty',
                         ])
                         ->fields([
                             'product_id' => Select::make('product_id')
@@ -223,7 +223,7 @@ class SaleEditScreen extends Screen
         $subtotal = 0;
 
         foreach ($sale->saleitems as $sitem) {
-            $item_total = $sitem->product->sale_price * $sitem->quantity;
+            $item_total = $sitem->product->buy_price * $sitem->quantity;
             $subtotal = $subtotal + $item_total;
         }
 

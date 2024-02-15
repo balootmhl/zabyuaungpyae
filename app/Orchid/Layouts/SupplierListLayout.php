@@ -6,7 +6,6 @@ use App\Models\Supplier;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\Link;
-use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
 
@@ -30,21 +29,17 @@ class SupplierListLayout extends Table
     protected function columns(): array
     {
         return [
-            TD::make('code', 'Code')->sort()
-                ->filter(Input::make()),
+            TD::make('code', 'Code')->sort(),
 
             TD::make('name', 'Supplier Name')->sort()
-                ->filter(Input::make())
                 ->render(function (Supplier $supplier) {
                     return Link::make($supplier->name)
                         ->route('platform.supplier.edit', $supplier);
                 }),
 
-            TD::make('phone', 'Phone')->sort()
-                ->filter(Input::make()),
+            TD::make('phone', 'Phone')->sort(),
 
-            TD::make('address', 'Address')->sort()
-                ->filter(Input::make()),
+            TD::make('address', 'Address')->sort(),
 
             TD::make('created_at', 'Registered Date')->sort()
                 ->render(function (Supplier $supplier) {
