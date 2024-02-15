@@ -36,13 +36,13 @@
 		<input type="hidden" id="sale_id" name="sale_id" value="{{ $sale->id }}">
 		<input type="hidden" name="items_count" id="items_count" value="{{ $items_count }}">
 		<div class="row justify-content-center invoice-form">
-			<div class="col-sm-2">
+			<div class="col-sm-4">
 				<div class="form-group">
 					<label for="code">Invoice Code</label>
 					<input type="text" name="invoice_code" class="form-control" value="{{ $sale->invoice_code }}">
 				</div>
 			</div>
-			<div class="col-sm-2">
+			<div class="col-sm-4">
 				<div class="form-group">
 					<label for="is_inv_auto">Inv system</label>
 					<select class="form-control" name="is_inv_auto" id="is_inv_auto" required>
@@ -51,23 +51,7 @@
 					</select>
 				</div>
 			</div>
-			<div class="col-sm-5">
-				<div class="form-group">
-
-					<label for="user_id">Admin or Branch</label>
-					@if(auth()->user()->id == 1)
-						<select class="form-control user-select2" name="user_id" multiple required>
-							@foreach ($users as $user)
-								<option value="{{ $user->id }}" @if($user->id == $sale->user_id) selected="true" @endif>{{ $user->name }}</option>
-							@endforeach
-						</select>
-					@else
-						<input type="text" name="user" class="form-control" value="{{ $sale->user->name }}" disabled>
-						<input type="hidden" name="user_id" value="{{$sale->user->id}}">
-					@endif
-				</div>
-			</div>
-			<div class="col-sm-3">
+			<div class="col-sm-4">
 				<div class="form-group">
 					<label for="sale[date]">Date</label>
 					<input type="date" name="date" class="form-control" value="{{ $sale->date }}" required>
