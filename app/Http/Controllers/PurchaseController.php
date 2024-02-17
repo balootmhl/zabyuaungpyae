@@ -33,7 +33,7 @@ class PurchaseController extends Controller {
 		if ($request->get('is_inv_auto') == 0) {
 			$purchase->invoice_no = '#' . $year . $month . $request->get('invoice_code');
 		}
-		$purchase->user_id = $request->get('user_id');
+		$purchase->user_id = auth()->user()->id;
 		$purchase->supplier_id = $supplier->id;
 		$purchase->is_inv_auto = $request->get('is_inv_auto');
 		$purchase->date = $request->get('date');
@@ -96,7 +96,7 @@ class PurchaseController extends Controller {
 		$purchase = Purchase::findOrFail($request->get('purchase_id'));
 		$purchase->invoice_code = $request->get('invoice_code');
 		$supplier = Supplier::firstOrCreate(['name' => $request->get('supplier_id')]);
-		$purchase->user_id = $request->get('user_id');
+		$purchase->user_id = auth()->user()->id;
 		$purchase->supplier_id = $supplier->id;
 		$purchase->is_inv_auto = $request->get('is_inv_auto');
 		$purchase->date = $request->get('date');
