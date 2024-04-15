@@ -6,8 +6,6 @@ use App\Models\Sale;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Layout;
-use PDF;
-use Rawilk\Printing\Facades\Printing;
 
 class SaleViewScreen extends Screen
 {
@@ -17,7 +15,7 @@ class SaleViewScreen extends Screen
      *
      * @var string
      */
-    public $name = 'Sale Invoice Preview';
+    public $name = 'Sale Invoice';
 
     /**
      * Query data.
@@ -26,6 +24,8 @@ class SaleViewScreen extends Screen
      */
     public function query(Sale $sale): array
     {
+        // $this->name = 'Sales_'.$sale->invoice_no;
+
         return [
             'sale' => $sale,
         ];
@@ -38,18 +38,15 @@ class SaleViewScreen extends Screen
      */
     public function commandBar(): array
     {
+
         return [
             // Button::make('Download')
             //     ->icon('cloud-download')
             //     ->method('download'),
 
-            Button::make('Print')
-                ->icon('printer')
-                ->method('print'),
-
-            Button::make('Edit')
-                ->icon('pencil')
-                ->method('edit'),
+            // Button::make('Edit')
+            //     ->icon('pencil')
+            //     ->method('edit'),
         ];
     }
 
@@ -70,28 +67,11 @@ class SaleViewScreen extends Screen
         return redirect()->route('platform.sale.edit', $sale->id);
     }
 
-    public function download(Sale $sale)
-    {
+    // function printDownload(Sale $sale) {
 
-        $pdf = PDF::loadView('export.salepdf', compact('sale'));
+    //     $pdf = PDF::loadView(utf8_decode('export.salepdf'), compact('sale'));
 
-        // return $pdf->download('invoice_' . $sale->invoice_no . '.pdf');
-        return $pdf->download('invoice.pdf');
-    }
+    //     return $pdf->stream('invoice_' . $sale->invoice_no . '.pdf', array('Attachment' => 0, 'compress' => 1));
 
-    function print(Sale $sale) {
-
-        $pdf = PDF::loadView('export.salepdf', compact('sale'));
-        $pdf->save(storage_path('app/public/invoices/Sales' . $sale->invoice_no . '.pdf'));
-
-        $printerId = Printing::defaultPrinterId();
-        $printJob = Printing::newPrintTask()
-            ->printer(71018000)
-        // ->printer($printerId)
-            ->file(storage_path('app/public/invoices/Sales' . $sale->invoice_no . '.pdf'))
-            ->send();
-
-        // $printJob->id(); // the id number returned from the print server
-
-    }
+    // }
 }

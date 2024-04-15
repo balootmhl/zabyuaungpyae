@@ -36,6 +36,8 @@
         <link rel="stylesheet" href="{{  $stylesheet }}">
     @endforeach
 
+    <link rel="stylesheet" href="{{ asset('custom/css/custom.css') }}">
+
     @stack('stylesheets')
 
     @foreach(Dashboard::getResource('scripts') as $scripts)

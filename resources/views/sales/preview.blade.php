@@ -1,291 +1,188 @@
 @push('head')
-	<style>
-		.invoice-body {
-		  position: relative;
-		  width: 21cm;
-		  height: 29.7cm;
-		  margin: 0 auto;
-		  color: #555555;
-		  background: #FFFFFF;
-		  font-family: Arial, sans-serif;
-		  font-size: 14px;
-		  font-family: inherit;
-		}
-
-		.invoice-body header {
-		  padding: 10px 0;
-		  margin-bottom: 20px;
-		  border-bottom: 1px solid #AAAAAA;
-		}
-
-		.invoice-body #logo {
-		  float: left;
-		  margin-top: 8px;
-		}
-
-		.invoice-body #logo img {
-		  height: 70px;
-		}
-
-		.invoice-body #company {
-		  padding-top:20px;
-		  float: right;
-		  text-align: right;
-		}
-
-
-		.invoice-body #details {
-		  margin-bottom: 50px;
-		}
-
-		.invoice-body #client {
-		  padding-left: 6px;
-		  border-left: 6px solid #F58020;
-		  float: left;
-		}
-
-		.invoice-body #client .to {
-		  color: #777777;
-		}
-
-		.invoice-body h2.name {
-		  font-size: 1.4em;
-		  font-weight: normal;
-		  margin: 0;
-		}
-
-		.invoice-body #invoice {
-		  float: right;
-		  text-align: right;
-		}
-
-		.invoice-body #invoice h1 {
-		  color: #143862;
-		  font-size: 1.2em;
-		  line-height: 1em;
-		  font-weight: bold;
-		  margin: 0  0 10px 0;
-		}
-
-		.invoice-body #invoice .date {
-		  font-size: 1.1em;
-		  color: #777777;
-		}
-
-		.invoice-body table {
-		  width: 100%;
-		  border-collapse: collapse;
-		  border-spacing: 0;
-		  margin-bottom: 20px;
-		}
-
-		.invoice-body table th,
-		.invoice-body table td {
-		  padding: 10px;
-		  background: #EEEEEE;
-		  text-align: center;
-		  border-bottom: 1px solid #FFFFFF;
-		}
-
-		.invoice-body table th {
-		  white-space: nowrap;
-		  font-weight: normal;
-		}
-
-		.invoice-body table td {
-		  	text-align: right;
-		}
-
-		.invoice-body table td h3{
-		  	color: #143862;
-		  	font-size: 1.2em;
-		  	font-weight: normal;
-		  	margin: 0 0 0.2em 0;
-		}
-
-		.invoice-body table .no {
-		  	color: #FFFFFF;
-		  	font-size: 1em;
-		  	background: #F58020;
-		  	text-align: center;
-		}
-
-		.invoice-body table .desc {
-			font-size: 0.9em;
-		  	text-align: left;
-		}
-
-		.invoice-body table .unit {
-		  	font-size: 0.9em;
-		  	background: #DDDDDD;
-		}
-
-		.invoice-body table .qty {
-		  	font-size: 0.9em;
-		  	text-align: center;
-		}
-
-		.invoice-body table .total {
-			font-size: 0.9em;
-		  	background: #F58020;
-		  	color: #FFFFFF;
-		}
-
-		.invoice-body table td.unit,
-		.invoice-body table td.qty,
-		.invoice-body table td.total {
-		  font-size: 0.95em;
-		}
-
-		.invoice-body table tbody tr:last-child td {
-		  border: none;
-		}
-
-		.invoice-body table tfoot td {
-		  padding: 10px 20px;
-		  background: #FFFFFF;
-		  border-bottom: none;
-		  font-size: 1.2em;
-		  white-space: nowrap;
-		  border-top: 1px solid #AAAAAA;
-		}
-
-		.invoice-body table tfoot tr:first-child td {
-		  border-top: none;
-		}
-
-		.invoice-body table tfoot tr:last-child td {
-		  color: #F58020;
-		  font-size: 1.4em;
-		  border-top: 1px solid #F58020;
-
-		}
-
-		.invoice-body table tfoot tr td:first-child {
-		  border: none;
-		}
-
-		.invoice-body #thanks{
-		  font-size: 2em;
-		  margin-bottom: 50px;
-		}
-
-		.invoice-body #notices{
-		  padding-left: 6px;
-		  border-left: 6px solid #F58020;
-		}
-
-		.invoice-body #notices .notice {
-		  font-size: 1.2em;
-		}
-
-		/*footer {
-		  color: #777777;
-		  width: 100%;
-		  height: 30px;
-		  position: absolute;
-		  bottom: 0;
-		  border-top: 1px solid #AAAAAA;
-		  padding: 8px 0;
-		  text-align: center;
-		}*/
-
-	</style>
+	{{-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> --}}
+	<link rel="stylesheet" href="{{ asset('custom/css/invoice.css') }}" media="all" />
 @endpush
 
-    <div class="bg-white rounded shadow-sm p-4 py-4 d-flex flex-column">
-        <div class="invoice-body">
-        	<div class="form-group mb-0">
-        		<a href="{{ url('/admin/sales/invoice/download/'. $sale->id) }}" class="btn btn-link" style="text-decoration: none;"><strong><x-orchid-icon path="cloud-download"/> Download Invoice</strong></a>
-        	</div>
+<div id="invoice" style="">
 
-        	<header class="clearfix">
-		      <div id="logo">
-		        <img src="{{ asset('custom/img/logo.png') }}" style="height: 150px;width:auto;">
-		      </div>
-		      <div id="company">
-
-		        <h2 class="name"><strong>Maharshin</strong></h2>
-		        <div>Agricultural Equipment Sales</div>
-		        <div><x-orchid-icon path="pointer"/>Yangon, Myanmar.</div>
-		        <div><x-orchid-icon path="phone"/> 09 428 936 585</div>
-		        <div><x-orchid-icon path="phone"/>09 428 936 585</div>
-		        <div>maharshin@maharshin.com</div>
-		      </div>
-		    </header>
-		    <main>
-		      <div id="details" class="clearfix">
-		        <div id="client">
-		          <div class="to">INVOICE TO:</div>
-		          <h2 class="name">{{ $sale->customer->name }}</h2>
-		          <div class="address">{{ $sale->customer->address }}</div>
-		          <div class="email">baloot.mhl@gmail.com</div>
-		        </div>
-		        <div id="invoice">
-		          <h1>Invoice No. : {{ $sale->invoice_no }}</h1>
-		          <div class="date">Date: {{ $sale->date }}</div>
-		          <div class="date">Invoice By: {{ $sale->user->name }}</div>
-		        </div>
-		      </div>
-		      <table border="0" cellspacing="0" cellpadding="0">
-		        <thead>
-		          <tr>
-		            <th class="no" width="5%">#</th>
-		            <th class="desc" width="auto"><strong>DESCRIPTION</strong></th>
-		            <th class="unit" width="15%"><strong>UNIT PRICE</strong></th>
-		            <th class="qty" width="5%"><strong>QUANTITY</strong></th>
-		            <th class="total" width="10%"><strong>TOTAL</strong></th>
-		          </tr>
-		        </thead>
-		        <tbody>
-		        	@foreach($sale->saleitems as $saleitem)
-		        		<tr>
-		        			<td class="no">{{ $loop->iteration }}</td>
-		        			<td class="desc"><h3>{{ $saleitem->product->name }}</h3></td>
-		        			<td class="unit">{{ $saleitem->product->sale_price }} MMK</td>
-		        			<td class="qty">{{ $saleitem->quantity }}</td>
-		        			<td class="total">{{ $saleitem->product->sale_price * $saleitem->quantity }} MMK</td>
-		        		</tr>
-		        	@endforeach
-		        </tbody>
-		        <tfoot>
-		          <tr>
-		            <td colspan="2"></td>
-		            <td colspan="2">SUBTOTAL</td>
-		            <td>{{ $sale->sub_total }} MMK</td>
-		          </tr>
-		          <tr>
-		            <td colspan="2"></td>
-		            <td colspan="2">DISCOUNT</td>
-		            <td>{{ $sale->discount }} MMK</td>
-		          </tr>
-		          @if($sale->received != 0)
-		          	  <tr>
-			            <td colspan="2"></td>
-			            <td colspan="2">RECEIPT</td>
-			            <td>{{ $sale->received }} MMK</td>
-			          </tr>
-			          <tr>
-			            <td colspan="2"></td>
-			            <td colspan="2">REMAINING <br>AMOUNT</td>
-			            <td>{{ $sale->remained }} MMK</td>
-			          </tr>
-		          @endif
-		          <tr>
-		            <td colspan="2"></td>
-		            <td colspan="2">GRAND TOTAL</td>
-		            <td>{{ $sale->grand_total }} MMK</td>
-		          </tr>
-		        </tfoot>
-		      </table>
-		      <div id="thanks">Thank you!</div>
-		      <div id="notices">
-		        <div>NOTICE:</div>
-		        <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
-		      </div>
-		    </main>
+    <div class="toolbar hidden-print">
+        <div class="text-right">
+            <button id="printInvoice" class="btn btn-info">{{-- <i class="fa fa-print"></i> --}}<x-orchid-icon path="printer"/>&nbsp; Print</button>
+            <a href="{{ route('platform.sale.edit-custom', $sale->id) }}" class="btn btn-info">{{-- <i class="fa fa-print"></i> --}}<x-orchid-icon path="pencil"/>&nbsp; Edit</a>
+            {{-- <button class="btn btn-info"><i class="fa fa-file-pdf-o"></i> Export as PDF</button> --}}
         </div>
+        <hr>
     </div>
+    <div class="invoice overflow-auto">
+        <div style="min-width: 600px;">
+            <header>
+                <div class="row">
+                    <div class="col-2">
+
+                        <a target="_blank" href="http://zabyuaungpyae.com">
+                            <img src="{{ asset('custom/img/logo.png') }}" class="img-fluid">
+                        </a>
+                    </div>
+                    <div class="col-7">
+
+                        <h5 class="name" style="padding-top: 10px;">
+                            <a target="_blank" href="http://zabyuaungpyae.com">
+                            <strong>MAHARSHIN Co., Ltd. (Head Office)</strong>
+                            </a>
+                        </h5>
+                        {{-- <div><strong><font style="font-size: 1.2rem;">Kubota</font> လယ်ယာသုံး စက်ပစ္စည်းအရောင်းဆိုင်</strong></div> --}}
+                        <div><x-orchid-icon path="pointer"/>Thongwa Township, Pale Village, No(6) Main Road, Yangon.</div>
+                        <div><x-orchid-icon path="phone"/>09420250449</div>
+                        <div><x-orchid-icon path="globe"/>http://zabyuaungpyae.com</div>
+                    </div>
+                    <div class="col-3">
+                            <img src="{{ asset('custom/img/kubota-logo.png') }}" class="img-fluid" style="padding-top: 10px;"> <br>
+                            <h6 style="padding-left: 5px;font-weight: bold;">လယ်ယာသုံး စက်ပစ္စည်းအရောင်းဆိုင်</h6>
+                        {{-- </div> --}}
+                    </div>
+                    <div class="col-7 company-details">
+                        {{-- <h5 class="name">
+                            <a target="_blank" href="https://lobianijs.com">
+                            <strong>MAHARSHIN Co., Ltd. (Head Office)</strong>
+                            </a>
+                        </h5>
+                        <div><strong><font style="font-size: 1.2rem;">Kubota</font> လယ်ယာသုံး စက်ပစ္စည်းအရောင်းဆိုင်</strong></div>
+                        <div><x-orchid-icon path="pointer"/>Yangon, Myanmar.</div>
+                        <div><x-orchid-icon path="phone"/>09 428 936 585, 09 428 936 585</div>
+                        <div><x-orchid-icon path="globe"/>http://zabyuaungpyae.com</div> --}}
+                    </div>
+                </div>
+            </header>
+            <main>
+                <div class="row contacts">
+                    <div class="col invoice-to">
+                        <div class="text-gray-light">INVOICE TO:</div>
+                        <h5 class="to">{{ $sale->customer->name }}</h5>
+                        <div class="address">
+                            @if($sale->customer->address)
+                                {{ $sale->customer->address }}
+                            @else
+                                {{ $sale->customer->custom_address }}
+                            @endif
+                        </div>
+                        {{-- <div class="email"><a href="mailto:john@example.com">john@example.com</a></div> --}}
+                    </div>
+                    <div class="col invoice-details">
+                        <h5 class="invoice-id">Invoice No. {{ $sale->invoice_no }}</h5>
+                        <div class="date">Date of Invoice: {{ $sale->date }}</div>
+                        <div class="date">Invoice By: {{ $sale->user->name }}</div>
+                    </div>
+                </div>
+                <table class="table table-striped">
+                    <thead style="display: table-row-group">
+                        <tr>
+                            <th class="text-right" style="padding:0 !important;">#</th>
+                            <th class="text-left">Code</th>
+                            <th class="text-left">Description</th>
+                            <th style="text-align: right !important;" >Price</th>
+                            <th style="text-align: right !important;" >Group</th>
+                            <th style="text-align: right !important;" >Qty</th>
+                            <th class="text-center"></th>
+                            <th style="text-align: right !important;" >Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    	@foreach($sale->saleitems as $item)
+                            <tr>
+	                            <td class="no" style="padding:0 !important;width: 4% !important;">{{ $loop->iteration }}</td>
+	                            <td class="text-left code">
+                                    @if($item->code != NULL)
+                                        {{ $item->code }}
+                                    @else
+                                        ??????
+                                    @endif
+	                            </td>
+	                            <td class="text-left">
+                                    @if($item->name != NULL)
+                                        {{ $item->name }}
+                                    @else
+                                        ??????
+                                    @endif
+	                            </td>
+	                            <td class="unit">
+                                    @if($item->price != NULL)
+                                        {{ $item->price }}
+                                    @else
+                                        ?????
+                                    @endif
+
+                                </td>
+	                            <td class="qty">@if(!is_null($item->product->group)) {{ $item->product->group->name }} @endif</td>
+	                            <td class="qty">{{ $item->quantity }}</td>
+                                <td class="text-center"><input type="checkbox" unchecked></td>
+	                            <td class="total">
+                                    @if($item->price != NULL)
+                                        {{ $item->price * $item->quantity }}
+                                    @else
+                                        ?????
+                                    @endif
+
+                                </td>
+	                        </tr>
+                    	@endforeach
+
+                    </tbody>
+                    <tfoot style="display: table-row-group">
+                        <tr>
+                            <td colspan="4"></td>
+                            <td colspan="3">SUBTOTAL</td>
+                            <td>{{ $sale->sub_total }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4"></td>
+                            <td colspan="3">DISCOUNT</td>
+                            <td>{{ $sale->discount }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4"></td>
+                            <td colspan="3">GRAND TOTAL</td>
+                            <td>{{ $sale->grand_total }}</td>
+                        </tr>
+                        @if($sale->received != 0)
+			          	  <tr>
+				            <td colspan="4"></td>
+				            <td colspan="3">RECEIPT</td>
+				            <td>{{ $sale->received }}</td>
+				          </tr>
+				          <tr>
+				            <td colspan="4"></td>
+				            <td colspan="3">REMAINING <br>AMOUNT</td>
+				            <td>{{ $sale->remained }}</td>
+				          </tr>
+			          @endif
+                    </tfoot>
+                </table>
+                <div class="thanks">Thank you!</div>
+                <div class="notices">
+                    <div>NOTICE:</div>
+                    <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
+                </div>
+            </main>
+            {{-- <footer>
+                Invoice was created on a computer and is valid without the signature and seal.
+            </footer> --}}
+        </div>
+        <!--DO NOT DELETE THIS div. IT is responsible for showing footer always at the bottom-->
+        <div></div>
+    </div>
+</div>
 
 @push('scripts')
+	{{-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script> --}}
+	{{-- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> --}}
+	<script>
+		$('#printInvoice').click(function(){
+            Popup($('.invoice')[0].outerHTML);
+            function Popup(data)
+            {
+                window.print();
+                return true;
+            }
+        });
+	</script>
 @endpush

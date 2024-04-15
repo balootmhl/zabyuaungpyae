@@ -1,14 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
   <head>
-    <meta charset="utf-8">
     <title>Invoice {{ $sale->invoice_no }}</title>
-    <link rel="stylesheet" href="{{ asset('custom/font/sale-invoice.css') }}" media="all" />
-    <link rel="stylesheet" href="{{ asset('custom/font/dejavu-sans.css') }}" media="all" />
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{{ asset('custom/font/invoice.css') }}" media="all" />
+    <meta http-equiv="Content-Type" content="text/html" charset="utf-8" >
     <style>
-      body {
-        /*font-family: 'dejavu_sansbook' !important;*/
-      }
+    .page-break {
+        page-break-after: always;
+    }
+
+    body {
+      font-family: 'Pyidaungsu' !important;
+    }
     </style>
   </head>
 
@@ -18,7 +23,7 @@
         <img src="{{ asset('custom/img/logo.png') }}" style="height: 150px;width:auto;">
       </div>
       <div id="company">
-        <h2 class="name"><strong>Maharshin</strong></h2>
+        <h2 class="name"><strong>Maharshin</strong><strong>မဟာရှင်</strong></h2>
         <div>Agricultural Equipment Sales</div>
         <div><x-orchid-icon path="pointer"/>Yangon, Myanmar.</div>
         <div><x-orchid-icon path="phone"/> 09 428 936 585</div>
@@ -32,7 +37,7 @@
           <div class="to">INVOICE TO:</div>
           <h2 class="name">{{ $sale->customer->name }}</h2>
           <div class="address">{{ $sale->customer->address }}</div>
-          <div class="email">baloot.mhl@gmail.com</div>
+          {{-- <div class="email">baloot.mhl@gmail.com</div> --}}
         </div>
         <div id="invoice">
           <h1>Invoice No. : {{ $sale->invoice_no }}</h1>
@@ -52,9 +57,12 @@
         </thead>
         <tbody>
         	@foreach($sale->saleitems as $saleitem)
+            @if($loop->index == 15)
+              <div class="page-break"></div>
+            @endif
         		<tr>
         			<td class="no">{{ $loop->iteration }}</td>
-        			<td class="desc"><h3>{{ $saleitem->product->name }}</h3></td>
+        			<td class="desc"><h3>{{ $saleitem->product->code }} {{ $saleitem->product->name }}</h3></td>
         			<td class="unit">{{ $saleitem->product->sale_price }} MMK</td>
         			<td class="qty">{{ $saleitem->quantity }}</td>
         			<td class="total">{{ $saleitem->product->sale_price * $saleitem->quantity }} MMK</td>

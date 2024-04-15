@@ -28,6 +28,7 @@ class Sale extends Model
         'discount',
         'received',
         'remarks',
+        'custom_name',
     ];
 
     /**
@@ -48,6 +49,7 @@ class Sale extends Model
         'received',
         'remained',
         'remarks',
+        'custom_name',
     ];
 
     /**
@@ -68,6 +70,7 @@ class Sale extends Model
         'received',
         'remained',
         'remarks',
+        'custom_name',
     ];
 
     public function saleitems()

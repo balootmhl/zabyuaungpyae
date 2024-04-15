@@ -35,13 +35,19 @@ class SaleListLayout extends Table
                         ->route('platform.sale.view', $sale->id);
                 }),
 
-            TD::make('customer_name', 'Customer Name')
+            TD::make('custom_name', 'Customer Name')->sort()
                 ->render(function (Sale $sale) {
-                    return $sale->customer->name;
+                    return $sale->custom_name;
+
                 }),
-            TD::make('user_id', 'Invoice By')
+            TD::make('user_id', 'Invoice By')->sort()
                 ->render(function (Sale $sale) {
-                    return $sale->user->name;
+                    if($sale->user){
+                        return $sale->user->name;
+                    } else {
+                        return 'None';
+                    }
+                    
                 }),
             TD::make('date', 'Issue Date')->sort()
                 ->render(function (Sale $sale) {
@@ -53,6 +59,11 @@ class SaleListLayout extends Table
                     return $sale->grand_total . ' MMK';
                 })->sort(),
 
+            TD::make('items', 'Items')
+                ->render(function (Sale $sale) {
+                    return count($sale->saleitems);
+                }),
+
             TD::make(__('Actions'))
                 ->align(TD::ALIGN_CENTER)
                 ->width('100px')
@@ -61,8 +72,12 @@ class SaleListLayout extends Table
                         ->icon('options-vertical')
                         ->list([
 
+                            // Link::make(__('Edit'))
+                            //     ->route('platform.sale.edit', $sale->id)
+                            //     ->icon('pencil'),
+
                             Link::make(__('Edit'))
-                                ->route('platform.sale.edit', $sale->id)
+                                ->route('platform.sale.edit-custom', $sale->id)
                                 ->icon('pencil'),
 
                             Button::make(__('Delete'))
