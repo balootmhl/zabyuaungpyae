@@ -12,6 +12,7 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.65",
         "laravel/sanctum": "^2.11",
+        "laravel/telescope": "^5.0",
         "laravel/tinker": "^2.5",
         "maatwebsite/excel": "^3.1",
         "orchid/platform": "^10.26"
