@@ -31,12 +31,18 @@ class QueryFilter extends Filter
      */
     public function run(Builder $builder): Builder
     {
-        if ($this->request->get('type') == 'cat') {
+        if ($this->request->get('type') == 'category') {
             return $builder->whereHas('category', function (Builder $query) {
-                $query->where('user_id', auth()->user()->id)->where('name', 'LIKE', '%' . $this->request->get('key') . '%');
+                $query->where('name', 'LIKE', '%' . $this->request->get('key') . '%');
             });
+        } elseif($this->request->get('type') == 'group') {
+            return $builder->whereHas('group', function (Builder $query) {
+                $query->where('name', 'LIKE', '%' . $this->request->get('key') . '%');
+            });
+        } elseif($this->request->get('type') == 'name') {
+            return $builder->where('name', 'LIKE', '%' . $this->request->get('key') . '%');
         } else {
-            return $builder->where('user_id', auth()->user()->id)->where('code', 'LIKE', '%' . $this->request->get('key') . '%');
+            return $builder->where('code', 'LIKE', '%' . $this->request->get('key') . '%');
         }
 
     }
@@ -55,7 +61,9 @@ class QueryFilter extends Filter
             Select::make('type')
                 ->options([
                     'code' => 'By Code',
+                    'name' => 'By Name',
                     'category' => 'By Category',
+                    'group' => 'By Group',
                 ])
                 ->value($this->request->get('type'))
                 ->title(__('Search Type')),
