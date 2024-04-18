@@ -6,6 +6,8 @@ use App\Models\Sale;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\Link;
+use Orchid\Screen\Actions\ModalToggle;
+use Orchid\Screen\Components\Popover;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
 
@@ -40,14 +42,26 @@ class SaleListLayout extends Table
                     return $sale->custom_name;
 
                 }),
-            TD::make('user_id', 'Invoice By')->sort()
+
+            TD::make('items', 'Items')
+                ->render(function (Sale $sale) {
+                    $items = $sale->saleitems;
+                    $array = [];
+                    foreach($items as $item){
+                        $array[] = '['.$item->product_id.']['.$item->code.']['.$item->name.'](Qty-'.$item->quantity.')';
+                    }
+                    $value = implode(', <br>', $array);
+                    return $value;
+                }),
+
+            TD::make('user_id', 'Issuer')->sort()
                 ->render(function (Sale $sale) {
                     if($sale->user){
                         return $sale->user->name;
                     } else {
                         return 'None';
                     }
-                    
+
                 }),
             TD::make('date', 'Issue Date')->sort()
                 ->render(function (Sale $sale) {
@@ -58,11 +72,6 @@ class SaleListLayout extends Table
                 ->render(function (Sale $sale) {
                     return $sale->grand_total . ' MMK';
                 })->sort(),
-
-            TD::make('items', 'Items')
-                ->render(function (Sale $sale) {
-                    return count($sale->saleitems);
-                }),
 
             TD::make(__('Actions'))
                 ->align(TD::ALIGN_CENTER)

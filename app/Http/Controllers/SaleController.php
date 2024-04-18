@@ -17,6 +17,18 @@ class SaleController extends Controller {
 		return view('sales.index', compact('sales'));
 	}
 
+    public function search(Request $request) {
+        $key = $request->searchkey;
+        $sales_query = Sale::query();
+        if($request->has('searchkey') && $request->type == 'product'){
+            $sales = $sales_query->whereHas('saleitems', function ($query) use ($key) {
+                $query->where('code', 'like', '%'.$key.'%');
+            });
+        }
+
+        return view('sales.search-results', compact('sales'));
+    }
+
 	public function create() {
 		// if(auth()->user()->id == 1){
 		// 	$products = Product::orderby('created_at', 'DESC')->get();
@@ -172,14 +184,6 @@ class SaleController extends Controller {
 		Toast::success('Invoice Saved.');
 
 		return redirect()->route('platform.sale.edit-custom', $sale->id);
-	}
-
-	public function search(Request $request) {
-		$itemQuery = new Saleitem();
-		$itemQuery = $itemQuery->where('code', 'LIKE', '%' . $this->request->get('search') . '%');
-		$items = $itemQuery->get();
-
-		return view('sales.results', compact('items'));
 	}
 
 	public function delete(Request $request) {

@@ -77,7 +77,7 @@ class PurchaseListScreen extends Screen {
 	public function layout(): array
 	{
 		return [
-			Layout::view('products.livefilter'),
+			// Layout::view('products.livefilter'),
 			PurchaseitemFiltersLayout::class,
 			PurchaseListLayout::class,
 			// Layout::modal('importModal', Layout::rows([

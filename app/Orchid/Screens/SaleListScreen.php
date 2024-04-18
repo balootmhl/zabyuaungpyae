@@ -13,6 +13,8 @@ use App\Orchid\Layouts\SaleListLayout;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\Link;
+use Orchid\Screen\Actions\ModalToggle;
+use Orchid\Screen\Layouts\Modal;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Alert;
 use Orchid\Support\Facades\Layout;
@@ -42,7 +44,7 @@ class SaleListScreen extends Screen {
 	{
 
 		return [
-			'sales' => Sale::where('user_id', auth()->user()->id)->filtersApply([ItemsFilter::class])->orderby('created_at', 'desc')->paginate(50),
+			'sales' => Sale::filtersApply([ItemsFilter::class])->orderby('created_at', 'desc')->paginate(50),
 		];
 
 	}
@@ -108,7 +110,7 @@ class SaleListScreen extends Screen {
 	public function layout(): array
 	{
 		return [
-			Layout::view('products.livefilter'),
+			// Layout::view('products.livefilter'),
 			SaleitemFiltersLayout::class,
 			SaleListLayout::class,
 			// Layout::modal('importModal', Layout::rows([
