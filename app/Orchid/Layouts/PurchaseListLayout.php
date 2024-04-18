@@ -38,6 +38,18 @@ class PurchaseListLayout extends Table {
 				->render(function (Purchase $purchase) {
 					return $purchase->supplier->name;
 				}),
+
+            TD::make('items', 'Items')
+                ->render(function (Purchase $purchase) {
+                    $items = $purchase->purchaseitems;
+                    $array = [];
+                    foreach($items as $item){
+                        $array[] = '['.$item->product_id.']['.$item->code.']['.$item->name.'](Qty-'.$item->quantity.')';
+                    }
+                    $value = implode(', <br>', $array);
+                    return $value;
+                }),
+
 			TD::make('user_id', 'Invoice By')->sort()
 				->render(function (Purchase $purchase) {
 					return $purchase->user->name;

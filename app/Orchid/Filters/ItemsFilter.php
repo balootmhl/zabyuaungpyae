@@ -11,13 +11,13 @@ class ItemsFilter extends Filter {
 	/**
 	 * @var array
 	 */
-	public $parameters = ['code'];
+	public $parameters = ['search'];
 
 	/**
 	 * @return string
 	 */
 	public function name(): string {
-		return 'Items with';
+		return 'Sale Items with';
 	}
 
 	/**
@@ -27,7 +27,7 @@ class ItemsFilter extends Filter {
 	 */
 	public function run(Builder $builder): Builder {
 		return $builder->whereHas('saleitems', function (Builder $query) {
-			$query->where('code', 'LIKE', '%' . $this->request->get('code') . '%');
+			$query->where('code', 'LIKE', '%' . $this->request->get('search') . '%')->orWhere('name', 'LIKE', '%' . $this->request->get('search') . '%');
 		});
 	}
 
@@ -37,10 +37,10 @@ class ItemsFilter extends Filter {
 	public function display(): array
 	{
 		return [
-			Input::make('code')
+			Input::make('search')
 				->type('text')
-				->value($this->request->get('code'))
-				->placeholder('Type code')
+				->value($this->request->get('search'))
+				->placeholder('Type to search')
 				->title('Search items'),
 		];
 	}
