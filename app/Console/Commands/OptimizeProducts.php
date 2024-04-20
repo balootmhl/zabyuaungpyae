@@ -12,7 +12,7 @@ class OptimizeProducts extends Command
      *
      * @var string
      */
-    protected $signature = 'optimize:products';
+    protected $signature = 'product:admin-only';
 
     /**
      * The console command description.

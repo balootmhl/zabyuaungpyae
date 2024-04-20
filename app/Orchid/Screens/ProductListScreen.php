@@ -48,7 +48,7 @@ class ProductListScreen extends Screen {
 	public function query(): array
 	{
 		return [
-			'products' => Product::where('user_id', auth()->user()->id)->filtersApply([QueryFilter::class])->orderby('created_at', 'desc')->paginate(50),
+			'products' => Product::where('user_id', auth()->user()->id)->filtersApply([QueryFilter::class])->orderby('created_at', 'desc')->paginate(20),
 		];
 	}
 
@@ -61,31 +61,35 @@ class ProductListScreen extends Screen {
 	{
 		if(auth()->user()->id == 1) {
 			return [
-				DropDown::make('Manage Stock')
-					->icon('loading')
-					->list([
-						ModalToggle::make('Reset Stock')
-							->modal('resetModal')
-							->method('resetQuantity')
-							->icon('reload'),
-						Link::make('Stock Control')
-							->icon('wrench')
-							->route('platform.product.stock-control'),
-						Button::make('Clear Groups')
-							->method('clearGroup')
-							->icon('wrench'),
-						Button::make('Claim')
-							->method('claimProducts')
-							->icon('wrench'),
-						ModalToggle::make('Share to')
-							->modal('shareModal')
-							->method('duplicate')
-							->icon('share-alt'),
-						ModalToggle::make('Calibrate qty')
-						    ->modal('fixModal')
-						    ->method('fix')
-						    ->icon('refresh'),
-					]),
+                Link::make('Stock Control')
+                    ->icon('wrench')
+                    ->route('platform.product.stock-control'),
+				// DropDown::make('Manage Stock')
+				// 	->icon('loading')
+				// 	->list([
+				// 		ModalToggle::make('Reset Stock')
+				// 			->modal('resetModal')
+				// 			->method('resetQuantity')
+				// 			->icon('reload'),
+				// 		Link::make('Stock Control')
+				// 			->icon('wrench')
+				// 			->route('platform.product.stock-control'),
+				// 		Button::make('Clear Groups')
+				// 			->method('clearGroup')
+                //             ->confirm('Are you Sure?')
+				// 			->icon('wrench'),
+				// 		Button::make('Claim')
+				// 			->method('claimProducts')
+				// 			->icon('wrench'),
+				// 		ModalToggle::make('Share to')
+				// 			->modal('shareModal')
+				// 			->method('duplicate')
+				// 			->icon('share-alt'),
+				// 		ModalToggle::make('Calibrate qty')
+				// 		    ->modal('fixModal')
+				// 		    ->method('fix')
+				// 		    ->icon('refresh'),
+				// 	]),
 
 				DropDown::make('Import/Export')
 					->icon('wrench')
@@ -106,43 +110,22 @@ class ProductListScreen extends Screen {
 							->icon('cloud-download'),
 					]),
 
-				// ModalToggle::make('Import')
-				//     ->modal('importModal')
-				//     ->method('import')
-				//     ->icon('cloud-upload'),
-
-				// Button::make('Export')
-				//     ->method('export')
-				//     ->icon('cloud-download')
-				//     ->rawClick()
-				//     ->novalidate(),
-
 				Link::make('Create new')
 					->icon('plus')
 					->route('platform.product.edit'),
 			];
 		} else {
 			return [
-				DropDown::make('Manage Stock')
-					->icon('loading')
-					->list([
-						// ModalToggle::make('Reset Stock')
-						// 	->modal('resetModal')
-						// 	->method('resetQuantity')
-						// 	->icon('reload'),
-						ModalToggle::make('Reset Stock')
-							->modal('resetModal')
-							->method('resetQuantity')
-							->icon('reload'),
-						Link::make('Stock Control')
-							->icon('wrench')
-							->route('platform.product.stock-control'),
-						
-						ModalToggle::make('Calibrate qty')
-						    ->modal('fixModal')
-						    ->method('fix')
-						    ->icon('refresh'),
-					]),
+                Link::make('Stock Control')
+                    ->icon('wrench')
+                    ->route('platform.product.stock-control'),
+				// DropDown::make('Manage Stock')
+				// 	->icon('loading')
+				// 	->list([
+				// 		Link::make('Stock Control')
+				// 			->icon('wrench')
+				// 			->route('platform.product.stock-control'),
+				// 	]),
 				DropDown::make('Import/Export')
 					->icon('wrench')
 					->list([
@@ -259,48 +242,51 @@ class ProductListScreen extends Screen {
 		return redirect()->route('platform.product.list');
 	}
 
-	public function resetQuantity(Request $request) {
-		$products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
-		foreach ($products as $product) {
-			$product->quantity = $request->get('qty');
-			$product->update();
-		}
-		Toast::info('All products are reset to quantity ' . $request->get('qty') . '.');
-		return redirect()->route('platform.product.list');
-	}
+	// Not Used
+    // public function resetQuantity(Request $request) {
+	// 	$products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
+	// 	foreach ($products as $product) {
+	// 		$product->quantity = $request->get('qty');
+	// 		$product->update();
+	// 	}
+	// 	Toast::info('All products are reset to quantity ' . $request->get('qty') . '.');
+	// 	return redirect()->route('platform.product.list');
+	// }
 
-	public function fixQuantity() {
-		$sales = Sale::all();
-		$purchases = Purchase::all();
+	// NOT USED
+    // public function fixQuantity() {
+	// 	$sales = Sale::all();
+	// 	$purchases = Purchase::all();
 
-		foreach ($purchases as $purchase) {
-			foreach($purchase->purchaseitems as $purchaseitem){
-				$pp = Product::findOrFail($purchaseitem->product_id);
-				$pp->quantity = $pp->quantity + $purchaseitem->quantity;
-				$pp->update();
-			}
-		}
+	// 	foreach ($purchases as $purchase) {
+	// 		foreach($purchase->purchaseitems as $purchaseitem){
+	// 			$pp = Product::findOrFail($purchaseitem->product_id);
+	// 			$pp->quantity = $pp->quantity + $purchaseitem->quantity;
+	// 			$pp->update();
+	// 		}
+	// 	}
 
-		foreach ($sales as $sale) {
-			foreach($sale->saleitems as $saleitem){
-				$sp = Product::findOrFail($saleitem->product_id);
-				$sp->quantity = $sp->quantity - $saleitem->quantity;
-				$sp->update();
-			}
-		}
-		Toast::info('Calculated product quantities using invoices.');
-		return redirect()->route('platform.product.list');
-	}
+	// 	foreach ($sales as $sale) {
+	// 		foreach($sale->saleitems as $saleitem){
+	// 			$sp = Product::findOrFail($saleitem->product_id);
+	// 			$sp->quantity = $sp->quantity - $saleitem->quantity;
+	// 			$sp->update();
+	// 		}
+	// 	}
+	// 	Toast::info('Calculated product quantities using invoices.');
+	// 	return redirect()->route('platform.product.list');
+	// }
 
-	public function clearGroup() {
-		$products = Product::all();
-		foreach ($products as $product) {
-			$product->group_id = null;
-			$product->update();
-		}
-		Toast::info('Cleared product groups.');
-		return redirect()->route('platform.product.list');
-	}
+	// NOT USED
+    // public function clearGroup() {
+	// 	$products = Product::all();
+	// 	foreach ($products as $product) {
+	// 		$product->group_id = null;
+	// 		$product->update();
+	// 	}
+	// 	Toast::info('Cleared product groups.');
+	// 	return redirect()->route('platform.product.list');
+	// }
 
 	public function claimProducts($value = '') {
 		$products = Product::all();
@@ -331,7 +317,7 @@ class ProductListScreen extends Screen {
 		Toast::success('Shared warehouse products to '.$user->name.'.');
 		return redirect()->route('platform.product.list');
 	}
-	
+
 	public function fix() {
 		$products = Product::where('user_id', 2)->get();
 		$purchases = Purchase::where('user_id', 2)->get();
@@ -339,7 +325,7 @@ class ProductListScreen extends Screen {
 		foreach($products as $product){
 			$product->quantity = 0;
 			$product->update();
-			
+
 		}
 		foreach($purchases as $purchase){
 			foreach($purchase->purchaseitems as $pitem){
