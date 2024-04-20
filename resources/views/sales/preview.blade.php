@@ -21,14 +21,14 @@
                 <div class="row">
                     <div class="col-2">
 
-                        <a target="_blank" href="http://zabyuaungpyae.com">
+                        <a target="_blank" href="https://zabyuaungpyae.com">
                             <img src="{{ asset('custom/img/logo.png') }}" class="img-fluid">
                         </a>
                     </div>
                     <div class="col-7">
 
                         <h5 class="name" style="padding-top: 10px;">
-                            <a target="_blank" href="http://zabyuaungpyae.com">
+                            <a target="_blank" href="https://zabyuaungpyae.com">
                                 <strong>MAHARSHIN Co., Ltd. (Head Office)</strong>
                             </a>
                         </h5>
@@ -36,7 +36,7 @@
                         <div><x-orchid-icon path="pointer" />Thongwa Township, Pale Village, No(6) Main Road, Yangon.
                         </div>
                         <div><x-orchid-icon path="phone" />09420250449</div>
-                        <div><x-orchid-icon path="globe" />http://zabyuaungpyae.com</div>
+                        <div><x-orchid-icon path="globe" />https://zabyuaungpyae.com</div>
                     </div>
                     <div class="col-3">
                         <img src="{{ asset('custom/img/kubota-logo.png') }}" class="img-fluid"
@@ -60,7 +60,7 @@
             <main>
                 <div class="row contacts">
                     <div class="col invoice-to">
-                        <div class="text-gray-light">INVOICE TO:</div>
+                        <div class="text-gray-light">CUSTOMER:</div>
                         <h5 class="to">{{ $sale->customer->name }}</h5>
                         <div class="address">
                             @if ($sale->customer->address)
@@ -73,8 +73,8 @@
                     </div>
                     <div class="col invoice-details">
                         <h5 class="invoice-id">Invoice No. {{ $sale->invoice_no }}</h5>
-                        <div class="date">Date of Invoice: {{ $sale->date }}</div>
-                        <div class="date">Invoice By: {{ $sale->user->name }}</div>
+                        <div class="date">Date: {{ $sale->date }}</div>
+                        <div class="date">Issuer: {{ $sale->user->name }}</div>
                     </div>
                 </div>
                 <table class="table table-striped">
