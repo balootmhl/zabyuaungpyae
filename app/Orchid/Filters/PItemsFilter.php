@@ -27,7 +27,7 @@ class PItemsFilter extends Filter {
 	 */
 	public function run(Builder $builder): Builder {
 		return $builder->whereHas('purchaseitems', function (Builder $query) {
-			$query->where('code', 'LIKE', '%' . $this->request->get('search') . '%')->orWhere('name', 'LIKE', '%' . $this->request->get('search') . '%');
+			$query->where('code', 'LIKE', '%' . $this->request->get('search') . '%')->orWhere('name', 'LIKE', '%' . $this->request->get('search') . '%')->orWhere('product_id', 'LIKE', '%' . $this->request->get('search') . '%');
 		});
 	}
 

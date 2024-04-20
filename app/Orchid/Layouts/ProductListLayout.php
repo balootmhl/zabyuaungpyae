@@ -29,6 +29,8 @@ class ProductListLayout extends Table {
 	{
 		if(auth()->user()->id == 1) {
 			return [
+                TD::make('id', 'ID')->sort(),
+
 				TD::make('code', 'Code')->sort(),
 
 				TD::make('name', 'Product Name')->sort()
@@ -101,6 +103,8 @@ class ProductListLayout extends Table {
 			];
 		} else {
 			return [
+                TD::make('id', 'ID')->sort(),
+
 				TD::make('code', 'Code')->sort(),
 
 				TD::make('name', 'Product Name')->sort()
