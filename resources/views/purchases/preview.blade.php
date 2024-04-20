@@ -124,7 +124,7 @@
                                     @endif
                                 </td>
                                 <td class="qty">
-                                    @if (!is_null($item->product->group))
+                                    @if (!is_null($item->product) && !is_null($item->product->group))
                                         {{ $item->product->group->name }}
                                     @endif
                                 </td>
