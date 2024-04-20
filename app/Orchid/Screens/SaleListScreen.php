@@ -44,7 +44,7 @@ class SaleListScreen extends Screen {
 	{
 
 		return [
-			'sales' => Sale::filtersApply([ItemsFilter::class])->orderby('created_at', 'desc')->paginate(50),
+			'sales' => Sale::where('user_id', auth()->user()->id)->filtersApply([ItemsFilter::class])->orderby('created_at', 'desc')->paginate(50),
 		];
 
 	}
