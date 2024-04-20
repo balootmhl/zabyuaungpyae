@@ -21,7 +21,7 @@ class GpNullProducts extends Command
      *
      * @var string
      */
-    protected $description = "This command will set dummy group to all products with group_id equal Null.";
+    protected $description = "This command will set dummy group to all groupless products of the selected branch.";
 
     /**
      * Create a new command instance.
