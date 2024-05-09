@@ -6,12 +6,13 @@ use Illuminate\Database\Eloquent\Builder;
 use Orchid\Filters\Filter;
 use Orchid\Screen\Field;
 use Orchid\Screen\Fields\Input;
+use Orchid\Screen\Fields\Select;
 
 class PItemsFilter extends Filter {
 	/**
 	 * @var array
 	 */
-	public $parameters = ['search'];
+	public $parameters = ['search', 'type'];
 
 	/**
 	 * @return string
@@ -26,9 +27,16 @@ class PItemsFilter extends Filter {
 	 * @return Builder
 	 */
 	public function run(Builder $builder): Builder {
-		return $builder->whereHas('purchaseitems', function (Builder $query) {
-			$query->where('code', 'LIKE', '%' . $this->request->get('search') . '%')->orWhere('name', 'LIKE', '%' . $this->request->get('search') . '%')->orWhere('product_id', 'LIKE', '%' . $this->request->get('search') . '%');
-		});
+        if ($this->request->get('type') == 'default'){
+            return $builder->where('invoice_no', 'LIKE', '%'. $this->request->get('search') .'%');
+        } else {
+            return $builder->whereHas('purchaseitems', function (Builder $query) {
+                $query->where('code', 'LIKE', '%' . $this->request->get('search') . '%')
+                    ->orWhere('name', 'LIKE', '%' . $this->request->get('search') . '%')
+                    ->orWhere('product_id', 'LIKE', '%' . $this->request->get('search') . '%');
+            });
+        }
+
 	}
 
 	/**
@@ -41,7 +49,14 @@ class PItemsFilter extends Filter {
 				->type('text')
 				->value($this->request->get('search'))
 				->placeholder('Type to search')
-				->title('Search Purchase Items'),
+				->title('Search'),
+            Select::make('type')
+                ->options([
+                    'default' => 'Default',
+                    'items' => 'Purchase Items',
+                ])
+                ->value($this->request->get('type'))
+                ->title(__('Search Type')),
 		];
 	}
 }
