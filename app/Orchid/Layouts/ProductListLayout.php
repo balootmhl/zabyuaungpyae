@@ -139,14 +139,14 @@ class ProductListLayout extends Table {
 						}
 					}),
 
-				// TD::make('group_id', 'Group')->sort()
-				// 	->render(function (Product $product) {
-				// 		if ($product->group) {
-				// 			return $product->group->name;
-				// 		} else {
-				// 			return 'None';
-				// 		}
-				// 	}),
+				TD::make('group_id', 'Group')->sort()
+					->render(function (Product $product) {
+						if ($product->group) {
+							return $product->group->name;
+						} else {
+							return 'None';
+						}
+					}),
 
 				TD::make(__('Actions'))
 					->align(TD::ALIGN_CENTER)

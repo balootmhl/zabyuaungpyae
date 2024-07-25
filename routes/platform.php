@@ -275,6 +275,8 @@ Route::get('purchase/create-custom', 'App\Http\Controllers\PurchaseController@cr
 Route::post('purchase/custom/store', 'App\Http\Controllers\PurchaseController@store')->name('platform.purchase.store-custom');
 Route::get('purchase/edit-custom/{id}', 'App\Http\Controllers\PurchaseController@edit')->name('platform.purchase.edit-custom');
 Route::post('purchase/custom/update', 'App\Http\Controllers\PurchaseController@update')->name('platform.purchase.update-custom');
+Route::get('group-custom/fix-null-user', 'App\Http\Controllers\CustomController@fixNullUserGroup');
+
 
 Route::get('sale/search', 'App\Http\Controllers\SaleController@search')->name('platform.sale.search-custom');
 

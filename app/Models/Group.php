@@ -19,6 +19,7 @@ class Group extends Model
      */
     protected $fillable = [
         'name',
+        'user_id',
     ];
 
     /**
@@ -28,6 +29,7 @@ class Group extends Model
      */
     protected $allowedSorts = [
         'name',
+        'user_id'
     ];
 
     /**
@@ -42,5 +44,10 @@ class Group extends Model
     public function products()
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

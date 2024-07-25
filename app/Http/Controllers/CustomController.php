@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Group;
 use App\Models\Product;
 use App\Models\Customer;
 use App\Models\Purchase;
@@ -109,4 +110,11 @@ class CustomController extends Controller {
 	{
 		return Excel::download(new ProductsExport(auth()->user()->id), 'products_of_'. auth()->user()->name .'_export_' . now() . '.xlsx');
 	}
+
+    public function fixNullUserGroup()
+    {
+        Group::whereNull('user_id')->update(['user_id' => 1]);
+
+        return 'success';
+    }
 }
