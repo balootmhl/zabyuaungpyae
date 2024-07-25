@@ -100,6 +100,8 @@ class GroupEditScreen extends Screen
     public function createOrUpdate(Group $group, Request $request)
     {
         $group->fill($request->get('group'))->save();
+        $group->user_id = auth()->user()->id;
+        $group->save();
 
         Alert::info('You have updated a group.');
 
