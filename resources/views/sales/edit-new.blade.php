@@ -79,9 +79,11 @@
                 <div class="col-sm-2">
                     <div class="form-group">
                         <label for="is_saleprice">Select Price</label>
-                        <select class="form-control" name="is_saleprice" id="is_sale" required>
+                        <select class="form-control" name="is_saleprice" id="is_sale">
                             <option value="1" @if ($sale->is_saleprice == 1) selected @endif>Sale Price</option>
-                            <option value="0" @if ($sale->is_saleprice == 0) selected @endif>Buy Price</option>
+                            @if(auth()->user()->id == 1)
+                                <option value="0" @if ($sale->is_saleprice == 0) selected @endif>Buy Price</option>
+                            @endif
                         </select>
                     </div>
                 </div>
