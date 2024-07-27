@@ -22,7 +22,11 @@
                     <div class="col-2">
 
                         <a target="_blank" href="https://zabyuaungpyae.com">
-                            <img src="{{ asset('custom/img/logo.png') }}" class="img-fluid">
+                            @if(auth()->user()->id == 1)
+                                <img src="{{ asset('custom/img/logo.png') }}" class="img-fluid">
+                            @else
+                                <img src="{{ asset('custom/img/zabyuaungpyae-logo.jpeg') }}" class="img-fluid">
+                            @endif
                         </a>
                     </div>
                     <div class="col-7">
