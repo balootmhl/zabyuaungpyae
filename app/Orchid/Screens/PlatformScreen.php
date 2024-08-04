@@ -25,6 +25,11 @@ class PlatformScreen extends Screen
     public $description = 'Welcome to your application.';
 
     /**
+     * @var string
+     */
+    public $permission = 'platform.index';
+
+    /**
      * Query data.
      *
      * @return array

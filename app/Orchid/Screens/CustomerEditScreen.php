@@ -28,6 +28,11 @@ class CustomerEditScreen extends Screen
     public $description = 'Customer data for sale records.';
 
     /**
+     * @var string
+     */
+    public $permission = 'platform.people.customer';
+
+    /**
      * Query data.
      *
      * @return array

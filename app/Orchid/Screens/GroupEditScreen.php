@@ -27,6 +27,11 @@ class GroupEditScreen extends Screen
     public $description = 'Item Group Name of a warehouse';
 
     /**
+     * @var string
+     */
+    public $permission = 'platform.module.group';
+
+    /**
      * Query data.
      *
      * @param Group $group

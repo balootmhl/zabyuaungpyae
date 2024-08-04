@@ -28,6 +28,13 @@ class SupplierEditScreen extends Screen
     public $description = 'Supplier data for purchase records.';
 
     /**
+     * The permission required to access this screen.
+
+     * @var string
+     */
+    public $permission = 'platform.people.supplier';
+
+    /**
      * Query data.
      *
      * @return array

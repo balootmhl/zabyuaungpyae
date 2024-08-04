@@ -18,6 +18,13 @@ class SaleViewScreen extends Screen
     public $name = 'Sale Invoice';
 
     /**
+     * The permission required to access this screen.
+
+     * @var string
+     */
+    public $permission = 'platform.module.sale';
+
+    /**
      * Query data.
      *
      * @return array

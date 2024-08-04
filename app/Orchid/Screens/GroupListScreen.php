@@ -24,6 +24,11 @@ class GroupListScreen extends Screen {
 	 */
 	public $description = 'All groups fo product';
 
+    /**
+     * @var string
+     */
+    public $permission = 'platform.module.group';
+
 	/**
 	 * Query data.
 	 *

@@ -12,16 +12,22 @@ use Orchid\Support\Facades\Toast;
 
 class PurchaseController extends Controller {
 	public function create() {
-		$products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
-		// if(auth()->user()->id == 1){
-		// 	$products = Product::orderby('created_at', 'DESC')->get();
-		// } else {
-		// 	$products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
-		// }
-			
-		$suppliers = Supplier::all();
-		$users = User::all();
-		return view('purchases.create', compact('products', 'suppliers', 'users'));
+        $user = auth()->user();
+        if($user->hasAccess('platform.module.purchase')){
+            $products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
+            // if(auth()->user()->id == 1){
+            // 	$products = Product::orderby('created_at', 'DESC')->get();
+            // } else {
+            // 	$products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
+            // }
+
+            $suppliers = Supplier::all();
+            $users = User::all();
+            return view('purchases.create', compact('products', 'suppliers', 'users'));
+        } else {
+            abort(403);
+        }
+
 	}
 
 	public function store(Request $request) {
@@ -71,25 +77,31 @@ class PurchaseController extends Controller {
 		if ($purchase->received != 0) {
 			$purchase->remained = $purchase->grand_total - $purchase->received;
 		}
-		
+
 		$purchase->update();
 		Toast::success('Invoice Saved.');
 		return redirect()->route('platform.purchase.edit-custom', $purchase->id);
 	}
 
 	public function edit($id) {
-		$purchase = Purchase::findOrFail($id);
-		$items_count = count($purchase->purchaseitems);
-		$products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
-		// if(auth()->user()->id == 1){
-		// 	$products = Product::orderby('created_at', 'DESC')->get();
-		// } else {
-		// 	$products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
-		// }
-		$suppliers = Supplier::all();
-		$users = User::all();
+        $user = auth()->user();
+        if($user->hasAccess('platform.module.purchase')){
+            $purchase = Purchase::findOrFail($id);
+            $items_count = count($purchase->purchaseitems);
+            $products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
+            // if(auth()->user()->id == 1){
+            // 	$products = Product::orderby('created_at', 'DESC')->get();
+            // } else {
+            // 	$products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
+            // }
+            $suppliers = Supplier::all();
+            $users = User::all();
 
-		return view('purchases.edit', compact('products', 'suppliers', 'users', 'purchase', 'items_count'));
+            return view('purchases.edit', compact('products', 'suppliers', 'users', 'purchase', 'items_count'));
+        } else {
+            abort(403);
+        }
+
 	}
 
 	public function update(Request $request) {

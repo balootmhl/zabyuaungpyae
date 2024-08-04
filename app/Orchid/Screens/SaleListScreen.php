@@ -35,6 +35,13 @@ class SaleListScreen extends Screen {
 	 */
 	public $description = 'All sale invoices list of the company.';
 
+    /**
+     * The permission required to access this screen.
+
+     * @var string
+     */
+    public $permission = 'platform.module.sale';
+
 	/**
 	 * Query data.
 	 *

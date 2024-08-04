@@ -16,7 +16,16 @@ use Orchid\Support\Facades\Alert;
 use Orchid\Support\Facades\Layout;
 
 class ProductEditScreen extends Screen {
-	/**
+
+    /**
+     * The permission required to access this screen.
+
+     * @var string
+     */
+    public $permission = 'platform.module.product';
+
+
+    /**
 	 * Display header name.
 	 *
 	 * @var string

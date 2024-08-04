@@ -16,6 +16,13 @@ class PurchaseViewScreen extends Screen {
 	 */
 	public $name = 'Purchase Invoice Preview';
 
+    /**
+     * The permission required to access this screen.
+
+     * @var string
+     */
+    public $permission = 'platform.module.purchase';
+
 	/**
 	 * Query data.
 	 *
@@ -61,11 +68,11 @@ class PurchaseViewScreen extends Screen {
 		return redirect()->route('platform.purchase.edit', $purchase->id);
 	}
 
-	public function download(Purchase $purchase) {
+	// public function download(Purchase $purchase) {
 
-		$pdf = PDF::loadView('export.purchasepdf', compact('purchase'));
+	// 	$pdf = PDF::loadView('export.purchasepdf', compact('purchase'));
 
-		// return $pdf->download('invoice_' . $purchase->invoice_no . '.pdf');
-		return $pdf->download('invoice.pdf');
-	}
+	// 	// return $pdf->download('invoice_' . $purchase->invoice_no . '.pdf');
+	// 	return $pdf->download('invoice.pdf');
+	// }
 }
