@@ -30,6 +30,11 @@ class CustomerListScreen extends Screen {
 	 */
 	public $description = 'All customers for sales record.';
 
+    /**
+     * @var string
+     */
+    public $permission = 'platform.people.customer';
+
 	/**
 	 * Query data.
 	 *

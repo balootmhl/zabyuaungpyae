@@ -27,6 +27,11 @@ class CategoryEditScreen extends Screen
     public $description = 'Category or Type of a product';
 
     /**
+     * @var string
+     */
+    public $permission = 'platform.module.category';
+
+    /**
      * Query data.
      *
      * @return array

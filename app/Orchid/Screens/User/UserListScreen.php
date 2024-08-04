@@ -17,6 +17,16 @@ use Orchid\Support\Facades\Toast;
 class UserListScreen extends Screen
 {
     /**
+     * The permissions required to access this screen.
+     */
+    public function permission(): ?iterable
+    {
+        return [
+            'platform.systems.users'
+        ];
+    }
+
+    /**
      * Display header name.
      *
      * @var string

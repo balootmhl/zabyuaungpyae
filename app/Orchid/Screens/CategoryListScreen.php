@@ -24,6 +24,11 @@ class CategoryListScreen extends Screen {
 	 */
 	public $description = 'All categories of product';
 
+    /**
+     * @var string
+     */
+    public $permission = 'platform.module.category';
+
 	/**
 	 * Query data.
 	 *

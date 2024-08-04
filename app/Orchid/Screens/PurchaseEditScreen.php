@@ -29,6 +29,13 @@ class PurchaseEditScreen extends Screen
     public $name = 'Create Purchase Invoice';
 
     /**
+     * The permission required to access this screen.
+
+     * @var string
+     */
+    public $permission = 'platform.module.purchase';
+
+    /**
      * Query data.
      *
      * @return array

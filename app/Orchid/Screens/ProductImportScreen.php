@@ -22,6 +22,13 @@ class ProductImportScreen extends Screen
     public $name = 'Import Products';
 
     /**
+     * The permission required to access this screen.
+
+     * @var string
+     */
+    public $permission = 'platform.module.product';
+
+    /**
      * Query data.
      *
      * @return array

@@ -26,6 +26,13 @@ class SupplierListScreen extends Screen {
 	 */
 	public $description = 'All supplier for purchase record.';
 
+    /**
+     * The permission required to access this screen.
+
+     * @var string
+     */
+    public $permission = 'platform.people.supplier';
+
 	/**
 	 * Query data.
 	 *

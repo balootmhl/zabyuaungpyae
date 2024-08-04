@@ -29,6 +29,11 @@ class IncomeCalculatorScreen extends Screen
     public $description = 'Select date and submit to see calculated total income and total discounts on this day.';
 
     /**
+     * @var string
+     */
+    public $permission = 'platform.module.calculate-amount';
+
+    /**
      * Query data.
      *
      * @return array

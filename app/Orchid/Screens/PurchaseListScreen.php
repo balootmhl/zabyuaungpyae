@@ -28,6 +28,13 @@ class PurchaseListScreen extends Screen {
 	 */
 	public $description = 'All purchase invoice list of the company.';
 
+    /**
+     * The permission required to access this screen.
+
+     * @var string
+     */
+    public $permission = 'platform.module.purchase';
+
 	/**
 	 * Query data.
 	 *

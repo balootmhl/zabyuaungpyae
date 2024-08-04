@@ -27,6 +27,13 @@ use Orchid\Support\Facades\Toast;
 
 class ProductListScreen extends Screen {
 	/**
+     * The permission required to access this screen.
+
+     * @var string
+     */
+    public $permission = 'platform.module.product';
+
+    /**
 	 * Display header name.
 	 *
 	 * @var string

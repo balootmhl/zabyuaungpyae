@@ -35,10 +35,16 @@ class SaleController extends Controller {
 		// } else {
 		// 	$products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
 		// }
-		$products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
-		$customers = Customer::all();
-		$users = User::all();
-		return view('sales.create', compact('products', 'customers', 'users'));
+        $user = auth()->user();
+        if($user->hasAccess('platform.module.sale')){
+            $products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
+            $customers = Customer::all();
+            $users = User::all();
+            return view('sales.create', compact('products', 'customers', 'users'));
+        } else {
+            abort(403);
+        }
+
 	}
 
 	public function store(Request $request) {
@@ -101,18 +107,24 @@ class SaleController extends Controller {
 	}
 
 	public function edit($id) {
-		$sale = Sale::findOrFail($id);
-		$items_count = count($sale->saleitems);
-		$products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
-		// if(auth()->user()->id == 1){
-		// 	$products = Product::orderby('created_at', 'DESC')->get();
-		// } else {
-		// 	$products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
-		// }
-		$customers = Customer::all();
-		$users = User::all();
+        $user = auth()->user();
+        if($user->hasAccess('platform.module.sale')){
+            $sale = Sale::findOrFail($id);
+            $items_count = count($sale->saleitems);
+            $products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
+            // if(auth()->user()->id == 1){
+            // 	$products = Product::orderby('created_at', 'DESC')->get();
+            // } else {
+            // 	$products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
+            // }
+            $customers = Customer::all();
+            $users = User::all();
 
-		return view('sales.edit-new', compact('products', 'customers', 'users', 'sale', 'items_count'));
+            return view('sales.edit-new', compact('products', 'customers', 'users', 'sale', 'items_count'));
+        } else {
+            abort(403);
+        }
+
 	}
 
 	public function update(Request $request) {
@@ -187,21 +199,27 @@ class SaleController extends Controller {
 	}
 
 	public function delete(Request $request) {
-		$sale = Sale::findOrFail($request->get('id'));
-		$saleitems = $sale->saleitems;
-		if ($saleitems) {
-			foreach ($saleitems as $saleitem) {
-				$product = Product::findOrFail($saleitem->product_id);
-				$product->quantity = $product->quantity + $saleitem->quantity;
-				$product->update();
-				$saleitem->delete();
-			}
-		}
-		$sale->delete();
+        $user = auth()->user();
+        if($user->hasAccess('platform.module.sale')){
+            $sale = Sale::findOrFail($request->get('id'));
+            $saleitems = $sale->saleitems;
+            if ($saleitems) {
+                foreach ($saleitems as $saleitem) {
+                    $product = Product::findOrFail($saleitem->product_id);
+                    $product->quantity = $product->quantity + $saleitem->quantity;
+                    $product->update();
+                    $saleitem->delete();
+                }
+            }
+            $sale->delete();
 
-		Toast::info('Sale Invoice is deleted successfully. Product Quantity are returning back.');
+            Toast::info('Sale Invoice is deleted successfully. Product Quantity are returning back.');
 
-		return redirect()->route('platform.sale.list');
+            return redirect()->route('platform.sale.list');
+        } else {
+            abort(403);
+        }
+
 	}
 
 }
