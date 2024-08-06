@@ -36,23 +36,28 @@ class PlatformProvider extends OrchidServiceProvider {
 			Menu::make('Products')
 				->icon('modules')
 				->route('platform.product.list')
+                ->permission('platform.module.product')
 				->title('Sale & Purchase'),
 			Menu::make('Sales Invoices')
 				->icon('notebook')
-				->route('platform.sale.list'),
+				->route('platform.sale.list')
+                ->permission('platform.module.sale'),
 			Menu::make('Purchase Invoices')
 				->icon('notebook')
-				->route('platform.purchase.list'),
+				->route('platform.purchase.list')
+                ->permission('platform.module.purchase'),
 
 			Menu::make('Customers')
 				->icon('people')
 				->route('platform.customer.list')
+                ->permission('platform.people.customer')
 				->title('People'),
 			Menu::make('Suppliers')
 				->icon('people')
-				->route('platform.supplier.list'),
+				->route('platform.supplier.list')
+                ->permission('platform.people.supplier'),
 
-			Menu::make(__('Branches'))
+			Menu::make(__('Users'))
 				->icon('user')
 				->route('platform.systems.users')
 				->permission('platform.systems.users')
@@ -65,13 +70,16 @@ class PlatformProvider extends OrchidServiceProvider {
 			Menu::make('Categories')
 				->icon('layers')
 				->route('platform.category.list')
+                ->permission('platform.module.category')
 				->title('Others'),
 			Menu::make('Groups')
 				->icon('drawer')
-				->route('platform.group.list'),
+				->route('platform.group.list')
+                ->permission('platform.module.group'),
 			Menu::make('Calculate Amount')
 				->icon('dollar')
-				->route('platform.income.discount'),
+				->route('platform.income.discount')
+                ->permission('platform.module.calculate-amount'),
 
 			// Menu::make('Suppliers')
 			//     ->icon('modules')
