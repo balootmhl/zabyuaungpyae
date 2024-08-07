@@ -81,7 +81,7 @@ class SaleController extends Controller {
         $this->updateSale($sale, $request);
 
         if ($this->isProductValid($request)) {
-            $this->createSaleItem($request, $sale);
+            $this->updateSaleItem($request, $sale);
         }
 
         $this->updateSaleTotals($sale);
@@ -163,6 +163,24 @@ class SaleController extends Controller {
 
         $product->decrement('quantity', $saleItem->quantity);
     }
+
+    private function updateSaleItem(Request $request, Sale $sale) {
+        // Assuming 'sale_item_id' is provided in the request to identify the sale item to be updated
+        $saleItem = Saleitem::findOrFail($request->get('sale_item_id'));
+        $product = Product::findOrFail($saleItem->product_id);
+
+        // Revert the original quantity back to the product's stock
+        $product->increment('quantity', $saleItem->quantity);
+
+        // Update the sale item with the new quantity and price
+        $saleItem->quantity = $request->get('qty');
+        $saleItem->price = $request->get('price');
+        $saleItem->save();
+
+        // Decrement the new quantity from the product's stock
+        $product->decrement('quantity', $saleItem->quantity);
+    }
+
 
     private function updateSaleTotals(Sale $sale) {
         $subtotal = $sale->saleitems->sum(fn($item) => $item->price * $item->quantity);
