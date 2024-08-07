@@ -57,6 +57,7 @@ class SaleController extends Controller {
 			$sale->invoice_no = '#' . $year . $month . $request->get('invoice_code');
 		}
 		$sale->user_id = auth()->user()->id;
+		$sale->branch_id = auth()->user()->branch->id;
 		$sale->customer_id = $customer->id;
 		$sale->date = $request->get('date');
 		$sale->custom_name = $customer->name;
@@ -132,6 +133,7 @@ class SaleController extends Controller {
 		$sale->invoice_code = $request->get('invoice_code');
 		$cus = Customer::firstOrCreate(['name' => $request->get('customer_id')]);
 		$sale->user_id = auth()->user()->id;
+		$sale->branch_id = auth()->user()->branch->id;
 		$sale->customer_id = $cus->id;
 		$sale->date = $request->get('date');
 		$sale->custom_name = $cus->name;
