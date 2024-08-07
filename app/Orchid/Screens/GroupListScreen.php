@@ -37,7 +37,7 @@ class GroupListScreen extends Screen {
 	public function query(): array
 	{
 		return [
-			'groups' => Group::orderby('created_at', 'desc')->where('user_id', auth()->user()->id)->get(),
+			'groups' => Group::orderby('created_at', 'desc')->where('branch_id', auth()->user()->branch->id)->get(),
 		];
 	}
 

@@ -17,6 +17,7 @@ class User extends Authenticatable
         'email',
         'password',
         'permissions',
+        'branch_id',
     ];
 
     /**
@@ -73,5 +74,10 @@ class User extends Authenticatable
     public function groups()
     {
         return $this->hasMany(Group::class);
+    }
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
     }
 }

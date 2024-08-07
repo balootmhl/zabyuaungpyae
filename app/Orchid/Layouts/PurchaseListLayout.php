@@ -39,6 +39,15 @@ class PurchaseListLayout extends Table {
 					return $purchase->supplier->name;
 				}),
 
+            TD::make('branch_id', 'Branch')->sort()
+                ->render(function (Purchase $purchase) {
+                    if($purchase->branch){
+                        return $purchase->branch->name;
+                    } else {
+                        return '';
+                    }
+                }),
+
             TD::make('items', 'Items')
                 ->render(function (Purchase $purchase) {
                     $items = $purchase->purchaseitems;

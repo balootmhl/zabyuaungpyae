@@ -55,7 +55,7 @@ class ProductListScreen extends Screen {
 	public function query(): array
 	{
 		return [
-			'products' => Product::where('user_id', auth()->user()->id)->filtersApply([QueryFilter::class])->orderby('created_at', 'desc')->paginate(20),
+			'products' => Product::where('branch_id', auth()->user()->branch->id)->filtersApply([QueryFilter::class])->orderby('created_at', 'desc')->paginate(20),
 		];
 	}
 

@@ -43,6 +43,15 @@ class SaleListLayout extends Table
 
                 }),
 
+            TD::make('branch_id', 'Branch')->sort()
+                ->render(function (Sale $sale) {
+                    if($sale->branch){
+                        return $sale->branch->name;
+                    } else {
+                        return '';
+                    }
+                }),
+
             TD::make('items', 'Items')
                 ->render(function (Sale $sale) {
                     $items = $sale->saleitems;
