@@ -43,7 +43,7 @@ class PurchaseListScreen extends Screen {
 	public function query(): array
 	{
 		return [
-			'purchases' => Purchase::where('user_id', auth()->user()->id)->filtersApply([PItemsFilter::class])->orderby('created_at', 'desc')->paginate(50),
+			'purchases' => Purchase::where('branch_id', auth()->user()->branch->id)->filtersApply([PItemsFilter::class])->orderby('created_at', 'desc')->paginate(50),
 		];
 	}
 

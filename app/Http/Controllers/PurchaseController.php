@@ -14,7 +14,7 @@ class PurchaseController extends Controller {
 	public function create() {
         $user = auth()->user();
         if($user->hasAccess('platform.module.purchase')){
-            $products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
+            $products = Product::where('branch_id', auth()->user()->branch->id)->orderby('created_at', 'DESC')->get();
             // if(auth()->user()->id == 1){
             // 	$products = Product::orderby('created_at', 'DESC')->get();
             // } else {
@@ -88,7 +88,7 @@ class PurchaseController extends Controller {
         if($user->hasAccess('platform.module.purchase')){
             $purchase = Purchase::findOrFail($id);
             $items_count = count($purchase->purchaseitems);
-            $products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
+            $products = Product::where('branch_id', auth()->user()->branch->id)->orderby('created_at', 'DESC')->get();
             // if(auth()->user()->id == 1){
             // 	$products = Product::orderby('created_at', 'DESC')->get();
             // } else {

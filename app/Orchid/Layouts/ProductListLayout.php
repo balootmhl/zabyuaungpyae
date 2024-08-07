@@ -118,6 +118,15 @@ class ProductListLayout extends Table {
 				// 		return $product->category->code;
 				// 	}),
 
+                TD::make('branch_id', 'Branch')->sort()
+                ->render(function (Product $product) {
+                    if($product->branch){
+                        return $product->branch->name;
+                    } else {
+                        return '';
+                    }
+                }),
+
 				TD::make('category_id', 'Category')->sort()
 					->render(function (Product $product) {
 						return $product->category->name;

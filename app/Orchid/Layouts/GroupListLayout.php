@@ -35,6 +35,15 @@ class GroupListLayout extends Table
                         ->route('platform.group.edit', $group);
                 }),
 
+            TD::make('branch_id', 'Branch')->sort()
+                ->render(function (Group $group) {
+                    if($group->branch){
+                        return $group->branch->name;
+                    } else {
+                        return '';
+                    }
+                }),
+
             TD::make('created_at', 'Created')
                 ->render(function (Group $group) {
                     return $group->created_at->toDateTimeString();

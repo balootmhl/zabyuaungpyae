@@ -37,7 +37,7 @@ class SaleController extends Controller {
 		// }
         $user = auth()->user();
         if($user->hasAccess('platform.module.sale')){
-            $products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
+            $products = Product::where('branch_id', auth()->user()->branch->id)->orderby('created_at', 'DESC')->get();
             $customers = Customer::all();
             $users = User::all();
             return view('sales.create', compact('products', 'customers', 'users'));
@@ -111,7 +111,7 @@ class SaleController extends Controller {
         if($user->hasAccess('platform.module.sale')){
             $sale = Sale::findOrFail($id);
             $items_count = count($sale->saleitems);
-            $products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
+            $products = Product::where('branch_id', auth()->user()->branch->id)->orderby('created_at', 'DESC')->get();
             // if(auth()->user()->id == 1){
             // 	$products = Product::orderby('created_at', 'DESC')->get();
             // } else {
