@@ -59,144 +59,117 @@ class SaleController extends Controller {
 	}
 
 	public function store(Request $request) {
-        $sale = $this->createSale($request);
+		$year = str_replace("20", "", date('Y'));
+		$month = date('m');
+		$sale = new Sale();
+		$customer = Customer::firstOrCreate(['name' => $request->get('customer_id')]);
+		$sale->invoice_code = $request->get('invoice_code');
+		if ($request->get('is_inv_auto') == 0) {
+			$sale->invoice_no = '#' . $year . $month . $request->get('invoice_code');
+		}
+		$sale->user_id = auth()->user()->id;
+		$sale->branch_id = auth()->user()->branch->id;
+		$sale->customer_id = $customer->id;
+		$sale->date = $request->get('date');
+		$sale->custom_name = $customer->name;
+		$sale->custom_address = $request->get('address');
+		$sale->is_saleprice = $request->get('is_saleprice');
+		$sale->is_inv_auto = $request->get('is_inv_auto');
+		$sale->discount = $request->get('discount');
+		$sale->remarks = $request->get('remarks');
+		$sale->received = $request->get('received');
+		$sale->save();
+		if ($request->get('is_inv_auto') == 1) {
+			$sale->invoice_no = '#01' . str_replace("-", "", $sale->date) . $sale->id;
+			$sale->update();
+		}
+		if ($request->get('product') != null && $request->get('price') != 0 && $request->get('qty') != 0) {
+			$product = Product::findOrFail($request->get('product'));
+			$saleitem = new Saleitem();
+			$saleitem->product_id = $request->get('product');
+			$saleitem->sale_id = $sale->id;
+			$saleitem->code = $product->code;
+			$saleitem->name = $product->name;
+			$saleitem->quantity = $request->get('qty');
+			$saleitem->price = $request->get('price');
+			$saleitem->save();
+			$product->quantity = $product->quantity - $saleitem->quantity;
+			$product->update();
+		}
+		$subtotal = 0;
+		foreach ($sale->saleitems as $sitem) {
+			$item_total = $sitem->price * $sitem->quantity;
+			$subtotal = $subtotal + $item_total;
+		}
+		$sale->sub_total = $subtotal;
+		$sale->grand_total = $subtotal - $sale->discount;
+		if ($sale->received != 0) {
+			$sale->remained = $sale->grand_total - $sale->received;
+		}
+		$sale->update();
+		if($request->get('received') != 0){
+			$customer->debt = $customer->debt + $sale->remained;
+			$customer->update();
+		}
+		$sale->update();
+		Toast::success('Invoice Saved.');
+		return redirect()->route('platform.sale.edit-custom', $sale->id);
+	}
 
-        if ($this->isProductValid($request)) {
-            $this->createSaleItem($request, $sale);
-        }
-
-        $this->updateSaleTotals($sale);
-
-        if ($request->get('received') != 0) {
-            $this->updateCustomerDebt($sale);
-        }
-
-        Toast::success('Invoice Saved.');
-        return redirect()->route('platform.sale.edit-custom', $sale->id);
-    }
-
-    public function update(Request $request) {
-        $sale = Sale::findOrFail($request->get('sale_id'));
-
-        $this->updateSale($sale, $request);
-
-        if ($this->isProductValid($request)) {
-            $this->updateSaleItem($request, $sale);
-        }
-
-        $this->updateSaleTotals($sale);
-        $this->updateCustomerDebt($sale);
-
-        Toast::success('Invoice Saved.');
-        return redirect()->route('platform.sale.edit-custom', $sale->id);
-    }
-
-    private function createSale(Request $request) {
-        $yearMonth = str_replace("20", "", date('Y')) . date('m');
-        $customer = Customer::firstOrCreate(['name' => $request->get('customer_id')]);
-
-        $sale = new Sale([
-            'invoice_code' => $request->get('invoice_code'),
-            'user_id' => auth()->id(),
-            'branch_id' => auth()->user()->branch->id,
-            'customer_id' => $customer->id,
-            'date' => $request->get('date'),
-            'custom_name' => $customer->name,
-            'custom_address' => $request->get('address'),
-            'is_saleprice' => $request->get('is_saleprice'),
-            'is_inv_auto' => $request->get('is_inv_auto'),
-            'discount' => $request->get('discount'),
-            'remarks' => $request->get('remarks'),
-            'received' => $request->get('received'),
-        ]);
-
-        if ($request->get('is_inv_auto') == 0) {
-            $sale->invoice_no = "#{$yearMonth}{$request->get('invoice_code')}";
-        }
-
-        $sale->save();
-
-        if ($request->get('is_inv_auto') == 1) {
-            $sale->invoice_no = '#01' . str_replace("-", "", $sale->date) . $sale->id;
-            $sale->save();
-        }
-
-        return $sale;
-    }
-
-    private function updateSale(Sale $sale, Request $request) {
-        $customer = Customer::firstOrCreate(['name' => $request->get('customer_id')]);
-
-        $sale->update([
-            'invoice_code' => $request->get('invoice_code'),
-            'user_id' => auth()->id(),
-            'branch_id' => auth()->user()->branch->id,
-            'customer_id' => $customer->id,
-            'date' => $request->get('date'),
-            'custom_name' => $customer->name,
-            'custom_address' => $request->get('address'),
-            'is_saleprice' => $request->get('is_saleprice'),
-            'is_inv_auto' => $request->get('is_inv_auto'),
-            'discount' => $request->get('discount'),
-            'remarks' => $request->get('remarks'),
-            'received' => $request->get('received'),
-        ]);
-    }
-
-    private function isProductValid(Request $request) {
-        return $request->filled('product') && $request->get('price') != 0 && $request->get('qty') != 0;
-    }
-
-    private function createSaleItem(Request $request, Sale $sale) {
-        $product = Product::findOrFail($request->get('product'));
-
-        $saleItem = new Saleitem([
-            'product_id' => $product->id,
-            'sale_id' => $sale->id,
-            'code' => $product->code,
-            'name' => $product->name,
-            'quantity' => $request->get('qty'),
-            'price' => $request->get('price'),
-        ]);
-
-        $saleItem->save();
-
-        $product->decrement('quantity', $saleItem->quantity);
-    }
-
-    private function updateSaleItem(Request $request, Sale $sale) {
-        // Assuming 'sale_item_id' is provided in the request to identify the sale item to be updated
-        $saleItem = Saleitem::findOrFail($request->get('sale_item_id'));
-        $product = Product::findOrFail($saleItem->product_id);
-
-        // Revert the original quantity back to the product's stock
-        $product->increment('quantity', $saleItem->quantity);
-
-        // Update the sale item with the new quantity and price
-        $saleItem->quantity = $request->get('qty');
-        $saleItem->price = $request->get('price');
-        $saleItem->save();
-
-        // Decrement the new quantity from the product's stock
-        $product->decrement('quantity', $saleItem->quantity);
-    }
+	public function update(Request $request) {
+		$sale = Sale::findOrFail($request->get('sale_id'));
+		$sale->invoice_code = $request->get('invoice_code');
+		$cus = Customer::firstOrCreate(['name' => $request->get('customer_id')]);
+		$sale->user_id = auth()->user()->id;
+		$sale->branch_id = auth()->user()->branch->id;
+		$sale->customer_id = $cus->id;
+		$sale->date = $request->get('date');
+		$sale->custom_name = $cus->name;
+		$sale->custom_address = $request->get('address');
+		$sale->is_saleprice = $request->get('is_saleprice');
+		$sale->is_inv_auto = $request->get('is_inv_auto');
+		$sale->discount = $request->get('discount');
+		$sale->remarks = $request->get('remarks');
 
 
-    private function updateSaleTotals(Sale $sale) {
-        $subtotal = $sale->saleitems->sum(fn($item) => $item->price * $item->quantity);
+		$sale->received = $request->get('received');
+		$sale->update();
 
-        $sale->update([
-            'sub_total' => $subtotal,
-            'grand_total' => $subtotal - $sale->discount,
-            'remained' => $sale->grand_total - $sale->received,
-        ]);
-    }
+		if ($request->get('product') != null && $request->get('price') != 0 && $request->get('qty') != 0) {
+			$product = Product::findOrFail($request->get('product'));
+			$saleitem = new Saleitem();
+			$saleitem->product_id = $request->get('product');
+			$saleitem->sale_id = $sale->id;
+			$saleitem->code = $product->code;
+			$saleitem->name = $product->name;
+			$saleitem->quantity = $request->get('qty');
+			$saleitem->price = $request->get('price');
+			$saleitem->save();
+			$product->quantity = $product->quantity - $saleitem->quantity;
+			$product->update();
+		}
 
-    private function updateCustomerDebt(Sale $sale) {
-        $customer = Customer::findOrFail($sale->customer_id);
-        $customer->debt += $sale->remained;
-        $customer->update();
-    }
+		$subtotal = 0;
+
+		foreach ($sale->saleitems as $sitem) {
+			$item_total = $sitem->price * $sitem->quantity;
+			$subtotal = $subtotal + $item_total;
+		}
+
+		$sale->sub_total = $subtotal;
+		$sale->grand_total = $subtotal - $sale->discount;
+		$sale->update();
+		$customer = Customer::findOrFail($sale->customer_id);
+		$customer->debt = $customer->debt - $sale->remained;
+		$customer->update();
+		$sale->remained = $sale->grand_total - $request->get('received');
+		$sale->update();
+		$customer->debt = $customer->debt + $sale->remained;
+		$customer->update();
+		Toast::success('Invoice Saved.');
+
+		return redirect()->route('platform.sale.edit-custom', $sale->id);
+	}
 
 
 	public function delete(Request $request) {
