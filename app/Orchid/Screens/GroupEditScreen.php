@@ -106,6 +106,7 @@ class GroupEditScreen extends Screen
     {
         $group->fill($request->get('group'))->save();
         $group->user_id = auth()->user()->id;
+        $group->branch_id = auth()->user()->branch->id;
         $group->save();
 
         Alert::info('You have updated a group.');
