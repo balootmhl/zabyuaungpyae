@@ -127,8 +127,17 @@ class ProductEditScreen extends Screen {
 				//     ->required()
 				//     ->placeholder('Quantity')
 				//     ->help('Set stock amount of the warehouse.'),
-				Relation::make('product.group_id')->horizontal()
-					->fromModel(Group::class, 'name')
+				// Relation::make('product.group_id')->horizontal()
+				// 	->fromModel(Group::class, 'name')
+				// 	->title('Choose group')
+				// 	->required()
+				// 	->help('Choose group for the product.'),
+                Select::make('product.group_id')->horizontal()
+					->options(function () {
+						return Group::where('branch_id', auth()->user()->branch->id)->get()->mapWithKeys(function ($group) {
+							return [$group->id => $group->name];
+						})->toArray();
+					})
 					->title('Choose group')
 					->required()
 					->help('Choose group for the product.'),
