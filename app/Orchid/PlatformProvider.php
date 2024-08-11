@@ -36,7 +36,6 @@ class PlatformProvider extends OrchidServiceProvider {
 			Menu::make('Products')
 				->icon('modules')
 				->route('platform.product.list')
-                ->permission('platform.module.product')
 				->title('Sale & Purchase'),
 			Menu::make('Sales Invoices')
 				->icon('notebook')

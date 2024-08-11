@@ -24,6 +24,7 @@ use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Layout;
 use Orchid\Support\Facades\Toast;
+use Orchid\Support\Facades\Dashboard;
 
 class ProductListScreen extends Screen {
 	/**
@@ -31,7 +32,7 @@ class ProductListScreen extends Screen {
 
      * @var string
      */
-    public $permission = 'platform.module.product';
+    // public $permission = 'platform.module.product';
 
     /**
 	 * Display header name.
@@ -66,85 +67,53 @@ class ProductListScreen extends Screen {
 	 */
 	public function commandBar(): array
 	{
-		if(auth()->user()->id == 1) {
-			return [
+        // DropDown::make('Manage Stock')
+        // 	->icon('loading')
+        // 	->list([
+        // 		ModalToggle::make('Reset Stock')
+        // 			->modal('resetModal')
+        // 			->method('resetQuantity')
+        // 			->icon('reload'),
+        // 		Link::make('Stock Control')
+        // 			->icon('wrench')
+        // 			->route('platform.product.stock-control'),
+        // 		Button::make('Clear Groups')
+        // 			->method('clearGroup')
+        //             ->confirm('Are you Sure?')
+        // 			->icon('wrench'),
+        // 		Button::make('Claim')
+        // 			->method('claimProducts')
+        // 			->icon('wrench'),
+        // 		ModalToggle::make('Share to')
+        // 			->modal('shareModal')
+        // 			->method('duplicate')
+        // 			->icon('share-alt'),
+        // 		ModalToggle::make('Calibrate qty')
+        // 		    ->modal('fixModal')
+        // 		    ->method('fix')
+        // 		    ->icon('refresh'),
+        // 	]),
+        $command_bar = [
+            Link::make('Export')
+                ->route('platform.product.export-custom')
+                ->icon('cloud-download')
+                ->permission('platform.product.export'),
+        ];
+        if(auth()->user()->hasAnyAccess(['platform.module.product'])){
+            $command_bar = [
                 Link::make('Stock Control')
                     ->icon('wrench')
                     ->route('platform.product.stock-control'),
-				// DropDown::make('Manage Stock')
-				// 	->icon('loading')
-				// 	->list([
-				// 		ModalToggle::make('Reset Stock')
-				// 			->modal('resetModal')
-				// 			->method('resetQuantity')
-				// 			->icon('reload'),
-				// 		Link::make('Stock Control')
-				// 			->icon('wrench')
-				// 			->route('platform.product.stock-control'),
-				// 		Button::make('Clear Groups')
-				// 			->method('clearGroup')
-                //             ->confirm('Are you Sure?')
-				// 			->icon('wrench'),
-				// 		Button::make('Claim')
-				// 			->method('claimProducts')
-				// 			->icon('wrench'),
-				// 		ModalToggle::make('Share to')
-				// 			->modal('shareModal')
-				// 			->method('duplicate')
-				// 			->icon('share-alt'),
-				// 		ModalToggle::make('Calibrate qty')
-				// 		    ->modal('fixModal')
-				// 		    ->method('fix')
-				// 		    ->icon('refresh'),
-				// 	]),
+                Link::make('Export')
+                    ->route('platform.product.export-custom')
+                    ->icon('cloud-download'),
+                Link::make('Create new')
+                    ->icon('plus')
+                    ->route('platform.product.edit'),
+            ];
+        }
 
-				DropDown::make('Import/Export')
-					->icon('wrench')
-					->list([
-
-						ModalToggle::make('Import')
-							->modal('importModal')
-							->method('import')
-							->icon('cloud-upload'),
-
-						// ModalToggle::make('Export')
-						// 	->modal('exportModal')
-						// 	->method('export')
-						// 	->icon('cloud-download'),
-
-						Link::make('Export')
-							->route('platform.product.export-custom')
-							->icon('cloud-download'),
-					]),
-
-				Link::make('Create new')
-					->icon('plus')
-					->route('platform.product.edit'),
-			];
-		} else {
-			return [
-                Link::make('Stock Control')
-                    ->icon('wrench')
-                    ->route('platform.product.stock-control'),
-				// DropDown::make('Manage Stock')
-				// 	->icon('loading')
-				// 	->list([
-				// 		Link::make('Stock Control')
-				// 			->icon('wrench')
-				// 			->route('platform.product.stock-control'),
-				// 	]),
-				DropDown::make('Import/Export')
-					->icon('wrench')
-					->list([
-						Link::make('Export')
-							->route('platform.product.export-custom')
-							->icon('cloud-download'),
-					]),
-				Link::make('Create new')
-				->icon('plus')
-				->route('platform.product.edit'),
-			];
-		}
+        return $command_bar;
 	}
 
 	/**
