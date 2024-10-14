@@ -18,7 +18,7 @@
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="row">
                 <div class="col-sm-5">
-                    <label for="products[]">Select Product(s)</label>
+                    <label for="products[]">Select Product (Total: {{$products->count()}})</label>
                     <select class="hyper-select form-control" name="products[]" multiple required>
                         @foreach ($products as $product)
                             <option value="{{ $product->id }}">

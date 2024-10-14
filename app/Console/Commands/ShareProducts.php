@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Product;
-use App\Models\User;
+use App\Models\Branch;
 use Illuminate\Console\Command;
 
 class ShareProducts extends Command
@@ -40,7 +40,7 @@ class ShareProducts extends Command
     public function handle()
     {
         // Retrieve all users from the database
-        $users = User::all();
+        $users = Branch::all();
 
         // Display the list of users with numbers
         foreach ($users as $key => $user) {
@@ -54,17 +54,18 @@ class ShareProducts extends Command
         // Validate user input
         if (!isset($users[$userNumber])) {
             $this->error('Invalid user.');
-            return;
+            return 0;
         }
         // Perform required operations with the chosen user
         $chosenUser = $users[$userNumber];
 
-        $products = Product::where('user_id', 1)->orderby('created_at', 'asc')->get();
+        $products = Product::where('branch_id', 1)->orderby('created_at', 'asc')->get();
 		foreach ($products as $product) {
 			$p = new Product();
 			$p->code = $product->code;
 			$p->name = $product->name;
-			$p->user_id = $chosenUser->id;
+			$p->user_id = $chosenUser->user_id;
+			$p->branch_id = $chosenUser->id;
 			$p->category_id = $product->category_id;
 			$p->group_id = null;
 			$p->buy_price = $product->buy_price;

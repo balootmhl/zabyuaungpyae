@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 
@@ -13,8 +14,8 @@ class ProductsExport implements FromView
     function __construct($id) {
             $this->id = $id;
     }
-    
-    
+
+
     /**
      * @return \Illuminate\Support\Collection
      */
@@ -32,8 +33,9 @@ class ProductsExport implements FromView
 
     public function view(): View
     {
+        $user = User::findOrFail($this->id);
         return view('export.products', [
-            'products' => Product::where('user_id', $this->id)->get(),
+            'products' => Product::where('branch_id', $user->branch_id)->get(),
         ]);
     }
 }
