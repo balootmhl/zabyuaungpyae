@@ -9,7 +9,7 @@ use App\Models\Purchase;
 use App\Models\Purchaseitem;
 use App\Models\Sale;
 use App\Models\Saleitem;
-// use Barryvdh\DomPDF\PDF;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Orchid\Support\Facades\Toast;
 use PDF;
@@ -99,7 +99,7 @@ class CustomController extends Controller {
 	}
 
 	public function stockControl() {
-		$products = Product::where('user_id', auth()->user()->id)->orderby('created_at', 'DESC')->get();
+		$products = Product::where('branch_id', auth()->user()->branch->id)->orderby('created_at', 'DESC')->get();
 
 		return view('products.stock-control', compact('products'));
 	}
@@ -120,7 +120,7 @@ class CustomController extends Controller {
 
 	public function exportProduct(Request $request)
 	{
-		return Excel::download(new ProductsExport(auth()->user()->id), 'products_of_'. auth()->user()->name .'_export_' . now() . '.xlsx');
+		return Excel::download(new ProductsExport(auth()->user()->id), 'products_'. Str::snake(auth()->user()->branch->name) .'_export_' . now() . '.xlsx');
 	}
 
     public function fixNullUserGroup()
