@@ -63,10 +63,17 @@
                     <div class="form-group">
                         <label for="customer_id">Customer</label>
                         <select class="form-control customer-select2" name="customer_id" multiple="multiple">
-                            @foreach ($customers as $customer)
-                                <option value="{{ $customer->name }}"
-                                    @if ($customer->id == $sale->customer_id) selected="true" @endif>{{ $customer->name }}</option>
-                            @endforeach
+                            @if(auth()->user()->id == 2)
+                                @php
+                                    $customer = \App\Models\Customer::findOrFail(22);
+                                @endphp
+                                <option value="{{ $customer->name }}" selected="true">{{ $customer->name }}</option>
+                            @else
+                                @foreach ($customers as $customer)
+                                    <option value="{{ $customer->name }}"
+                                        @if ($customer->id == $sale->customer_id) selected="true" @endif>{{ $customer->name }}</option>
+                                @endforeach
+                            @endif
                         </select>
                     </div>
                 </div>
@@ -137,9 +144,9 @@
                                             <select name="product" id="product" class="product-select2 form-control"
                                                 multiple>
                                                 @foreach ($products as $product)
-                                                    <option id="{{ $product->id }}" value="{{ $product->id }}">
+                                                    <option id="{{ $product->id }}" value="{{ $product->id }}" @if($product->quantity <= 0) disabled @endif>
                                                         [{{ $product->id }}] [{{ $product->code }}]
-                                                        [{{ $product->name }}]
+                                                        [{{ $product->name }}] @if($product->quantity <= 0) Out of Stock @endif
                                                     </option>
                                                 @endforeach
                                             </select>
