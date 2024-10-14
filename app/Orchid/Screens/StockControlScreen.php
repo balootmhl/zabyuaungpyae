@@ -35,7 +35,7 @@ class StockControlScreen extends Screen
      */
     public function query(): array
     {
-        $products = Product::where('branch_id', auth()->user()->branch->id)->orderby('id', 'asc')->get();
+        $products = Product::where('branch_id', auth()->user()->branch_id)->orderby('id', 'asc')->get();
         return [
             'products' => $products,
         ];
