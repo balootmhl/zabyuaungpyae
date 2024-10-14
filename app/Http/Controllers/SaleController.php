@@ -9,6 +9,7 @@ use App\Models\Saleitem;
 use Illuminate\Http\Request;
 use Orchid\Platform\Models\User;
 use Orchid\Support\Facades\Toast;
+use Carbon\Carbon;
 
 class SaleController extends Controller {
 	public function index() {
@@ -46,6 +47,11 @@ class SaleController extends Controller {
         $user = auth()->user();
         if($user->hasAccess('platform.module.sale')){
             $sale = Sale::findOrFail($id);
+            // Check if today's date is more than 3 days after the sale's created_at date
+			if (Carbon::now()->diffInDays($sale->created_at) > 3) {
+				// Abort with a 403 forbidden status
+				abort(403, 'You cannot edit this sale because it was created more than 3 days ago.');
+			}
             $items_count = count($sale->saleitems);
             $products = Product::where('branch_id', auth()->user()->branch->id)->orderby('created_at', 'DESC')->get();
             $customers = Customer::all();
