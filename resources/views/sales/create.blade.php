@@ -56,6 +56,11 @@
                                     $customer = \App\Models\Customer::findOrFail(22);
                                 @endphp
                                 <option value="{{ $customer->name }}" selected="true">{{ $customer->name }}</option>
+                            @elseif(auth()->user()->id == 3)
+                                @php
+                                    $customer_sale_2 = \App\Models\Customer::findOrFail(5);
+                                @endphp
+                                <option value="{{ $customer_sale_2->name }}" selected="true">{{ $customer_sale_2->name }}</option>
                             @else
                                 @foreach ($customers as $customer)
                                     @if ($customer->id == 9)

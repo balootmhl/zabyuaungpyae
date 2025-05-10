@@ -33,13 +33,13 @@
 
                         <h5 class="name" style="padding-top: 10px;">
                             <a target="_blank" href="https://zabyuaungpyae.com">
-                                <strong>MAHARSHIN Co., Ltd. (Head Office)</strong>
+                                <strong>{{ auth()->user()->branch->name }}</strong>
                             </a>
                         </h5>
                         {{-- <div><strong><font style="font-size: 1.2rem;">Kubota</font> လယ်ယာသုံး စက်ပစ္စည်းအရောင်းဆိုင်</strong></div> --}}
-                        <div><x-orchid-icon path="pointer" />Thongwa Township, Pale Village, No(6) Main Road, Yangon.
+                        <div><x-orchid-icon path="pointer" />{{ auth()->user()->branch->address }}
                         </div>
-                        <div><x-orchid-icon path="phone" />09420250449</div>
+                        <div><x-orchid-icon path="phone" />{{ auth()->user()->branch->phone }}</div>
                         <div><x-orchid-icon path="globe" />https://zabyuaungpyae.com</div>
                     </div>
                     <div class="col-3">
@@ -172,8 +172,9 @@
                 </table>
                 <div class="thanks">Thank you!</div>
                 <div class="notices">
-                    <div>NOTICE:</div>
-                    <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
+                    <div>NOTICE: A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
+                    <!-- <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div> -->
+                    <div>REMARKS: {{ $sale->remarks }}</div>
                 </div>
             </main>
         </div>
