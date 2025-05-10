@@ -91,6 +91,7 @@ class IncomeCalculatorScreen extends Screen
      */
     public function calculate(Request $request)
     {
+        session()->forget(['total_income', 'total_discount', 'customer', 'invoices']);
         if($request->get('customer_id') != NULL || $request->get('customer_id') != ''){
             $invoices = Sale::where('date', $request->get('date'))->where('user_id', auth()->user()->id)->where('customer_id', $request->get('customer_id'))->get();
             $customer = Customer::findOrFail($request->get('customer_id'));
@@ -99,17 +100,21 @@ class IncomeCalculatorScreen extends Screen
         }
         $total_income = 0;
         $total_discount = 0;
-        foreach ($invoices as $invoice) {
-            $total_income = $total_income + $invoice->grand_total;
-            $total_discount = $total_discount + $invoice->discount;
+        $total_income = $invoices->sum('grand_total');
+        $total_discount = $invoices->sum('discount');
+        $products = [];
+        foreach($invoices as $invoice){
+            foreach($invoice->saleitems as $saleitem){
+                $products[] = $saleitem->product;
+            }
         }
         // session(['total_income' => $total_income, 'total_discount' => $total_discount]);
         if(isset($customer)){
-            session(['total_income' => $total_income, 'total_discount' => $total_discount, 'customer' => $customer]);
-            return redirect()->route('platform.income.discount')->with(['total_income' => $total_income, 'total_discount' => $total_discount, 'invoices' => $invoices, 'customer' => $customer])->withInput();
+            session(['total_income' => $total_income, 'total_discount' => $total_discount, 'customer' => $customer, 'products' => $products]);
+            return redirect()->route('platform.income.discount')->with(['total_income' => $total_income, 'total_discount' => $total_discount, 'invoices' => $invoices, 'customer' => $customer, 'products' => $products])->withInput();
         } else {
-            session(['total_income' => $total_income, 'total_discount' => $total_discount]);
-            return redirect()->route('platform.income.discount')->with(['total_income' => $total_income, 'total_discount' => $total_discount, 'invoices' => $invoices])->withInput();
+            session(['total_income' => $total_income, 'total_discount' => $total_discount, 'products' => $products]);
+            return redirect()->route('platform.income.discount')->with(['total_income' => $total_income, 'total_discount' => $total_discount, 'invoices' => $invoices, 'products' => $products])->withInput();
         }
         // return redirect()->route('platform.income.discount')->with(['total_income' => $total_income, 'total_discount' => $total_discount, 'invoices' => $invoices])->withInput();
     }
