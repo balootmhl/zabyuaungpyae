@@ -120,8 +120,7 @@ class CustomController extends Controller {
 
 	public function exportProduct(Request $request)
 	{
-		// return Excel::download(new ProductsExport(auth()->user()->id), 'products_'. Str::snake(auth()->user()->branch->name) .'_export_' . now() . '.xlsx');
-        return Excel::download(new ProductsExport(auth()->user()->id), 'products_'. auth()->user()->branch->slug .'_export_' . now() . '.xlsx');
+		return Excel::download(new ProductsExport(auth()->user()->id), 'products_'. auth()->user()->branch->slug .'_export_' . now() . '.xlsx');
 	}
 
     public function fixNullUserGroup()
