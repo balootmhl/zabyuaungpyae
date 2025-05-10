@@ -5,7 +5,7 @@
         <div class="col col-lg-12 mt-6 p-4 pe-md-0">
 
             <h2 class="mt-2 text-dark fw-light">
-                Total Sold Amount - <strong>{{ session('total_income') }} MMK</strong>
+                Total Sold Amount - <strong>{{ number_format(session('total_income')) }} MMK</strong>
             </h2>
 
             <p>
@@ -24,7 +24,7 @@
         <div class="col col-lg-12 mt-6 p-4 pe-md-0">
 
             <h2 class="mt-2 text-dark fw-light">
-                Total Discount Amount - <strong>{{ session('total_discount') }} MMK</strong>
+                Total Discount Amount - <strong>{{ number_format(session('total_discount')) }} MMK</strong>
             </h2>
 
             <p>
@@ -45,7 +45,7 @@
         <div class="col col-lg-12 mt-6 p-4 pe-md-0">
 
             <h3 class="mt-2 text-dark fw-light">
-                Debt Amount of {{session('customer')->name}} - <strong><text class="text-danger">{{ session('customer')->debt }} MMK</text></strong>
+                Debt Amount of {{session('customer')->name}} - <strong><text class="text-danger">{{ number_format(session('customer')->debt) }} MMK</text></strong>
             </h3>
 
             <p>
@@ -62,7 +62,7 @@
 @endif
 
 <div class="bg-white rounded shadow-sm mb-3" >
-    <small class="text-dark d-block mb-1" style="padding: 10px 15px;"><strong>Sale invoices on that day</strong></small>
+    <p class="text-dark d-block mb-1" style="padding: 10px 15px;"><strong>Sale invoices</strong></p>
 	<div class="table-responsive">
 		<table class="table table-bordered">
 			<thead>
@@ -90,5 +90,43 @@
 		</table>
 	</div>
 </div>
+<div class="bg-white rounded shadow-sm mb-3" >
+    <p class="text-dark d-block mb-1" style="padding: 10px 15px;"><strong>Product sales</strong></p>
+	<div class="table-responsive">
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th style="color: #667780 !important;">Product</th>
+					<th style="color: #667780 !important;">Invoices</th>
+					<th style="color: #667780 !important;">Buy Price</th>
+					<th style="color: #667780 !important;">Buy Price Total</th>
+					<th style="color: #667780 !important;">Sale Price</th>
+					<th style="color: #667780 !important;">Sale Price Total</th>
+				</tr>
+			</thead>
+			<tbody>
+                @foreach(session('invoices') as $invoice)
+                    @foreach($invoice->saleitems as $saleitem)
+                        <tr>
+                            <td style="width: 25%;">
+                                [{{ $saleitem->product->id }}][{{ $saleitem->product->code }}][{{ $saleitem->product->name }}]</td>
+                            <td style="width: 25%;">
+                                {{ $saleitem->sale->invoice_no }}(Qty: {{ $saleitem->quantity}})
+                                <br>
+                                {{ $saleitem->sale->customer->name }}
+                            </td>
+                            <td>{{ number_format($saleitem->product->buy_price) }}</td>
+                            <td>{{ number_format($saleitem->product->buy_price * $saleitem->quantity) }}</td>
+                            <td>{{ number_format($saleitem->product->sale_price) }}</td>
+                            <td>{{ number_format($saleitem->product->sale_price * $saleitem->quantity) }}</td>
+                            {{-- <td @if($invoice->remained != 0) class="text-danger" @else class="text-success" @endif><strong>{{ $invoice->remained }} MMK</strong></td> --}}
+                        </tr>
+                    @endforeach
+				@endforeach
+			</tbody>
+		</table>
+	</div>
+</div>
+
 
 @endif

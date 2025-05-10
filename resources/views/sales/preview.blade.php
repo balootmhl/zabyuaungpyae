@@ -1,5 +1,4 @@
 @push('head')
-    {{-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> --}}
     <link rel="stylesheet" href="{{ asset('custom/css/invoice.css') }}" media="all" />
 @endpush
 
@@ -7,11 +6,13 @@
 
     <div class="toolbar hidden-print">
         <div class="text-right">
-            <button id="printInvoice" class="btn btn-info">{{-- <i class="fa fa-print"></i> --}}<x-orchid-icon path="printer" />&nbsp;
-                Print</button>
+            <button id="printInvoice" class="btn btn-info">
+                <x-orchid-icon path="printer" />&nbsp;Print
+            </button>
             <a href="{{ route('platform.sale.edit-custom', $sale->id) }}"
-                class="btn btn-info">{{-- <i class="fa fa-print"></i> --}}<x-orchid-icon path="pencil" />&nbsp; Edit</a>
-            {{-- <button class="btn btn-info"><i class="fa fa-file-pdf-o"></i> Export as PDF</button> --}}
+                class="btn btn-info">
+                <x-orchid-icon path="pencil" />&nbsp; Edit
+            </a>
         </div>
         <hr>
     </div>
@@ -33,32 +34,20 @@
 
                         <h5 class="name" style="padding-top: 10px;">
                             <a target="_blank" href="https://zabyuaungpyae.com">
-                                <strong>MAHARSHIN Co., Ltd. (Head Office)</strong>
+                                <strong>{{ auth()->user()->branch->name }}</strong>
                             </a>
                         </h5>
-                        {{-- <div><strong><font style="font-size: 1.2rem;">Kubota</font> လယ်ယာသုံး စက်ပစ္စည်းအရောင်းဆိုင်</strong></div> --}}
-                        <div><x-orchid-icon path="pointer" />Thongwa Township, Pale Village, No(6) Main Road, Yangon.
+                        <div><x-orchid-icon path="pointer" />{{ auth()->user()->branch->address }}
                         </div>
-                        <div><x-orchid-icon path="phone" />09420250449</div>
+                        <div><x-orchid-icon path="phone" />{{ auth()->user()->branch->phone }}</div>
                         <div><x-orchid-icon path="globe" />https://zabyuaungpyae.com</div>
                     </div>
                     <div class="col-3">
                         <img src="{{ asset('custom/img/kubota-logo.png') }}" class="img-fluid"
                             style="padding-top: 10px;"> <br>
                         <h6 style="padding-left: 5px;font-weight: bold;">လယ်ယာသုံး စက်ပစ္စည်းအရောင်းဆိုင်</h6>
-                        {{-- </div> --}}
                     </div>
-                    <div class="col-7 company-details">
-                        {{-- <h5 class="name">
-                            <a target="_blank" href="https://lobianijs.com">
-                            <strong>MAHARSHIN Co., Ltd. (Head Office)</strong>
-                            </a>
-                        </h5>
-                        <div><strong><font style="font-size: 1.2rem;">Kubota</font> လယ်ယာသုံး စက်ပစ္စည်းအရောင်းဆိုင်</strong></div>
-                        <div><x-orchid-icon path="pointer"/>Yangon, Myanmar.</div>
-                        <div><x-orchid-icon path="phone"/>09 428 936 585, 09 428 936 585</div>
-                        <div><x-orchid-icon path="globe"/>http://zabyuaungpyae.com</div> --}}
-                    </div>
+                    <div class="col-7 company-details"></div>
                 </div>
             </header>
             <main>
@@ -73,7 +62,6 @@
                                 {{ $sale->customer->custom_address }}
                             @endif
                         </div>
-                        {{-- <div class="email"><a href="mailto:john@example.com">john@example.com</a></div> --}}
                     </div>
                     <div class="col invoice-details">
                         <h5 class="invoice-id">Invoice No. {{ $sale->invoice_no }}</h5>
@@ -170,10 +158,10 @@
                         @endif
                     </tfoot>
                 </table>
-                <div class="thanks">Thank you!</div>
+                <div class="thanks">Thank You!</div>
                 <div class="notices">
-                    <div>NOTICE:</div>
-                    <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
+                    <div>NOTICE: A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
+                    <div>REMARKS: {{ $sale->remarks }}</div>
                 </div>
             </main>
         </div>
@@ -183,8 +171,6 @@
 </div>
 
 @push('scripts')
-    {{-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script> --}}
-    {{-- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> --}}
     <script>
         $('#printInvoice').click(function() {
             Popup($('.invoice')[0].outerHTML);
