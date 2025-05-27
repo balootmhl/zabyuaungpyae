@@ -98,10 +98,11 @@
 				<tr>
 					<th style="color: #667780 !important;">Product</th>
 					<th style="color: #667780 !important;">Invoices</th>
-					<th style="color: #667780 !important;">Buy Price</th>
+					{{-- <th style="color: #667780 !important;">Buy Price</th> --}}
 					<th style="color: #667780 !important;">Buy Price Total</th>
-					<th style="color: #667780 !important;">Sale Price</th>
+					{{-- <th style="color: #667780 !important;">Sale Price</th> --}}
 					<th style="color: #667780 !important;">Sale Price Total</th>
+					<th style="color: #667780 !important;">Difference</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -115,14 +116,20 @@
                                 <br>
                                 {{ $saleitem->sale->customer->name }}
                             </td>
-                            <td>{{ number_format($saleitem->product->buy_price) }}</td>
-                            <td>{{ number_format($saleitem->product->buy_price * $saleitem->quantity) }}</td>
-                            <td>{{ number_format($saleitem->product->sale_price) }}</td>
-                            <td>{{ number_format($saleitem->product->sale_price * $saleitem->quantity) }}</td>
+                            <!-- <td>{{ number_format($saleitem->product->buy_price) }}</td> -->
+                            @php
+                                $buy_total = $saleitem->product->buy_price * $saleitem->quantity;
+                                $sale_total = $saleitem->product->sale_price * $saleitem->quantity;
+                                $difference = $sale_total - $buy_total;
+                            @endphp
+                            <td>{{ number_format($buy_total) }}</td>
+                            <!-- <td>{{ number_format($saleitem->product->sale_price) }}</td> -->
+                            <td>{{ number_format($sale_total) }}</td>
+                            <td class="@if($difference>= 0) text-success @else text-danger @endif">{{ number_format($difference) }}</td>
                             {{-- <td @if($invoice->remained != 0) class="text-danger" @else class="text-success" @endif><strong>{{ $invoice->remained }} MMK</strong></td> --}}
                         </tr>
                     @endforeach
-				@endforeach
+                @endforeach
 			</tbody>
 		</table>
 	</div>
