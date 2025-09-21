@@ -2,6 +2,7 @@
 
 namespace App\Orchid\Screens;
 
+use App\Models\Branch;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Purchaseitem;
@@ -13,11 +14,8 @@ use App\Orchid\Layouts\SaleListLayout;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\Link;
-use Orchid\Screen\Actions\ModalToggle;
-use Orchid\Screen\Layouts\Modal;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Alert;
-use Orchid\Support\Facades\Layout;
 use Orchid\Support\Facades\Toast;
 
 class SaleListScreen extends Screen {
@@ -37,7 +35,6 @@ class SaleListScreen extends Screen {
 
     /**
      * The permission required to access this screen.
-
      * @var string
      */
     public $permission = 'platform.module.sale';
@@ -49,11 +46,12 @@ class SaleListScreen extends Screen {
 	 */
 	public function query(): array
 	{
-
 		return [
-			'sales' => Sale::where('branch_id', auth()->user()->branch->id)->filtersApply([ItemsFilter::class])->orderby('created_at', 'desc')->paginate(50),
+			'sales' => Sale::where('branch_id', auth()->user()->branch->id)
+                ->filtersApply([ItemsFilter::class])
+                ->orderby('created_at', 'desc')
+                ->paginate(50),
 		];
-
 	}
 
 	/**
@@ -64,49 +62,20 @@ class SaleListScreen extends Screen {
 	public function commandBar(): array
 	{
 		return [
+            Link::make('Find Invoices')
+                ->icon('magnifier')
+                ->route('platform.sale.search'),
 
-			DropDown::make('Fix')
-				->icon('wrench')
-				->list([
-					// ModalToggle::make('Import')
-					//     ->modal('importModal')
-					//     ->method('import')
-					//     ->icon('cloud-upload'),
+            Link::make('Create')
+                ->icon('plus')
+                ->route('platform.sale.create-custom'),
 
-					// Button::make('Fix Prices')
-					//     ->method('fixPrice')
-					//     ->icon('wrench')
-					//     ->novalidate(),
-
-					Button::make('Fix Names')
-						->method('itemsName')
-						->icon('wrench')
-						->novalidate(),
-
-					Button::make('Item Prices')
-						->method('itemsPrice')
-						->icon('wrench')
-						->novalidate(),
-
-					// Button::make('Export')
-					// 	->method('export')
-					// 	->icon('cloud-download')
-					// 	->rawClick()
-					// 	->novalidate(),
-				]),
-
-			Link::make('Find Invoices')
-				->icon('magnifier')
-				->route('platform.sale.search'),
-
-			Link::make('Create')
-				->icon('plus')
-				->route('platform.sale.create-custom'),
-
-			// Link::make('Create new')
-			//     ->icon('plus')
-			//     ->route('platform.sale.edit'),
-		];
+            // Export link - goes to dedicated export page
+            Link::make('Export Sales')
+                ->icon('cloud-download')
+                ->route('platform.sales.export')
+                ->class('btn btn-primary'),
+        ];
 	}
 
 	/**
@@ -117,18 +86,8 @@ class SaleListScreen extends Screen {
 	public function layout(): array
 	{
 		return [
-			// Layout::view('products.livefilter'),
 			SaleitemFiltersLayout::class,
 			SaleListLayout::class,
-			// Layout::modal('importModal', Layout::rows([
-			//     Input::make('excel')
-			//         ->type('file')
-			//         ->acceptedFiles('.xlsx')
-			//         ->title('Upload excel file')
-			//         ->help('The data in the excel file will be created as new sales invoice.')
-			//         ->required(),
-
-			// ]))->title('Import sale invoices from excel file'),
 		];
 	}
 
@@ -156,14 +115,7 @@ class SaleListScreen extends Screen {
 	}
 
 	/**
-	 * @return Export products and download as excel file
-	 */
-	public function export() {
-		// return Excel::download(new ProductsExport, 'products_' . now() . '.xlsx');
-	}
-
-	/**
-	 * @return Fix prices of each sale invoices
+	 * Fix prices of each sale invoices
 	 */
 	public function fixPrice() {
 		$sales = Sale::all();
@@ -176,11 +128,7 @@ class SaleListScreen extends Screen {
 
 			$sale->sub_total = $subtotal;
 			$sale->grand_total = $subtotal - $sale->discount;
-			// if ($sale->invoice_no == null) {
-			//     $sale->invoice_no = '#01' . str_replace("-", "", $sale->date) . $sale->id;
-			// }
 			$sale->update();
-
 		}
 
 		Alert::info('You have updated prices of sale invoices.');
@@ -205,17 +153,14 @@ class SaleListScreen extends Screen {
 		$sitems = Saleitem::all();
 		$pitems = Purchaseitem::all();
 		foreach ($sitems as $s) {
-			// $sp = Product::findOrFail($s->product_id);
-			if ($s->product->code != null) {
+			if ($s->product && $s->product->code != null) {
 				$s->name = $s->product->name;
 				$s->code = $s->product->code;
 				$s->update();
 			}
-
 		}
 		foreach ($pitems as $p) {
-			// $pp = Product::findOrFail($p->product_id);
-			if ($p->product->code != null) {
+			if ($p->product && $p->product->code != null) {
 				$p->name = $p->product->name;
 				$p->code = $p->product->code;
 				$p->update();
@@ -229,7 +174,6 @@ class SaleListScreen extends Screen {
 		$sitems = Saleitem::all();
 		$pitems = Purchaseitem::all();
 		foreach ($sitems as $s) {
-			// $sp = Product::findOrFail($s->product_id);
 			if ($s->product) {
 				if ($s->sale->is_saleprice == 1) {
 					$s->price = $s->product->sale_price;
@@ -238,7 +182,6 @@ class SaleListScreen extends Screen {
 				}
 				$s->update();
 			}
-
 		}
 		foreach ($pitems as $p) {
 			if ($p->product) {

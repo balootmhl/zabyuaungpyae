@@ -14,6 +14,8 @@ use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Layout;
 use Orchid\Support\Facades\Toast;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
 class SalesExportScreen extends Screen
 {
@@ -79,10 +81,13 @@ class SalesExportScreen extends Screen
                 ->method('previewData')
                 ->parameters(['preview' => true]),
 
+            // Button::make('Export Excel')
+            //     ->icon('cloud-download')
+            //     ->method('exportSales'),
+
             Button::make('Export Excel')
                 ->icon('cloud-download')
-                ->method('exportSales')
-                ->type('primary'),
+                ->method('exportSalesRoute'),
         ];
     }
 
@@ -217,5 +222,30 @@ class SalesExportScreen extends Screen
             Toast::error('Export failed: ' . $e->getMessage());
             return redirect()->route('platform.sales.export');
         }
+    }
+
+    // Add a new method to handle the redirect to the custom route
+    public function exportSalesRoute(Request $request)
+    {
+        // Collect the form data
+        $dateRange = $request->get('date_range');
+        $branchId = $request->get('branch_id');
+        $exportFormat = $request->get('export_format');
+
+        // Build the URL with the query parameters
+        $url = route('platform.sales.export.file', [
+            'date_range[start]' => $dateRange['start'] ?? null,
+            'date_range[end]' => $dateRange['end'] ?? null,
+            'branch_id' => $branchId,
+            'export_format' => $exportFormat,
+        ]);
+
+        // Redirect the user to the custom route
+        return redirect()->route('platform.sales.export.file', [
+            'date_range[start]' => $dateRange['start'] ?? null,
+            'date_range[end]' => $dateRange['end'] ?? null,
+            'branch_id' => $branchId,
+            'export_format' => $exportFormat,
+        ]);
     }
 }
