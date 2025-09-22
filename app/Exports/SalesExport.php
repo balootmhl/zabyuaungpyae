@@ -36,7 +36,7 @@ class SalesExport implements FromCollection, WithHeadings, WithMapping, WithColu
         // For 'detailed' and 'summary' formats, we export sales
         if (in_array($this->export_format, ['detailed', 'summary'])) {
             $query = Sale::with(['customer', 'branch', 'saleitems.product'])
-                ->orderBy('created_at', 'desc');
+                ->orderBy('created_at', 'asc');
 
             // Apply filters
             if ($this->branch_id) {
@@ -178,7 +178,7 @@ class SalesExport implements FromCollection, WithHeadings, WithMapping, WithColu
             $items[] = ($item->product->name ?? 'Unknown') .
                        ' (Qty: ' . $item->quantity . ', Price: ' . $item->price . ')';
         }
-        return implode('; ', $items);
+        return implode("\n", $items);
     }
 
     /**

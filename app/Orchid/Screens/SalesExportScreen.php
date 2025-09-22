@@ -135,6 +135,9 @@ class SalesExportScreen extends Screen
             'is_admin' => $this->query()['is_admin'],
         ]);
 
+        // Add custom JavaScript for new tab functionality
+        $layouts[] = Layout::view('orchid.sales-export-script');
+
         return $layouts;
     }
 
@@ -247,5 +250,6 @@ class SalesExportScreen extends Screen
             'branch_id' => $branchId,
             'export_format' => $exportFormat,
         ]);
+
     }
 }

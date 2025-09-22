@@ -310,11 +310,14 @@ Route::screen('incomes', IncomeCalculatorScreen::class)
 		->push('Income & Discount Calculator');
 });
 
-// Sales Export Screen Route
-Route::screen('sales/export', App\Orchid\Screens\SalesExportScreen::class)
+// Sales Export Custom Routes
+Route::get('sales/export', [SalesExportController::class, 'index'])
     ->name('platform.sales.export');
 
-Route::get('sales/export/file', [SalesExportController::class, 'export'])
-    ->name('platform.sales.export.file');
+Route::post('/sales/export/preview', [App\Http\Controllers\SalesExportController::class, 'preview'])
+    ->name('sales.export.preview');
+
+Route::post('/sales/export/download', [App\Http\Controllers\SalesExportController::class, 'export'])
+    ->name('sales.export.download');
 
 //Route::screen('idea', 'Idea::class','platform.screens.idea');
