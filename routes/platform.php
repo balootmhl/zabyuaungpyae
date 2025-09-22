@@ -2,6 +2,7 @@
 
 declare (strict_types = 1);
 
+use App\Http\Controllers\SalesExportController;
 use App\Orchid\Screens\CategoryEditScreen;
 use App\Orchid\Screens\CategoryListScreen;
 use App\Orchid\Screens\CustomerEditScreen;
@@ -308,5 +309,15 @@ Route::screen('incomes', IncomeCalculatorScreen::class)
 		->parent('platform.index')
 		->push('Income & Discount Calculator');
 });
+
+// Sales Export Custom Routes
+Route::get('sales/export', [SalesExportController::class, 'index'])
+    ->name('platform.sales.export');
+
+Route::post('/sales/export/preview', [App\Http\Controllers\SalesExportController::class, 'preview'])
+    ->name('sales.export.preview');
+
+Route::post('/sales/export/download', [App\Http\Controllers\SalesExportController::class, 'export'])
+    ->name('sales.export.download');
 
 //Route::screen('idea', 'Idea::class','platform.screens.idea');

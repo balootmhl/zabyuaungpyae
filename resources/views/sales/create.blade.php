@@ -146,7 +146,7 @@
                                     <td width="15%">
                                         {{-- <div class="form-group"> --}}
                                         {{-- <label for="qty">Quantity</label> --}}
-                                        <input type="number" id="qty" name="qty" min="0" value="0"
+                                        <input type="number" id="qty" name="qty" min="1" value="1"
                                             class="form-control">
                                         {{-- </div> --}}
                                     </td>

@@ -31,6 +31,7 @@
     <div class="bg-white rounded shadow-sm p-4 py-4 d-flex flex-column">
         <form action="{{ route('platform.purchase.update-custom') }}" method="POST">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <input type="hidden" id="app_url" value="{{ config('app.url') }}">
             <input type="hidden" id="purchase_id" name="purchase_id" value="{{ $purchase->id }}">
             <div class="row justify-content-center invoice-form">
                 <div class="col-sm-4">
@@ -142,16 +143,14 @@
                                         </div>
                                     </td>
                                     <td width="15%">
-                                        {{-- <label for="">Price</label> --}}
-                                        <input type="number" id="price" name="price" min="0" value="0"
-                                            class="form-control">
-                                        {{-- <h6 class="mt-1" id="price_text" >0</h6> --}}
+                                        <input type="hidden" id="price" name="price" min="0" value="0">
+                                        <h6 class="mt-1" id="price_text">0</h6>
                                     </td>
                                     <td>
                                         <div class="form-group">
                                             {{-- <label for="qty">Quantity</label> --}}
-                                            <input type="number" id="qty" name="qty" min="0"
-                                                value="0" class="form-control">
+                                            <input type="number" id="qty" name="qty" min="1"
+                                                value="1" class="form-control">
                                         </div>
                                     </td>
                                     <td>
@@ -337,6 +336,37 @@
             $('.product-select2').select2({
                 placeholder: 'Select Product',
                 theme: "bootstrap"
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#product').change(function() {
+                var ids = $(this).find(':selected')[0].id;
+                var is_sale = $('#is_sale').val();
+                var url = $('#app_url').val();
+                $.ajax({
+                    type: 'GET',
+                    url: url + '/admin/getPrice/{id}',
+                    data: {
+                        id: ids
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+
+                        $.each(data, function(key, resp) {
+                            // if (is_sale == '1') {
+                            //     $('#price').val(resp.sale_price);
+                            //     $('#price_text').text(resp.sale_price);
+                            // } else {
+                            //     $('#price').val(resp.buy_price);
+                            //     $('#price_text').text(resp.buy_price);
+                            // }
+                            $('#price').val(resp.buy_price);
+                            $('#price_text').text(resp.buy_price);
+                        });
+                    }
+                });
             });
         });
     </script>

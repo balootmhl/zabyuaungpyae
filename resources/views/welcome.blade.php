@@ -70,6 +70,7 @@
                                 <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
                                     Laracasts offers thousands of video tutorials on Laravel, PHP, and JavaScript development. Check them out, see for yourself, and massively level up your development skills in the process.
                                 </div>
+                                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Beatae dicta expedita ex earum officia cumque nesciunt libero quasi aliquam dolorum soluta perferendis obcaecati, similique quaerat laudantium incidunt itaque possimus? Reprehenderit!
                             </div>
                         </div>
 
