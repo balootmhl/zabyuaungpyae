@@ -73,8 +73,7 @@ class SaleListScreen extends Screen {
             // Export link - goes to dedicated export page
             Link::make('Export Sales')
                 ->icon('cloud-download')
-                ->route('platform.sales.export')
-                ->class('btn btn-primary'),
+                ->route('platform.sales.export'),
         ];
 	}
 

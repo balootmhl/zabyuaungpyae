@@ -86,10 +86,10 @@
                                         </select>
                                     </td>
                                     <td width="15%">
-                                        {{-- <input type="number" id="price" name="price" min="0" value="0"
-                                            class="form-control"> --}}
-                                        <input type="hidden" id="price" name="price" min="0" value="0">
-                                        <h6 class="mt-1" id="price_text">0</h6>
+                                        <input type="number" id="price" name="price" min="0" value="0"
+                                            class="form-control">
+                                        {{-- <input type="hidden" id="price" name="price" min="0" value="0">
+                                        <h6 class="mt-1" id="price_text">0</h6> --}}
                                     </td>
                                     <td width="15%">
                                         <input type="number" id="qty" name="qty" min="1" value="1"
@@ -172,17 +172,8 @@
                     },
                     dataType: 'json',
                     success: function(data) {
-
                         $.each(data, function(key, resp) {
-                            // if (is_sale == '1') {
-                            //     $('#price').val(resp.sale_price);
-                            //     $('#price_text').text(resp.sale_price);
-                            // } else {
-                            //     $('#price').val(resp.buy_price);
-                            //     $('#price_text').text(resp.buy_price);
-                            // }
                             $('#price').val(resp.buy_price);
-                            $('#price_text').text(resp.buy_price);
                         });
                     }
                 });
