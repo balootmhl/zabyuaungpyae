@@ -221,7 +221,6 @@ Route::screen('customers', CustomerListScreen::class)
 // Route::get('sales', 'App\Http\Controllers\SaleController@index')->name('platform.sale.list');
 Route::get('sale/create-custom', 'App\Http\Controllers\SaleController@create')->name('platform.sale.create-custom');
 Route::post('sale/custom/store', 'App\Http\Controllers\SaleController@store')->name('platform.sale.store-custom');
-Route::post('sale/custom/search', 'App\Http\Controllers\SaleController@search')->name('platform.sale.search-custom');
 Route::get('sale/edit-custom/{id}', 'App\Http\Controllers\SaleController@edit')->name('platform.sale.edit-custom');
 Route::post('sale/custom/update', 'App\Http\Controllers\SaleController@update')->name('platform.sale.update-custom');
 Route::post('sale/custom/delete', 'App\Http\Controllers\SaleController@delete')->name('platform.sale.delete-custom');
@@ -278,8 +277,6 @@ Route::get('purchase/edit-custom/{id}', 'App\Http\Controllers\PurchaseController
 Route::post('purchase/custom/update', 'App\Http\Controllers\PurchaseController@update')->name('platform.purchase.update-custom');
 Route::get('group-custom/fix-null-user', 'App\Http\Controllers\CustomController@fixNullUserGroup');
 
-
-Route::get('sale/search', 'App\Http\Controllers\SaleController@search')->name('platform.sale.search-custom');
 
 Route::screen('purchase/{purchase?}', PurchaseEditScreen::class)
 	->name('platform.purchase.edit')->breadcrumbs(function (Trail $trail) {

@@ -48,6 +48,7 @@ class SaleListScreen extends Screen {
 	{
 		return [
 			'sales' => Sale::where('branch_id', auth()->user()->branch->id)
+                ->with(['branch', 'saleitems', 'user'])
                 ->filtersApply([ItemsFilter::class])
                 ->orderby('created_at', 'desc')
                 ->paginate(50),

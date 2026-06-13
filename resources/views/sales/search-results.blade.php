@@ -50,11 +50,11 @@
     			</thead>
     			<tbody>
     				@foreach(session('items') as $item)
-                      @if($item->sale->date == session('search_date'))
+                      @if($item->sale)
     				    <tr>
     				    	<td>{{ $item->sale->invoice_no }}</td>
-    				    	<td>{{ $item->sale->customer->name }}</td>
-    				    	<td>{{ $item->sale->user->name }}</td>
+    				    	<td>{{ $item->sale->customer->name ?? '—' }}</td>
+    				    	<td>{{ $item->sale->user->name ?? '—' }}</td>
     				    	<td>{{ $item->sale->discount }} MMK</td>
     				    	<td>{{ $item->sale->grand_total }} MMK</td>
     				    </tr>

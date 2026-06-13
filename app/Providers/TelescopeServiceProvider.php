@@ -9,12 +9,13 @@ use Laravel\Telescope\TelescopeApplicationServiceProvider;
 
 class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
-        // Telescope::night();
+        if (defined('PHPUNIT_COMPOSER_INSTALL') || class_exists(\PHPUnit\Framework\TestCase::class) || $this->app->environment('testing')) {
+            return;
+        }
+
+        parent::register();
 
         $this->hideSensitiveRequestDetails();
 
@@ -31,11 +32,24 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
         });
     }
 
+    public function boot(): void
+    {
+        if (defined('PHPUNIT_COMPOSER_INSTALL') || class_exists(\PHPUnit\Framework\TestCase::class) || $this->app->environment('testing')) {
+            return;
+        }
+
+        parent::boot();
+    }
+
     /**
      * Prevent sensitive request details from being logged by Telescope.
      */
     protected function hideSensitiveRequestDetails(): void
     {
+        if (defined('PHPUNIT_COMPOSER_INSTALL') || class_exists(\PHPUnit\Framework\TestCase::class) || $this->app->environment('testing')) {
+            return;
+        }
+
         if ($this->app->environment('local')) {
             return;
         }

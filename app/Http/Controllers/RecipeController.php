@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Response;
 
 class RecipeController extends Controller
 {
-    public function getPrice()
+    public function getPrice(Request $request, $id = null)
     {
-        $getPrice = $_GET['id'];
+        $getPrice = $request->get('id', $id);
         $price = DB::table('products')->where('id', $getPrice)->get();
-        return Response::json($price);
+        return response()->json($price);
     }
 }
