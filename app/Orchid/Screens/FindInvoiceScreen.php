@@ -90,8 +90,14 @@ class FindInvoiceScreen extends Screen
      */
     public function search(Request $request)
     {
-        $items = Saleitem::where('product_id', $request->get('product_id'))->get();
         $search_date = $request->get('date');
+        $items = Saleitem::where('product_id', $request->get('product_id'))
+            ->whereHas('sale', function ($query) use ($search_date) {
+                $query->whereDate('date', $search_date);
+            })
+            ->with(['sale.customer', 'sale.user'])
+            ->get();
+
         session(['items' => $items, 'search_date' => $search_date]);
         // Alert::info('Sale Invoice is deleted successfully. Product Quantity are returning back.');
 
