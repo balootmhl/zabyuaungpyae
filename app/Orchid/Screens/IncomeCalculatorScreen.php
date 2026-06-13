@@ -40,7 +40,52 @@ class IncomeCalculatorScreen extends Screen
      */
     public function query(): array
     {
-        return [];
+        $request = request();
+        $date = $request->get('date', now()->format('Y-m-d'));
+        $branchId = $request->get('branch_id');
+        $customerId = $request->get('customer_id');
+
+        $query = Sale::query()
+            ->whereDate('date', $date);
+
+        if ($branchId) {
+            $query->where('branch_id', $branchId);
+        }
+        if ($customerId) {
+            $query->where('customer_id', $customerId);
+        }
+
+        $invoices = $query->with(['customer', 'branch', 'saleitems.product'])->get();
+
+        // Calculate summary
+        $totalInvoices = $invoices->count();
+        $totalRevenue = $invoices->sum('grand_total');
+
+        $totalProfit = 0;
+        foreach ($invoices as $invoice) {
+            $invoiceProfit = 0;
+            foreach ($invoice->saleitems as $saleitem) {
+                $sellingPrice = $saleitem->price ?? ($saleitem->product->sale_price ?? 0);
+                $costPrice = $saleitem->product->buy_price ?? 0;
+                $profitPerUnit = $sellingPrice - $costPrice;
+                $itemProfit = $profitPerUnit * $saleitem->quantity;
+                $invoiceProfit += $itemProfit;
+            }
+            $invoice->invoice_profit = $invoiceProfit;
+            $totalProfit += $invoiceProfit;
+        }
+
+        return [
+            'date' => $date,
+            'branch_id' => $branchId,
+            'customer_id' => $customerId,
+            'invoices' => $invoices,
+            'summary' => [
+                'total_invoices' => $totalInvoices,
+                'total_revenue' => $totalRevenue,
+                'total_profit' => $totalProfit,
+            ],
+        ];
     }
 
     /**
@@ -67,15 +112,20 @@ class IncomeCalculatorScreen extends Screen
                         ->title('Choose Invoice Date')
                         ->required()
                         ->format('Y-m-d'),
+                    Select::make('branch_id')
+                        ->fromModel(\App\Models\Branch::class, 'name')
+                        ->title('Select Branch')
+                        ->empty('All Branches')
+                        ->placeholder('Choose Branch'),
                     Select::make('customer_id')
-                        ->fromModel(Customer::class, 'name')
-                        ->title('Select customer.')
-                        ->empty()
+                        ->fromModel(\App\Models\Customer::class, 'name')
+                        ->title('Select Customer')
+                        ->empty('All Customers')
                         ->placeholder('Choose Customer'),
                 ])->fullwidth(),
-                Button::make(__('Submit'))
+                Button::make(__('Apply Filter'))
                     ->title('')
-                    ->icon('pencil')
+                    ->icon('filter')
                     ->method('calculate'),
             ]),
             Layout::view('budget.income-display'),
@@ -91,31 +141,10 @@ class IncomeCalculatorScreen extends Screen
      */
     public function calculate(Request $request)
     {
-        session()->forget(['total_income', 'total_discount', 'customer', 'invoices']);
-        if($request->get('customer_id') != NULL || $request->get('customer_id') != ''){
-            $invoices = Sale::where('date', $request->get('date'))->where('user_id', auth()->user()->id)->where('customer_id', $request->get('customer_id'))->get();
-            $customer = Customer::findOrFail($request->get('customer_id'));
-        } else {
-            $invoices = Sale::where('date', $request->get('date'))->where('user_id', auth()->user()->id)->get();
-        }
-        $total_income = 0;
-        $total_discount = 0;
-        $total_income = $invoices->sum('grand_total');
-        $total_discount = $invoices->sum('discount');
-        $products = [];
-        foreach($invoices as $invoice){
-            foreach($invoice->saleitems as $saleitem){
-                $products[] = $saleitem->product;
-            }
-        }
-        // session(['total_income' => $total_income, 'total_discount' => $total_discount]);
-        if(isset($customer)){
-            session(['total_income' => $total_income, 'total_discount' => $total_discount, 'customer' => $customer, 'products' => $products]);
-            return redirect()->route('platform.income.discount')->with(['total_income' => $total_income, 'total_discount' => $total_discount, 'invoices' => $invoices, 'customer' => $customer, 'products' => $products])->withInput();
-        } else {
-            session(['total_income' => $total_income, 'total_discount' => $total_discount, 'products' => $products]);
-            return redirect()->route('platform.income.discount')->with(['total_income' => $total_income, 'total_discount' => $total_discount, 'invoices' => $invoices, 'products' => $products])->withInput();
-        }
-        // return redirect()->route('platform.income.discount')->with(['total_income' => $total_income, 'total_discount' => $total_discount, 'invoices' => $invoices])->withInput();
+        return redirect()->route('platform.income.discount', [
+            'date' => $request->get('date'),
+            'branch_id' => $request->get('branch_id'),
+            'customer_id' => $request->get('customer_id'),
+        ]);
     }
 }
