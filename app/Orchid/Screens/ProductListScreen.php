@@ -56,7 +56,11 @@ class ProductListScreen extends Screen {
 	public function query(): array
 	{
 		return [
-			'products' => Product::where('branch_id', auth()->user()->branch->id)->filtersApply([QueryFilter::class])->orderby('created_at', 'desc')->paginate(20),
+			'products' => Product::where('branch_id', auth()->user()->branch->id)
+				->with(['category', 'group', 'branch'])
+				->filtersApply([QueryFilter::class])
+				->orderby('created_at', 'desc')
+				->paginate(20),
 		];
 	}
 
@@ -99,7 +103,9 @@ class ProductListScreen extends Screen {
                 ->icon('cloud-download')
                 ->permission('platform.product.export'),
         ];
-        if(auth()->user()->hasAnyAccess(['platform.module.product'])){
+        /** @var \App\Models\User $user */
+        $user = auth()->user();
+        if($user->hasAnyAccess(['platform.module.product'])){
             $command_bar = [
                 Link::make('Stock Control')
                     ->icon('wrench')
