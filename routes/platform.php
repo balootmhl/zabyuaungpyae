@@ -279,7 +279,7 @@ Route::post('purchase/custom/update', 'App\Http\Controllers\PurchaseController@u
 Route::get('group-custom/fix-null-user', 'App\Http\Controllers\CustomController@fixNullUserGroup');
 
 
-Route::get('sale/search', 'App\Http\Controllers\SaleController@search')->name('platform.sale.search-custom');
+Route::get('sale/search', 'App\Http\Controllers\SaleController@search')->name('platform.sale.search-get');
 
 Route::screen('purchase/{purchase?}', PurchaseEditScreen::class)
 	->name('platform.purchase.edit')->breadcrumbs(function (Trail $trail) {
