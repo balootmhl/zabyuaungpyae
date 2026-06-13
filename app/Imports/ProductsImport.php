@@ -32,7 +32,7 @@ class ProductsImport implements OnEachRow
             $product->quantity = $row[5];
         }
 
-        if($row[5]=="" || $row[5]==null) {
+        if($row[6]=="" || $row[6]==null) {
             $group = Group::firstOrCreate(['name' => 'ZZ']);
         } else {
             $group = Group::firstOrCreate(['name' => $row[6]]);
