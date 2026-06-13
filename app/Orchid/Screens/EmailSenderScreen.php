@@ -108,15 +108,19 @@ class EmailSenderScreen extends Screen
             'content' => 'required|min:10',
         ]);
 
-        Mail::raw($request->get('content'), function (Message $message) use ($request) {
-            $message->from('sample@email.com');
-            $message->subject($request->get('subject'));
+        try {
+            Mail::raw($request->get('content'), function (Message $message) use ($request) {
+                $message->from('sample@email.com');
+                $message->subject($request->get('subject'));
 
-            foreach ($request->get('users') as $email) {
-                $message->to($email);
-            }
-        });
+                foreach ($request->get('users') as $email) {
+                    $message->to($email);
+                }
+            });
 
-        Alert::info('Your email message has been sent successfully.');
+            Alert::info('Your email message has been sent successfully.');
+        } catch (\Exception $e) {
+            Alert::error('Failed to send email: ' . $e->getMessage());
+        }
     }
 }
